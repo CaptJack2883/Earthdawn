@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+
+<!-- Cool notes feature from Foen  https://www.fantasygrounds.com/forums/showthread.php?t=9238&page=2 -->
+
+  <windowclass name="charsheet_notes">
+    <placement>
+      <size>
+        <width>252</width>
+        <height>611</height>
+      </size>
+    </placement>
+    <nodelete />
+    <script>
+      function onInit()
+        if User.isHost() then
+          --[[ GM view, include GM notes ]]
+          gmframe.setVisible(true);
+          gmframelabel.setVisible(true);
+          gmnotes.setVisible(true);
+          frame.setAnchoredHeight(395);
+        else
+          --[[ Player view, exclude GM notes ]]
+          gmframe.setVisible(false);
+          gmframelabel.setVisible(false);
+          gmnotes.setVisible(false);
+          frame.setAnchoredHeight(572);
+        end
+      end
+    </script>
+    <sheetdata>
+      <!-- PLAYER NOTES -->
+      <genericcontrol name="frame">
+        <anchored>
+          <top>
+            <anchor>top</anchor>
+            <offset>30</offset>
+          </top>
+          <left>
+            <anchor>left</anchor>
+            <offset>15</offset>
+          </left>
+          <right>
+            <anchor>right</anchor>
+            <offset>-29</offset>
+          </right>
+          <size>
+            <height>395</height>
+          </size>
+        </anchored>
+        <frame>
+          <name>sheetgroup</name>
+        </frame>
+      </genericcontrol>
+	<stringcontrol name="noteslabel">
+		<anchored>
+			<to>frame</to>
+			<position>above</position>
+			<offset>-184,-8</offset>
+		</anchored>
+		<frame>
+			<name>modifier</name>
+		<offset>10,5,3,5</offset>
+		</frame>
+		<font>titlefont</font>
+		<static>Character Notes</static>
+	</stringcontrol>
+      <stringfield name="notes">
+        <anchored>
+          <top>
+            <parent>frame</parent>
+            <anchor>top</anchor>
+            <offset>7</offset>
+          </top>
+          <bottom>
+            <parent>frame</parent>
+            <anchor>bottom</anchor>
+            <offset>-5</offset>
+          </bottom>
+          <left>
+            <parent>frame</parent>
+            <anchor>left</anchor>
+            <offset>15</offset>
+          </left>
+          <right>
+            <parent>frame</parent>
+            <anchor>right</anchor>
+            <offset>-15</offset>
+          </right>
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+        <font>sheettext</font>
+        <frame>
+          <name>textline</name>
+          <offset>2,0,2,0</offset>
+        </frame>
+      </stringfield>
+      <!-- GM NOTES -->
+      <genericcontrol name="gmframe">
+        <anchored>
+          <to>frame</to>
+          <position>below</position>
+          <offset>0</offset>
+          <size>
+            <height>175</height>
+          </size>
+        </anchored>
+        <frame>
+          <name>sheetgroup</name>
+        </frame>
+        <invisible/>
+      </genericcontrol>
+	<stringcontrol name="gmframelabel">
+		<anchored>
+			<to>gmframe</to>
+			<position>above</position>
+			<offset>-206,-8</offset>
+		</anchored>
+		<frame>
+			<name>modifier</name>
+		<offset>10,5,3,5</offset>
+		</frame>
+		<font>titlefont</font>
+		<static>GM Notes</static>
+		<invisible />
+	</stringcontrol>
+      <stringfield name="gmnotes">
+        <anchored>
+          <top>
+            <parent>gmframe</parent>
+            <anchor>top</anchor>
+            <offset>10</offset>
+          </top>
+          <bottom>
+            <parent>gmframe</parent>
+            <anchor>bottom</anchor>
+            <offset>-5</offset>
+          </bottom>
+          <left>
+            <parent>gmframe</parent>
+            <anchor>left</anchor>
+            <offset>15</offset>
+          </left>
+          <right>
+            <parent>gmframe</parent>
+            <anchor>right</anchor>
+            <offset>-15</offset>
+          </right>
+        </anchored>
+        <multilinespacing>20</multilinespacing>
+        <font>sheettext</font>
+        <frame>
+          <name>textline</name>
+          <offset>2,0,2,0</offset>
+        </frame>
+        <invisible/>
+      </stringfield>
+    </sheetdata>
+  </windowclass>
+
+	
+
+</root>

@@ -1,0 +1,690 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+
+	<windowclass name="charsheet_threads">
+		<placement>
+			<size>
+				<width>525</width>
+				<height>611</height>
+			</size>
+		</placement>
+		<nodelete />
+		<sheetdata>
+
+<!-- THREADS --><!--{{{-->
+			<genericcontrol name="threadframe">
+				<bounds>15,50,480,380</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<stringcontrol name="threadlabel">
+				<anchored>
+					<to>threadframe</to>
+					<position>above</position>
+					<offset>-210,-8</offset>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+				<offset>3,5,3,5</offset>
+				</frame>
+				<font>titlefont</font>
+				<static>Threads</static>
+				<center />
+			</stringcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>threadframe</to>
+					<position>insidetopleft</position>
+					<offset>10,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Thr #:</static>
+			</stringcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>threadframe</to>
+					<position>insidetopleft</position>
+					<offset>45,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Rank:</static>
+			</stringcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>threadframe</to>
+					<position>insidetopleft</position>
+					<offset>79,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Tied to:</static>
+			</stringcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>threadframe</to>
+					<position>insidetopleft</position>
+					<offset>204,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Effect:</static>
+			</stringcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>threadframe</to>
+					<position>insidetopleft</position>
+					<offset>413,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Full:</static>
+			</stringcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>threadframe</to>
+					<position>insidetopleft</position>
+					<offset>437,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Notes:</static>
+			</stringcontrol>
+			
+			<windowlist name="threadlist">
+				<bounds>30,75,475,345</bounds>
+				<datasource>.threads</datasource>
+				<class>thread_listitem</class>
+				<allowcreate />
+				<allowdelete />
+				<skipempty />
+				<script>
+					function onSortCompare(w1, w2)
+						local returnValue = false;
+												
+						local thrnum1 = tonumber(w1.thrnum.getValue());
+						local thrnum2 = tonumber(w2.thrnum.getValue());
+						
+						if thrnum1 == nil then
+							thrnum1 = 0;
+						end
+						if thrnum2 == nil then
+							thrnum2 = 0;
+						end
+							
+ 
+						if thrnum1 == thrnum2 then
+							returnValue = w1.tiedto.getValue() &gt; w2.tiedto.getValue();
+						else
+							returnValue = thrnum1 &gt; thrnum2;
+						end
+ 
+						return returnValue;
+					end
+				</script>
+			</windowlist>
+			<scrollercontrol>
+				<anchored>
+					<to>threadlist</to>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>threadlist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol><!--}}}-->
+
+<!-- BLOODMAGIC --><!--{{{-->
+			<genericcontrol name="bloodmagicframe">
+				<bounds>15,430,480,170</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<stringcontrol name="bloodmagiclabel">
+				<anchored>
+					<to>bloodmagicframe</to>
+					<position>above</position>
+					<offset>-196,-8</offset>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+				<offset>3,5,3,5</offset>
+				</frame>
+				<font>titlefont</font>
+				<static>Blood Magic</static>
+				<center />
+			</stringcontrol>
+			<stringcontrol>
+				<anchored>
+					<to>bloodmagicframe</to>
+					<position>insidetopleft</position>
+					<offset>15,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Name:</static>
+			</stringcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>bloodmagicframe</to>
+					<position>insidetopleft</position>
+					<offset>170,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Effects:</static>
+			</stringcontrol>
+			<stringcontrol>
+				<anchored>
+					<to>bloodmagicframe</to>
+					<position>insidetopleft</position>
+					<offset>350,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Dam:</static>
+			</stringcontrol>
+			<stringcontrol>
+				<anchored>
+					<to>bloodmagicframe</to>
+					<position>insidetopleft</position>
+					<offset>379,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Strain:</static>
+			</stringcontrol>
+			<stringcontrol>
+				<anchored>
+					<to>bloodmagicframe</to>
+					<position>insidetopleft</position>
+					<offset>413,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Full:</static>
+			</stringcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>bloodmagicframe</to>
+					<position>insidetopleft</position>
+					<offset>437,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Notes:</static>
+			</stringcontrol>
+			
+			<windowlist name="bloodmagicslist">
+				<bounds>30,455,475,135</bounds>
+				<datasource>.bloodmagics</datasource>
+				<class>bloodmagic_listitem</class>
+				<allowcreate />
+				<allowdelete />
+				<skipempty />
+				<script>
+					function onSortCompare(w1, w2)
+						local returnValue = false;
+						if w1.name.getValue() == "" then
+							return true;
+						elseif w2.name.getValue() == "" then
+							return false;
+						end
+						
+						returnValue = w1.name.getValue() &gt; w2.name.getValue();
+						return returnValue;
+					end
+					function total()
+						temp = 0;
+						templist = source.getChildren();
+						for i in pairs(templist) do
+							if templist[i].getChild("bloodmagicdam") then
+								temp = temp + templist[i].getChild("bloodmagicdam").getValue();
+							end
+						end
+						window.getDatabaseNode().getChild("health.bmdamage.tmp").setValue(temp);
+					end
+					function onInit()
+						source = getDatabaseNode();
+						source.onChildUpdate = total;
+						total();
+					end
+				</script>
+			</windowlist>
+			<scrollercontrol>
+				<anchored>
+					<to>bloodmagicslist</to>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>bloodmagicslist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+<!--}}}-->
+
+
+		</sheetdata>
+	</windowclass>
+	
+<!-- THREADS LIST ITEM -->	<!--{{{-->
+	<windowclass name="thread_listitem">
+		<sizelimits>
+			<minimum>
+				<height>20</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+		
+			<textlistitemnumber name="thrnum">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<prev>range</prev>
+					<next>name</next>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<center />
+				<script>
+					function onLoseFocus()
+						super.onLoseFocus();
+						window.windowlist.applySort();
+					end
+					function onDoubleClick()
+						win = Interface.openWindow("threadfull",window.getDatabaseNode());
+					end
+				</script>
+			</textlistitemnumber>
+
+			<textlistitemnumber name="rank">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>32</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<prev>range</prev>
+					<next>name</next>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<center />
+				<script>
+					function onLoseFocus()
+						super.onLoseFocus();
+						window.windowlist.applySort();
+					end
+					function onDoubleClick()
+						win = Interface.openWindow("threadfull",window.getDatabaseNode());
+					end
+				</script>
+			</textlistitemnumber>
+			
+			<textlistitemvalue name="tiedto">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>65</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>115</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>numthreads</next>
+					<prev>circle</prev>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<script>
+					function onLoseFocus()
+						super.onLoseFocus();
+						window.windowlist.applySort();
+					end
+					function onDoubleClick()
+						win = Interface.openWindow("threadfull",window.getDatabaseNode());
+					end
+				</script>
+			</textlistitemvalue>
+			<textlistitemvalue name="effect">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>190</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>200</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>numthreads</next>
+					<prev>circle</prev>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<script>
+					function onLoseFocus()
+						super.onLoseFocus();
+						window.windowlist.applySort();
+					end
+					function onDoubleClick()
+						win = Interface.openWindow("threadfull",window.getDatabaseNode());
+					end
+				</script>
+			</textlistitemvalue>
+
+
+
+			<buttoncontrol name="fullthread">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>398</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>indicator_zoom</normal>
+					<hover>indicator_casterprep</hover>
+					<pressed>indicator_zoom</pressed>
+				</icon> 	
+				<script>
+					function onButtonPress()
+						win = Interface.openWindow("threadfull",window.getDatabaseNode());
+					end
+					function onHover(state)
+						if state then
+							window.setFrame("rowshade");
+						else
+							window.setFrame(nil);
+						end
+					end
+				</script>
+			</buttoncontrol>
+
+			<windowreferencefield name="thread_notes_shortcut">
+				<anchored>
+					<right>
+						<anchor>left</anchor>
+						<offset>445</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+
+				
+		</sheetdata>
+	</windowclass><!--}}}-->
+
+<!-- BLOODMAGIC LIST ITEM --><!--{{{-->
+	<windowclass name="bloodmagic_listitem">
+		<sizelimits>
+			<minimum>
+				<height>20</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			<textlistitemvalue name="name">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>145</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<prev>bloodmagicDT</prev>
+					<next>threadname</next>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<script>
+					function onLoseFocus()
+						super.onLoseFocus();
+						window.windowlist.applySort();
+					end
+					function onDoubleClick()
+						win = Interface.openWindow("bloodmagicfull",window.getDatabaseNode());
+					end
+				</script>
+			</textlistitemvalue>
+			
+			<textlistitemvalue name="bmeffect">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>155</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>175</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<prev>name</prev>
+					<next>bloodmagicDT</next>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<script>
+					function onDoubleClick()
+						win = Interface.openWindow("bloodmagicfull",window.getDatabaseNode());
+					end
+				</script>
+			</textlistitemvalue>
+
+
+			<textlistitemnumber name="bloodmagicdam">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>340</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>15</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>name</next>
+					<prev>talent</prev>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<tooltip><text>Blood Magic Damage</text></tooltip>
+				<readonly />
+				<script>
+					function onDoubleClick()
+						win = Interface.openWindow("bloodmagicfull",window.getDatabaseNode());
+					end
+				</script>
+			</textlistitemnumber>
+
+			<numberfield name="strain"><!--{{{-->
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>368</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>-1</offset>
+					</top>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>3,3,3,3</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>3,3,3,3</offset>
+				</keyeditframe>
+				<font>sheetnumber</font>
+				<script>
+					function onDoubleClick()
+						if User.isHost() then
+							userguy = GmIdentityManager.getCurrent();
+						else
+							userguy = User.getIdentityLabel();
+						end
+						window.windowlist.window.getDatabaseNode().getChild("health.damage").setValue(window.windowlist.window.getDatabaseNode().getChild("health.damage").getValue() + getValue());
+						ChatManager.control.deliverMessage({ font = "narratorfont", text = "[" .. userguy .. "]" .. ": Strain Damage [" .. window.name.getValue() .. " ( " .. getValue() ..")] --> " .. window.windowlist.window.getDatabaseNode().getChild("name").getValue(), mode = "emote"});
+
+						if getValue() &gt;= window.windowlist.window.getDatabaseNode().getChild("health.woundthreshold.total").getValue() then
+							window.windowlist.window.getDatabaseNode().getChild("health.wounds").setValue(window.windowlist.window.getDatabaseNode().getChild("health.wounds").getValue() + 1);
+							ChatManager.control.deliverMessage({ font = "narratorfont", text = "[" .. userguy .. "]" .. ": Strain Wound [" .. window.name.getValue() .. "] --> " .. window.windowlist.window.getDatabaseNode().getChild("name").getValue(), mode = "emote"});
+						end
+						if window.windowlist.window.getDatabaseNode().getChild("totdamage").getValue() &gt;= window.windowlist.window.getDatabaseNode().getChild("health.death.total").getValue() then
+							ChatManager.control.deliverMessage({ font = "narratorfont", text = "[" .. userguy .. "]" .. ": Death [" .. window.name.getValue() .. "] --> " .. window.windowlist.window.getDatabaseNode().getChild("name").getValue(), mode = "emote"});
+						elseif window.windowlist.window.getDatabaseNode().getChild("totdamage").getValue() &gt;= window.windowlist.window.getDatabaseNode().getChild("health.unconscious.total").getValue() then
+							ChatManager.control.deliverMessage({ font = "narratorfont", text = "[" .. userguy .. "]" .. ": Unconscious [" .. window.name.getValue() .. "] --> " .. window.windowlist.window.getDatabaseNode().getChild("name").getValue(), mode = "emote"});
+						end
+							
+					end
+					function onHover(state)
+						if state then
+							setColor("#FF882222");
+							setFrame("sheetfocus", 3, 3, 3, 3);
+							window.setFrame("rowshade");
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 3, 3, 3, 3);
+								window.setFrame(nil);
+							end
+						end
+					end
+					function onWheel()
+						return false;
+					end
+				</script>
+				<readonly />
+			</numberfield><!--}}}-->
+
+			<buttoncontrol name="fullbloodmagic">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>398</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>indicator_zoom</normal>
+					<hover>indicator_casterprep</hover>
+					<pressed>indicator_zoom</pressed>
+				</icon> 	
+				<script>
+					function onButtonPress()
+						win = Interface.openWindow("bloodmagicfull",window.getDatabaseNode());
+					end
+					function onHover(state)
+						if state then
+							window.setFrame("rowshade");
+						else
+							window.setFrame(nil);
+						end
+					end
+				</script>
+			</buttoncontrol>
+			<windowreferencefield name="bloodmagic_notes_shortcut">
+				<anchored>
+					<right>
+						<anchor>left</anchor>
+						<offset>445</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+
+		</sheetdata>
+	</windowclass><!--}}}-->
+
+</root>

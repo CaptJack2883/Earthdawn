@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+
+	<windowclass name="talents">
+		<frame>recordsheet</frame>    
+		<placement>
+			<size width="300" height="300" />
+		</placement>    
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>    
+		<tooltip field="name" />
+		<nodelete />    
+		<script file="ref/scripts/talents.lua" />    
+		<sheetdata>    
+			<sub_record_header name="header">
+				<class>talents_header</class>
+			</sub_record_header>      
+			<frame_record_content name="main">
+				<class>talents_main</class>
+			</frame_record_content>
+      
+      <simpleft name="text">
+        <anchored to="main" position="over" />
+        <empty textres="ft_empty" hidereadonly="true" />
+      </simpleft>
+      <scrollbar>
+        <anchored to="text" />
+        <target>text</target>
+      </scrollbar>
+      
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+  
+  <windowclass name="talents_header">
+      <script file="ref/scripts/talents_header.lua" />
+      <sheetdata>      
+			<link_record_header_id name="link">
+				<class>talents</class>
+			</link_record_header_id>			
+			<anchor_record_header_right name="rightanchor" />
+      <icon_record_locked />
+			<button_record_locked />      
+      <string_record_name name="name">
+        <empty textres="library_recordtype_empty_talents" />
+      </string_record_name>      
+      </sheetdata>
+  </windowclass>
+  
+  <windowclass name="talents_main">
+  <sheetdata>
+    </sheetdata>
+  </windowclass>
+</root>

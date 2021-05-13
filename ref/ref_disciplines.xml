@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+
+	<windowclass name="disciplines">
+		<frame>recordsheet</frame>    
+		<placement>
+			<size width="300" height="300" />
+		</placement>    
+		<sizelimits>
+			<minimum width="300" height="300" />
+			<dynamic />
+		</sizelimits>    
+		<tooltip field="name" />
+		<nodelete />    
+		<script file="ref/scripts/disciplines.lua" />    
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>disciplines_header</class>
+			</sub_record_header>
+            
+			<frame_record_content name="main">
+				<class>disciplines_main</class>
+			</frame_record_content>
+      
+      <simpleft name="text">
+        <anchored to="main" position="over" />
+        <empty textres="ft_empty" hidereadonly="true" />
+      </simpleft>
+      <scrollbar>
+        <anchored to="text" />
+        <target>text</target>
+      </scrollbar>
+      
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+  
+  <windowclass name="disciplines_header">
+      <script file="ref/scripts/disciplines_header.lua" />
+      <sheetdata>      
+			<link_record_header_id name="link">
+				<class>disciplines</class>
+			</link_record_header_id>			
+			<anchor_record_header_right name="rightanchor" />
+      <icon_record_locked />
+			<button_record_locked />      
+      <string_record_name name="name">
+        <empty textres="library_recordtype_empty_disciplines" />
+      </string_record_name>      
+      </sheetdata>
+  </windowclass>  
+  
+  <windowclass name="disciplines_main">
+  <sheetdata>
+    </sheetdata>
+  </windowclass>
+  
+</root>

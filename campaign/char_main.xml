@@ -1,0 +1,933 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="charsheet_main">
+		<margins control="5,5,5,5" />
+    <script name="mainChar" file="campaign/scripts/char_main.lua" />
+		<sheetdata>
+      
+      <anchor_column name="MainFrame">
+				<bounds>20,20,400,400</bounds>
+      </anchor_column>    
+      <!--
+      <frame_char name="MainFrame">
+				<bounds>15,0,-29,-5</bounds>
+			</frame_char>      
+      -->
+      <anchor_column name="columnanchor">
+				<anchored to="MainFrame" position="insidetopright" />
+      </anchor_column>
+			<char_attr_column name="columnattr" />
+            
+			<frame_char name="charDetail">
+				<bounds>1,2,-29,45</bounds>
+			</frame_char>
+			<string_labeled name="race">
+				<anchored to="charDetail" position="insidetopleft" offset="15,10" width="90" height="20" />
+				<labelres>char_label_race</labelres>
+				<acceptdrop>
+          <class>races</class>
+				</acceptdrop>
+        <droptypes>
+					<type merge="add">string</type>
+					<type merge="add">shortcut</type>
+        </droptypes>
+        <script>
+          function onDrop(x, y, draginfo)
+            if draginfo.isType("shortcut") then
+              local sClass, sRecord = draginfo.getShortcutData();
+              if StringManager.contains({"races"}, sClass) then
+								setValue(DB.getValue(DB.getPath(sRecord, "name")));
+                return true;
+              end
+            end
+          end
+        </script>
+			</string_labeled>
+			<string_labeled name="discipline">
+				<anchored to="charDetail" position="insidetopleft" offset="120,10" width="90" height="20" />
+				<labelres>char_label_discipline</labelres>
+				<acceptdrop>
+          <class>disciplines</class>
+				</acceptdrop>
+        <droptypes>
+					<type merge="add">string</type>
+					<type merge="add">shortcut</type>
+        </droptypes>
+        <script>
+          function onDrop(x, y, draginfo)
+            if draginfo.isType("shortcut") then
+              local sClass, sRecord = draginfo.getShortcutData();
+              if StringManager.contains({"disciplines"}, sClass) then
+								setValue(DB.getValue(DB.getPath(sRecord, "name")));
+                return true;
+              end
+            end
+          end
+        </script>
+			</string_labeled>
+			<string_labeled name="circle">
+				<anchored to="charDetail" position="insidetopleft" offset="225,10" width="70" height="20" />
+				<labelres>char_label_circle</labelres>
+			</string_labeled>
+			<string_labeled name="legendTotal">
+				<anchored to="charDetail" position="insidetopleft" offset="310,10" width="70" height="20" />
+				<labelres>char_label_legendtotal</labelres>
+			</string_labeled>
+			<string_labeled name="legendCurrent">
+				<anchored to="charDetail" position="insidetopleft" offset="395,10" width="70" height="20" />
+				<labelres>char_label_legendcurrent</labelres>
+			</string_labeled>
+      
+      <frame_char name="AttrFrame">
+				<bounds>1,56,250,230</bounds>
+      </frame_char>
+      <label_column name="AttrLabel">
+				<anchored>
+          <top offset="50" />
+          <left offset="35" />
+				</anchored>
+        <static textres="char_label_attributes" />
+      </label_column>
+      <label_column name="ValueLabel">
+				<anchored>
+          <top offset="57" />
+          <left offset="115" />
+				</anchored>
+        <static textres="char_label_value" />
+      </label_column>
+      <label_column name="StepLabel">
+				<anchored>
+          <top offset="57" />
+          <left offset="175" />
+				</anchored>
+        <static textres="char_label_step" />
+      </label_column>
+      
+      <!--
+      <label_column name="DiceLabel">
+				<anchored>
+          <top offset="57" />
+          <left offset="235" />
+				</anchored>
+        <static textres="char_label_dice" />
+      </label_column>
+      -->
+      
+      <label_column name="Strength">
+				<anchored>
+          <top offset="75" />
+          <left offset="35" />
+				</anchored>
+        <static textres="char_attr_str" />
+      </label_column>      
+      <number_column name="Str_Value" source="abilities.strength.value">
+				<anchored>
+          <top offset="75" />
+          <left offset="110" />
+				</anchored>
+        <default>10</default>
+        
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+         
+      </number_column>
+      
+      <number_column name="Str_Step" source="abilities.strength.step">
+				<anchored>
+          <top offset="-20" />
+          <left offset="170" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ManagerED4.performRoll(draginfo, "Strength", getValue(), rActor);
+            return true;
+          end
+        </script>
+        <default>5</default>
+        <rollable />
+      </number_column>
+      <!--
+      <basicdice name="Str_Dice" source="abilities.strength.dice">
+				<anchored>
+          <top offset="95" />
+          <left offset="230" />
+				</anchored>
+        <script>
+        </script>
+				<bounds>225,90,50,20</bounds>
+        <default>d8</default>
+				<acceptdrop>
+					<type>dice</type>
+				</acceptdrop>
+      </basicdice>
+      -->
+      <label_column name="Dexterity">
+				<anchored>
+          <top offset="10" />
+          <left offset="35" />
+				</anchored>
+        <static textres="char_attr_dex" />
+      </label_column>
+      <number_column name="Dex_Value" source="abilities.dexterity.value">
+				<anchored>
+          <top offset="10" />
+          <left offset="110" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>10</default>
+      </number_column>
+      <number_column name="Dex_Step" source="abilities.dexterity.step">
+				<anchored>
+          <top offset="-20" />
+          <left offset="170" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ManagerED4.performRoll(draginfo, "Dexterity", getValue(), rActor);
+            return true;
+          end
+        </script>
+        <rollable />
+        <default>5</default>
+      </number_column>
+      
+      <!--
+      <basicdice name="Dex_Dice" source="abilities.dexterity.dice">
+				<anchored>
+          <top offset="50" />
+          <left offset="230" />
+				</anchored>
+				<bounds>225,120,50,20</bounds>
+        <default>d8</default>
+				<acceptdrop>
+					<type>dice</type>
+				</acceptdrop>
+      </basicdice>      
+      -->
+      
+      <label_column name="Toughness">
+				<anchored>
+          <top offset="10" />
+          <left offset="35" />
+				</anchored>
+        <static textres="char_attr_tou" />
+      </label_column>
+      <number_column name="Tou_Value" source="abilities.toughness.value">
+				<anchored>
+          <top offset="10" />
+          <left offset="110" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>10</default>
+      </number_column>
+      <number_column name="Tou_Step" source="abilities.toughness.step">
+				<anchored>
+          <top offset="-20" />
+          <left offset="170" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ManagerED4.performRoll(draginfo, "Toughness", getValue(), rActor);
+            return true;
+          end
+        </script>
+        <rollable />
+        <default>5</default>
+      </number_column>
+      
+      <!--
+      <basicdice name="Tou_Dice" source="abilities.toughness.dice">
+				<anchored>
+          <top offset="50" />
+          <left offset="230" />
+				</anchored>
+				<bounds>225,150,50,20</bounds>
+        <default>d8</default>
+				<acceptdrop>
+					<type>dice</type>
+				</acceptdrop>
+      </basicdice>
+      -->
+      
+      <label_column name="Perception">
+				<anchored>
+          <top offset="10" />
+          <left offset="35" />
+				</anchored>
+        <static textres="char_attr_per" />
+      </label_column>
+      <number_column name="Per_Value" source="abilities.perception.value">
+				<anchored>
+          <top offset="10" />
+          <left offset="110" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>10</default>
+      </number_column>
+      <number_column name="Per_Step" source="abilities.perception.step">
+				<anchored>
+          <top offset="-20" />
+          <left offset="170" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ManagerED4.performRoll(draginfo, "Perception", getValue(), rActor);
+            return true;
+          end
+        </script>
+        <rollable />
+        <default>5</default>
+      </number_column>
+      
+      <!--
+      <basicdice name="Per_Dice" source="abilities.perception.dice">
+				<anchored>
+          <top offset="50" />
+          <left offset="230" />
+				</anchored>
+				<bounds>225,180,50,20</bounds>
+        <default>d8</default>
+				<acceptdrop>
+					<type>dice</type>
+				</acceptdrop>
+      </basicdice>
+      -->
+      
+      <label_column name="Willpower">
+				<anchored>
+          <top offset="10" />
+          <left offset="35" />
+				</anchored>
+        <static textres="char_attr_wil" />
+      </label_column>
+      <number_column name="Wil_Value" source="abilities.willpower.value">
+				<anchored>
+          <top offset="10" />
+          <left offset="110" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>10</default>
+      </number_column>
+      <number_column name="Wil_Step" source="abilities.willpower.step">
+				<anchored>
+          <top offset="-20" />
+          <left offset="170" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ManagerED4.performRoll(draginfo, "Willpower", getValue(), rActor);
+            return true;
+          end
+        </script>
+        <rollable />
+        <default>5</default>
+      </number_column>
+      
+      <!--
+      <basicdice name="Wil_Dice" source="abilities.willpower.dice">
+				<anchored>
+          <top offset="50" />
+          <left offset="230" />
+				</anchored>
+				<bounds>225,210,50,20</bounds>
+        <default>d8</default>
+				<acceptdrop>
+					<type>dice</type>
+				</acceptdrop>
+      </basicdice>
+      -->
+      
+      <label_column name="Charisma">
+				<anchored>
+          <top offset="10" />
+          <left offset="35" />
+				</anchored>
+        <static textres="char_attr_cha" />
+      </label_column>
+      <number_column name="Cha_Value" source="abilities.charisma.value">
+				<anchored>
+          <top offset="10" />
+          <left offset="110" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>10</default>
+      </number_column>
+      <number_column name="Cha_Step" source="abilities.charisma.step">
+				<anchored>
+          <top offset="-20" />
+          <left offset="170" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ManagerED4.performRoll(draginfo, "Charisma", getValue(), rActor);
+            return true;
+          end
+        </script>
+        <rollable />
+        <default>5</default>
+      </number_column>
+      
+      <!--
+      <basicdice name="Cha_Dice" source="abilities.charisma.dice">
+				<anchored>
+          <top offset="50" />
+          <left offset="230" />
+				</anchored>
+				<bounds>225,240,50,20</bounds>
+        <default>d8</default>
+				<acceptdrop>
+					<type>dice</type>
+				</acceptdrop>
+      </basicdice>
+      -->
+      
+      
+      <frame_char name="DefFrame">
+				<bounds>330,56,160,75</bounds>
+      </frame_char>
+      <label_column name="DefLabel">
+				<anchored>
+          <top offset="-199" />
+          <left offset="385" />
+				</anchored>
+        <static textres="char_label_defences" />
+      </label_column>
+      <label_column name="PhysicalDefLabel">
+				<anchored>
+          <top offset="-186" />
+          <left offset="342" />
+				</anchored>
+        <static textres="char_label_physical" />
+      </label_column>
+      <label_column name="MysticDefLabel">
+				<anchored>
+          <top offset="-186" />
+          <left offset="394" />
+				</anchored>
+        <static textres="char_label_mystic" />
+      </label_column>
+      <label_column name="SocialDefLabel">
+				<anchored>
+          <top offset="-186" />
+          <left offset="438" />
+				</anchored>
+        <static textres="char_label_social" />
+      </label_column>
+      <number_column name="Physical_Def" source="defences.physical.value">
+        <anchored width="35" height="20">
+          <top offset="-165" />
+          <left offset="346" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>5</default>
+      </number_column>
+      <number_column name="Mystic_Def" source="defences.mystic.value">
+        <anchored width="35" height="20">
+          <top offset="-165" />
+          <left offset="394" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>5</default>
+      </number_column>
+      <number_column name="Social_Def" source="defences.social.value">
+        <anchored width="35" height="20">
+          <top offset="-165" />
+          <left offset="440" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>5</default>
+      </number_column>
+      
+      <frame_char name="ArmorFrame">
+				<bounds>330,132,160,75</bounds>
+      </frame_char>
+      <label_column name="ArmorLabel">
+				<anchored>
+          <top offset="-124" />
+          <left offset="392" />
+				</anchored>
+        <static textres="char_label_armor" />
+      </label_column>
+      <label_column name="PhysicalArmorLabel">
+				<anchored>
+          <top offset="-113" />
+          <left offset="358" />
+				</anchored>
+        <static textres="char_label_physical" />
+      </label_column>
+      <label_column name="MysticArmorLabel">
+				<anchored>
+          <top offset="-113" />
+          <left offset="418" />
+				</anchored>
+        <static textres="char_label_mystic" />
+      </label_column>
+      <number_column name="Physical_Armor" source="armor.physical.value">
+        <anchored width="35" height="20">
+          <top offset="-92" />
+          <left offset="360" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>0</default>
+      </number_column>
+      <number_column name="Mystic_Armor" source="armor.mystic.value">
+        <anchored width="35" height="20">
+          <top offset="-92" />
+          <left offset="418" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>0</default>
+      </number_column>
+            
+      <frame_char name="HealthFrame">
+				<bounds>330,210,160,75</bounds>
+      </frame_char>
+      <label_column name="HealthLabel">
+				<anchored>
+          <top offset="-45" />
+          <left offset="391" />
+				</anchored>
+        <static textres="char_label_health" />
+      </label_column>
+      <label_column name="UnconciousLabel">
+				<anchored>
+          <top offset="-32" />
+          <left offset="345" />
+				</anchored>
+        <static textres="char_label_uncon" />
+      </label_column>
+      <label_column name="DeathLabel">
+				<anchored>
+          <top offset="-32" />
+          <left offset="393" />
+				</anchored>
+        <static textres="char_label_death" />
+      </label_column>
+      <label_column name="ThresholdLabel">
+				<anchored>
+          <top offset="-32" />
+          <left offset="437" />
+				</anchored>
+        <static textres="char_label_threshold" />
+      </label_column>
+      <number_column name="Uncon_Rating" source="health.uncon.value">
+        <anchored width="35" height="20">
+          <top offset="-11" />
+          <left offset="345" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>30</default>
+      </number_column>
+      <number_column name="Death_Rating" source="health.death.value">
+        <anchored width="35" height="20">
+          <top offset="-20" />
+          <left offset="392" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>30</default>
+      </number_column>
+      <number_column name="Wound_Threshold" source="health.wound.threshold">
+        <anchored width="35" height="20">
+          <top offset="-20" />
+          <left offset="439" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>5</default>
+      </number_column>
+      
+      <frame_char name="InitFrame">
+				<bounds>1,285,325,75</bounds>
+      </frame_char>
+      <label_column name="InitiativeLabel">
+				<anchored>
+          <top offset="25" />
+          <left offset="17" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <static textres="char_label_initiative" />
+      </label_column>
+      <label_column name="KarmaLabel">
+				<anchored>
+          <top offset="25" />
+          <left offset="72" />
+				</anchored>
+        <static textres="char_label_karma" />
+      </label_column>
+      <label_column name="RecoveryLabel">
+				<anchored>
+          <top offset="25" />
+          <left offset="116" />
+				</anchored>
+        <static textres="char_label_recovery" />
+      </label_column>
+      <label_column name="KnockdownLabel">
+				<anchored>
+          <top offset="25" />
+          <left offset="174" />
+				</anchored>
+        <script>
+          function onUpdate()
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <static textres="char_label_knockdown" />
+      </label_column>
+      <label_column name="MovementLabel">
+				<anchored>
+          <top offset="25" />
+          <left offset="247" />
+				</anchored>
+        <static textres="char_label_movement" />
+      </label_column>
+      <number_column name="Initiative_Step" source="initiative.step">
+        <anchored width="35" height="20">
+          <top offset="50" />
+          <left offset="24" />
+				</anchored>
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ManagerED4.performRoll(draginfo, "InitRoll", getValue(), rActor);
+            return true;
+          end
+        </script>
+        <default>5</default>
+        <rollable />
+      </number_column>
+      <number_column name="MaxKarma" source="karma.max">
+        <script>
+          function onInit()
+            window.updateKarma();
+            print("Max Karma:");
+            print(getValue());
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <invisible />
+      </number_column>
+      <number_column name="Karma_Value" source="karma.value">
+        <anchored width="30" height="20">
+          <top offset="-20" />
+          <left offset="75" />
+				</anchored>
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local karmaStep = 4;
+            local oldKarma = getValue();
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ManagerED4.performRoll(draginfo, "Karma", karmaStep, rActor);
+            setValue(oldKarma - 1);
+            return true;
+          end
+        </script>
+        <rollable />
+        <default>4</default>
+      </number_column>
+      <number_column name="Recovery_Step" source="health.recovery.step">
+        <anchored width="35" height="20">
+          <top offset="-20" />
+          <left offset="125" />
+				</anchored>
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ManagerED4.performRoll(draginfo, "Recovery", getValue(), rActor);
+            return true;
+          end
+        </script>
+        <rollable />
+        <default>5</default>
+      </number_column>
+      <number_column name="Knockdown_Step" source="defences.knockdown.step">
+        <anchored width="45" height="20">
+          <top offset="-20" />
+          <left offset="185" />
+				</anchored>
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ManagerED4.performRoll(draginfo, "Knockdown", getValue(), rActor);
+            return true;
+          end
+        </script>
+        <rollable />
+        <default>5</default>
+      </number_column>
+      <number_column name="Movement_Value" source="movement.value">
+        <anchored width="45" height="20">
+          <top offset="-20" />
+          <left offset="255" />
+				</anchored>        
+        <default>10</default>
+      </number_column>
+      
+      <frame_char name="CurrentHealthFrame">
+				<bounds>330,285,160,75</bounds>
+      </frame_char>
+      <label_column name="CurrentLabel">
+				<anchored>
+          <top offset="-48" />
+          <left offset="387" />
+				</anchored>
+        <static textres="char_label_current" />
+      </label_column>
+      <label_column name="CurrentDamageLabel">
+				<anchored>
+          <top offset="-35" />
+          <left offset="350" />
+				</anchored>
+        <static textres="char_label_damage" />
+      </label_column>
+      <label_column name="CurrentWoundsLabel">
+				<anchored>
+          <top offset="-35" />
+          <left offset="420" />
+				</anchored>
+        <static textres="char_label_wounds" />
+      </label_column>
+      <number_column name="Current_Damage" source="health.damage.value">
+        <anchored width="45" height="20">
+          <top offset="-15" />
+          <left offset="350" />
+				</anchored>        
+        <default>0</default>
+      </number_column>
+      <number_column name="Current_Wounds" source="health.wounds.value">
+        <anchored width="35" height="20">
+          <top offset="-20" />
+          <left offset="425" />
+				</anchored>        
+        <default>0</default>
+      </number_column>
+      
+    </sheetdata>
+	</windowclass>
+    
+</root>

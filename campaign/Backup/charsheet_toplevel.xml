@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+	<windowclass name="charsheet">
+    <frame name="charsheet" />
+		<margins control="2,2,2,2" />
+<!--
+		<minimize>minimized_pc</minimize>
+		<tooltip>
+			<field>name</field>
+		</tooltip>
+-->
+		<nodelete />
+		<playercontrol />
+		<sheetdata>
+			<frame_char name="attributesframe">
+				<bounds>15,0,-29,-5</bounds>
+			</frame_char>
+      
+			<subwindow name="main">
+				<!-- <bounds>0,0,-1,-1</bounds> -->
+        <anchored to="attributesframe" position="insidetopright" />
+				<class>charsheet_main</class>
+			</subwindow>
+			
+			<subwindow name="talents">
+				<!-- <bounds>0,0,-1,-1</bounds> -->
+        <anchored to="attributesframe" position="insidetopright" />
+				<class>charsheet_talents</class>
+			</subwindow>
+			
+			<subwindow name="skills">
+				<!-- <bounds>0,0,-1,-1</bounds> -->
+        <anchored to="attributesframe" position="insidetopright" />
+				<class>charsheet_skills</class>
+			</subwindow>
+			
+			<subwindow name="spells">
+				<!-- <bounds>0,0,-1,-1</bounds> -->
+        <anchored to="attributesframe" position="insidetopright" />
+				<class>charsheet_spells</class>
+			</subwindow>
+			
+			<subwindow name="inventory">
+				<!-- <bounds>0,0,-1,-1</bounds> -->
+        <anchored to="attributesframe" position="insidetopright" />
+				<class>charsheet_inventory</class>
+			</subwindow>
+			
+			<subwindow name="combat">
+				<!-- <bounds>0,0,-1,-1</bounds> -->
+        <anchored to="attributesframe" position="insidetopright" />
+				<class>charsheet_combat</class>
+			</subwindow>
+
+			<subwindow name="threads">
+				<!-- <bounds>0,0,-1,-1</bounds> -->
+        <anchored to="attributesframe" position="insidetopright" />
+				<class>charsheet_threads</class>
+			</subwindow>
+
+			<subwindow name="notes">
+				<!-- <bounds>0,0,-1,-1</bounds> -->
+        <anchored to="attributesframe" position="insidetopright" />
+				<class>charsheet_notes</class>
+			</subwindow>
+			
+			<tabcontrol name="tabs">
+				<bounds>-22,30,18,558</bounds>
+				<frame>
+					<name>tabs2</name>
+				</frame>
+
+				<tab>
+					<icon>tab_main</icon>
+					<subwindow>main</subwindow>
+				</tab>
+				
+				<tab>
+					<icon>tab_talents</icon>
+					<subwindow>talents</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_skills</icon>
+					<subwindow>skills</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_spells</icon>
+					<subwindow>spells</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_inventory</icon>
+					<subwindow>inventory</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_combat</icon>
+					<subwindow>combat</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_threads</icon>
+					<subwindow>threads</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_notes</icon>
+					<subwindow>notes</subwindow>
+				</tab>
+			</tabcontrol>
+
+			<closebutton_charsheet />
+		</sheetdata>
+	</windowclass>
+</root>

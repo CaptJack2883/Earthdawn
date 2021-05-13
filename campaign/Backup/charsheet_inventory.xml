@@ -1,0 +1,1180 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+
+	<windowclass name="charsheet_inventory">
+		<placement>
+			<size>
+				<width>252</width>
+				<height>611</height>
+			</size>
+		</placement>
+		<nodelete />
+		<sheetdata>
+		
+<!-- ITEMS --><!--{{{-->
+			<genericcontrol name="itemframe">
+				<bounds>15,50,480,430</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<stringcontrol name="itemlabel">
+				<anchored>
+					<to>itemframe</to>
+					<position>above</position>
+					<offset>-216,-8</offset>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+				<offset>3,5,3,5</offset>
+				</frame>
+				<font>titlefont</font>
+				<static>Items</static>
+				<center />
+			</stringcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>itemframe</to>
+					<position>insidetopleft</position>
+					<offset>10,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Count:</static>
+			</stringcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>itemframe</to>
+					<position>insidetopleft</position>
+					<offset>50,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Name:</static>
+			</stringcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>itemframe</to>
+					<position>insidetopleft</position>
+					<offset>180,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Value (SP):</static>
+			</stringcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>itemframe</to>
+					<position>insidetopleft</position>
+					<offset>235,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Total (SP):</static>
+			</stringcontrol>
+
+			<stringcontrol>
+				<anchored>
+					<to>itemframe</to>
+					<position>insidetopleft</position>
+					<offset>290,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Weight (lbs):</static>
+			</stringcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>itemframe</to>
+					<position>insidetopleft</position>
+					<offset>355,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Total (lbs):</static>
+			</stringcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>itemframe</to>
+					<position>insidetopleft</position>
+					<offset>413,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Full:</static>
+			</stringcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>itemframe</to>
+					<position>insidetopleft</position>
+					<offset>437,12</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Notes:</static>
+			</stringcontrol>
+			<numberfield name="invtw" source="weight.inv">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+			</numberfield>	
+			<windowlist name="itemlist">
+				<bounds>30,75,475,395</bounds>
+				<datasource>.items</datasource>
+				<class>item_listitem</class>
+				<allowcreate />
+				<allowdelete />
+				<skipempty />
+				<script>
+					function onSortCompare(w1, w2)
+						returnValue = w1.name.getValue() &gt; w2.name.getValue();
+						return returnValue;
+					end
+					function total(source)
+						--[[print("totaling inventory");]]
+						temp = 0;
+						templist = source.getChildren();
+						for i in pairs(templist) do
+							if templist[i].getChild("totalweight") then
+								if templist[i].getChild("carried") then
+									if templist[i].getChild("carried").getValue() == 1 then
+										temp = temp + templist[i].getChild("totalweight").getValue();
+									end
+								end
+							end
+						end
+						window.getDatabaseNode().getChild("weight.inv").setValue(temp);
+					end
+					
+					local updating = false;
+					function onChildUpdatex()
+						local source = getDatabaseNode();
+						if not updating then
+							updating = true;
+							total(source);
+							updating = false;
+						end
+					end
+					function onInit()
+						local source = getDatabaseNode();
+						source.onChildUpdate = onChildUpdatex;
+						total(source);
+					end
+
+
+					function onDrop(x, y, draginfo)
+						if draginfo.isType("shortcut") then
+							local class, datasource = draginfo.getShortcutData();
+							local source = draginfo.getDatabaseNode();
+
+							if source and class == "item" then
+								local newentry = addCustomItem(source);
+							end
+					
+							return true;
+						end
+					end
+
+					function addCustomItem(source)
+						local newentry = createWindow();
+						newentry.name.setValue(source.createChild("name", "string").getValue());
+						local newnode = newentry.getDatabaseNode();
+						newnode.createChild("spelldefense", "number").setValue(source.createChild("spelldefense", "number").getValue());
+						newnode.createChild("maxthreads", "number").setValue(source.createChild("maxthreads", "number").getValue());
+						newnode.createChild("description", "string").setValue(source.createChild("description", "string").getValue());
+						--[[newnode.createChild("valuesp", "number").setValue(tonumber(source.createChild("props").createChild("cost", "string").createChild("value", "number").getValue()));]]
+						--[[newnode.createChild("weight", "number").setValue(tonumber(source.createChild("props").createChild("weight", "string").createChild("value", "number").getValue()));]]
+						newlist = newnode.createChild("props");
+						srcxlist = source.getChild("props");
+						for k,subnode in pairs(srcxlist.getChildren()) do
+							copyNode(subnode, newlist, true);
+							
+							if subnode.getChild("property") then
+								--[[print("subnode = " .. subnode.getChild("property").getValue());]]
+								if subnode.getChild("property").getValue() == "Cost" then
+									--[[print(".. Found cost..");]]
+									newnode.createChild("valuesp", "number").setValue(tonumber(subnode.getChild("value").getValue()));
+								end
+								if subnode.getChild("property").getValue() == "Weight" then
+									--[[print(".. Found weight..");]]
+									newnode.createChild("weight", "number").setValue(tonumber(subnode.getChild("value").getValue()));
+								end
+							end
+						end
+						newlist = newnode.createChild("threads");
+						srcylist = source.getChild("threads");
+						for k,subnode in pairs(srcylist.getChildren()) do
+							copyNode(subnode, newlist, true);
+						end
+					end
+
+					function copyNode(source, targetlist, rename)
+					  local nodeType = source.getType();
+					  if nodeType=="number" or nodeType=="string" or nodeType=="image" or nodeType=="dice" or nodeType=="windowreference" then
+					    local newnode = targetlist.createChild(source.getName(),nodeType).setValue(source.getValue());
+					    return newnode;
+					  end
+					  if nodeType=="formattedtext" then
+					    local newnode = targetlist.createChild(source.getName(),nodeType);
+					    return newnode;
+					  end
+					  if nodeType~="node" then
+					    return nil;
+					  end
+					  local newlist;
+					  if rename then
+					    newlist = targetlist.createChild();
+					  else
+					    newlist = targetlist.createChild(source.getName());
+					  end
+					  for k,subnode in pairs(source.getChildren()) do
+					    copyNode(subnode,newlist);
+					  end
+					  return newlist;
+					end
+
+				</script>
+			</windowlist>
+			<scrollercontrol>
+				<anchored>
+					<to>itemlist</to>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>itemlist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol><!--}}}-->
+		
+<!-- CARRIED --><!--{{{-->
+			<genericcontrol name="carriedframe">
+				<bounds>15,480,200,120</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<stringcontrol name="carriedlabel">
+				<anchored>
+					<to>carriedframe</to>
+					<position>above</position>
+					<offset>-72,-8</offset>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+				<offset>10,5,3,5</offset>
+				</frame>
+				<font>titlefont</font>
+				<static>Weight</static>
+			</stringcontrol>
+			
+			
+						
+			<labeledstring name="cwtotal">
+				<anchored>
+					<to>carriedframe</to>
+					<position>insidetopleft</position>
+					<offset>15,20</offset>
+					<size>
+						<width>175</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<anchorto>overviewframe</anchorto>
+				<height>30</height>
+				<label>total carried</label>
+				<static />
+				<font>sheettext</font>
+				<frame>
+					<name>textline</name>
+				</frame>
+				<script file="scripts/totalweight.lua"/>
+			</labeledstring>
+		
+			<labeledstring name="cwlimit">
+				<anchored>
+					<to>carriedframe</to>
+					<position>insidetopleft</position>
+					<offset>15,50</offset>
+					<size>
+						<width>175</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<anchorto>overviewframe</anchorto>
+				<height>30</height>
+				<label>weight limit</label>
+				<readonly />
+			</labeledstring>		
+		
+			<labeledstring name="cwencumbrance">
+				<anchored>
+					<to>carriedframe</to>
+					<position>insidetopleft</position>
+					<offset>15,80</offset>
+					<size>
+						<width>175</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<anchorto>overviewframe</anchorto>
+				<height>30</height>
+				<label>encumbrance</label>
+			</labeledstring>				<!--}}}-->
+		
+<!-- CURRENCY --><!--{{{-->
+			<genericcontrol name="currencyframe">
+				<bounds>215,480,280,120</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+		
+			<stringcontrol>
+				<anchored>
+					<to>currencyframe</to>
+					<position>above</position>
+					<offset>-103,-8</offset>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+				<offset>3,5,3,5</offset>
+				</frame>
+				<font>titlefont</font>
+				<static>Currency</static>
+				<center />
+			</stringcontrol>
+
+			
+<!--Copper--><!--{{{-->
+			<stringcontrol>
+				<anchored>
+					<to>currencyframe</to>
+					<position>insidetopleft</position>
+					<offset>15,15</offset>
+				</anchored>
+				<static>Copper</static>
+			</stringcontrol>
+			<numberfield name="copper" source = "currency.copper">
+				<anchored>
+					<to>currencyframe</to>
+					<position>insidetopleft</position>
+					<offset>65,15</offset>
+					<size>
+						<width>60</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>shortnotes</next>
+					<prev>silver</prev>
+				</tabtarget>
+				<font>sheetnumber</font>
+				<frame>
+					<name>modifier</name>
+					<offset>3,3,3,3</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>3,3,3,3</offset>
+				</keyeditframe>
+				<script>
+					function onGainFocus()
+						setColor("#FF990099");
+					end
+					
+					function onLoseFocus()
+						setColor(nil);
+					end
+
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+							setFrame("sheetfocus", 3, 3, 3, 3);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 3, 3, 3, 3);
+							end
+						end
+					end
+				</script>
+			</numberfield><!--}}}-->
+			
+<!--Silver--><!--{{{-->
+			<stringcontrol>
+				<anchored>
+					<to>currencyframe</to>
+					<position>insidetopleft</position>
+					<offset>15,40</offset>
+				</anchored>
+				<static>Silver</static>
+			</stringcontrol>
+			<numberfield name="silver" source = "currency.silver">
+				<anchored>
+					<to>currencyframe</to>
+					<position>insidetopleft</position>
+					<offset>65,40</offset>
+					<size>
+						<width>60</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>copper</next>
+					<prev>gold</prev>
+				</tabtarget>
+				<font>sheetnumber</font>
+				<frame>
+					<name>modifier</name>
+					<offset>3,3,3,3</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>3,3,3,3</offset>
+				</keyeditframe>
+				<script>
+					function onGainFocus()
+						setColor("#FF990099");
+					end
+					
+					function onLoseFocus()
+						setColor(nil);
+					end
+
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+							setFrame("sheetfocus", 3, 3, 3, 3);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 3, 3, 3, 3);
+							end
+						end
+					end
+				</script>
+			</numberfield><!--}}}-->
+
+<!--Gold--><!--{{{-->
+			<stringcontrol>
+				<anchored>
+					<to>currencyframe</to>
+					<position>insidetopleft</position>
+					<offset>15,65</offset>
+				</anchored>
+				<static>Gold</static>
+			</stringcontrol>
+			<numberfield name="gold" source = "currency.gold">
+				<anchored>
+					<to>currencyframe</to>
+					<position>insidetopleft</position>
+					<offset>65,65</offset>
+					<size>
+						<width>60</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>gold</next>
+					<prev>cwencumberance</prev>
+				</tabtarget>
+				<font>sheetnumber</font>
+				<frame>
+					<name>modifier</name>
+					<offset>3,3,3,3</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>3,3,3,3</offset>
+				</keyeditframe>
+				<script>
+					function onGainFocus()
+						setColor("#FF990099");
+					end
+					
+					function onLoseFocus()
+						setColor(nil);
+					end
+
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+							setFrame("sheetfocus", 3, 3, 3, 3);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 3, 3, 3, 3);
+							end
+						end
+					end
+				</script>
+			</numberfield><!--}}}-->
+
+<!--Earth--><!--{{{-->
+			<stringcontrol>
+				<anchored>
+					<to>currencyframe</to>
+					<position>insidetopleft</position>
+					<offset>15,90</offset>
+				</anchored>
+				<static>Earth</static>
+			</stringcontrol>
+			<numberfield name="earth" source = "currency.earth">
+				<anchored>
+					<to>currencyframe</to>
+					<position>insidetopleft</position>
+					<offset>65,90</offset>
+					<size>
+						<width>60</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>earth</next>
+					<prev>cwencumberance</prev>
+				</tabtarget>
+				<font>sheetnumber</font>
+				<frame>
+					<name>modifier</name>
+					<offset>3,3,3,3</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>3,3,3,3</offset>
+				</keyeditframe>
+				<script>
+					function onGainFocus()
+						setColor("#FF990099");
+					end
+					
+					function onLoseFocus()
+						setColor(nil);
+					end
+
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+							setFrame("sheetfocus", 3, 3, 3, 3);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 3, 3, 3, 3);
+							end
+						end
+					end
+				</script>
+			</numberfield><!--}}}-->
+			
+<!--Water--><!--{{{-->
+			<stringcontrol>
+				<anchored>
+					<to>currencyframe</to>
+					<position>insidetopleft</position>
+					<offset>130,15</offset>
+				</anchored>
+				<static>Water</static>
+			</stringcontrol>
+			<numberfield name="water" source = "currency.water">
+				<anchored>
+					<to>currencyframe</to>
+					<position>insidetopleft</position>
+					<offset>210,15</offset>
+					<size>
+						<width>60</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>shortnotes</next>
+					<prev>silver</prev>
+				</tabtarget>
+				<font>sheetnumber</font>
+				<frame>
+					<name>modifier</name>
+					<offset>3,3,3,3</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>3,3,3,3</offset>
+				</keyeditframe>
+				<script>
+					function onGainFocus()
+						setColor("#FF990099");
+					end
+					
+					function onLoseFocus()
+						setColor(nil);
+					end
+
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+							setFrame("sheetfocus", 3, 3, 3, 3);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 3, 3, 3, 3);
+							end
+						end
+					end
+				</script>
+			</numberfield><!--}}}-->
+
+<!--Air--><!--{{{-->
+			<stringcontrol>
+				<anchored>
+					<to>currencyframe</to>
+					<position>insidetopleft</position>
+					<offset>130,40</offset>
+				</anchored>
+				<static>Air</static>
+			</stringcontrol>
+			<numberfield name="air" source = "currency.air">
+				<anchored>
+					<to>currencyframe</to>
+					<position>insidetopleft</position>
+					<offset>210,40</offset>
+					<size>
+						<width>60</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>shortnotes</next>
+					<prev>silver</prev>
+				</tabtarget>
+				<font>sheetnumber</font>
+				<frame>
+					<name>modifier</name>
+					<offset>3,3,3,3</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>3,3,3,3</offset>
+				</keyeditframe>
+				<script>
+					function onGainFocus()
+						setColor("#FF990099");
+					end
+					
+					function onLoseFocus()
+						setColor(nil);
+					end
+
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+							setFrame("sheetfocus", 3, 3, 3, 3);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 3, 3, 3, 3);
+							end
+						end
+					end
+				</script>
+			</numberfield><!--}}}-->
+
+<!--Fire--><!--{{{-->
+			<stringcontrol>
+				<anchored>
+					<to>currencyframe</to>
+					<position>insidetopleft</position>
+					<offset>130,65</offset>
+				</anchored>
+				<static>Fire</static>
+			</stringcontrol>
+			<numberfield name="fire" source = "currency.fire">
+				<anchored>
+					<to>currencyframe</to>
+					<position>insidetopleft</position>
+					<offset>210,65</offset>
+					<size>
+						<width>60</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>shortnotes</next>
+					<prev>silver</prev>
+				</tabtarget>
+				<font>sheetnumber</font>
+				<frame>
+					<name>modifier</name>
+					<offset>3,3,3,3</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>3,3,3,3</offset>
+				</keyeditframe>
+				<script>
+					function onGainFocus()
+						setColor("#FF990099");
+					end
+					
+					function onLoseFocus()
+						setColor(nil);
+					end
+
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+							setFrame("sheetfocus", 3, 3, 3, 3);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 3, 3, 3, 3);
+							end
+						end
+					end
+				</script>
+			</numberfield><!--}}}-->
+
+<!--Orichalcum--><!--{{{-->
+			<stringcontrol>
+				<anchored>
+					<to>currencyframe</to>
+					<position>insidetopleft</position>
+					<offset>130,90</offset>
+				</anchored>
+				<static>Orichalcum</static>
+			</stringcontrol>
+			<numberfield name="orichalcum" source = "currency.orichalcum">
+				<anchored>
+					<to>currencyframe</to>
+					<position>insidetopleft</position>
+					<offset>210,90</offset>
+					<size>
+						<width>60</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>shortnotes</next>
+					<prev>silver</prev>
+				</tabtarget>
+				<font>sheetnumber</font>
+				<frame>
+					<name>modifier</name>
+					<offset>3,3,3,3</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>3,3,3,3</offset>
+				</keyeditframe>
+				<script>
+					function onGainFocus()
+						setColor("#FF990099");
+					end
+					
+					function onLoseFocus()
+						setColor(nil);
+					end
+
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+							setFrame("sheetfocus", 3, 3, 3, 3);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 3, 3, 3, 3);
+							end
+						end
+					end
+				</script>
+			</numberfield><!--}}}-->
+
+<!--}}}-->
+
+<!-- ARMOR --><!--{{{-->
+<!--
+			<genericcontrol name="armorframe">
+				<bounds>305,320,200,240</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<stringcontrol>
+				<anchored>
+					<to>armorframe</to>
+					<position>above</position>
+					<offset>-75,-8</offset>
+					<size>
+						<width>75</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+				<offset>10,5,3,5</offset>
+				</frame>
+				<font>titlefont</font>
+				<static>Armor</static>
+			</stringcontrol>
+
+			<stringcontrol>
+				<anchored>
+					<to>armorframe</to>
+					<position>insidetopleft</position>
+					<offset>13,15</offset>
+				</anchored>
+				<center />
+				<font>sheetlabelsmall</font>
+				<static>Name:</static>
+			</stringcontrol>
+			<stringcontrol>
+				<anchored>
+					<to>armorframe</to>
+					<position>insidetopleft</position>
+					<offset>115,15</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>PA:</static>
+			</stringcontrol>
+			<stringcontrol>
+				<anchored>
+					<to>armorframe</to>
+					<position>insidetopleft</position>
+					<offset>132,15</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>MA:</static>
+			</stringcontrol>
+			<stringcontrol>
+				<anchored>
+					<to>armorframe</to>
+					<position>insidetopleft</position>
+					<offset>152,15</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>IP:</static>
+			</stringcontrol>
+			<stringcontrol>
+				<anchored>
+					<to>armorframe</to>
+					<position>insidetopleft</position>
+					<offset>167,15</offset>
+				</anchored>
+				<font>sheetlabelsmall</font>
+				<static>Wt:</static>
+			</stringcontrol>
+			<numberfield name="armortw" source="weight.armor">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+			</numberfield>	
+			<numberfield name="patotal" source="armortotal.totalpa">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+			</numberfield>	
+			<numberfield name="matotal" source="armortotal.totalma">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+			</numberfield>	
+			<numberfield name="iptotal" source="armortotal.totalip">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+			</numberfield>	
+			<windowlist name="armorlist">
+				<anchored>
+					<to>armorframe</to>
+					<position>over</position>
+					<offset>-12,-9</offset>
+					<top>
+						<parent>armorframe</parent>
+						<offset>35</offset>
+					</top>
+				</anchored>
+				<datasource>.armorlist</datasource>
+				<class>charsheet_armorlistitem</class>
+				<allowcreate />
+				<allowdelete />
+				<skipempty />
+				<script file="scripts/charsheet_armor.lua" />
+			</windowlist>
+			<scrollercontrol>
+				<anchored>
+					<to>armorlist</to>
+					<position>insidebottomright</position>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>armorlist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol>
+-->
+<!--}}}-->
+		
+	
+		</sheetdata>
+	</windowclass>
+	
+<!-- ITEMS LIST ITEM -->	<!--{{{-->
+	<windowclass name="item_listitem">
+		<sizelimits>
+			<minimum>
+				<height>20</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+		
+			<textlistitemnumber name="count">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<prev>weight</prev>
+					<next>name</next>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<center />
+				<script>
+					function onLoseFocus()
+						super.onLoseFocus();
+						window.windowlist.applySort();
+					end
+				</script>
+			</textlistitemnumber>
+
+			<checkbox name="carried">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>20</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</top>
+					<size>
+						<width>15</width>
+						<height>15</height>
+					</size>
+				</anchored>
+				<tooltip>
+					<text>Carried</text>
+				</tooltip>
+			</checkbox>
+
+			
+			<textlistitemvalue name="name">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>35</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>122</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>valuesp</next>
+					<prev>count</prev>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<script>
+					function onLoseFocus()
+						super.onLoseFocus();
+						window.windowlist.applySort();
+					end
+					function onDoubleClick()
+						win = Interface.openWindow("itemfull",window.getDatabaseNode());
+					end
+				</script>
+			</textlistitemvalue>
+
+ 			<textlistitemnumber name="valuesp">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>163</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>50</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<prev>name</prev>
+					<next>weight</next>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<center />
+			</textlistitemnumber>
+
+ 			<linkednumber name="totalsp">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>220</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>50</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<prev>valuesp</prev>
+					<next>weight</next>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<center />
+				<source>
+					<name>count</name>
+					<op>+</op>
+				</source>
+				<source>
+					<name>valuesp</name>
+					<op>*</op>
+				</source>
+				<frame>
+					<name>textline</name>
+					<offset>1,0,1,1</offset>
+				</frame>
+				<readonly />
+			</linkednumber>
+
+ 			<textlistitemnumber name="weight">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>280</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>50</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<prev>valuesp</prev>
+					<next>count</next>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<center />
+			</textlistitemnumber>
+
+ 			<linkednumber name="totalweight">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>340</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>50</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<prev>weight</prev>
+					<next>count</next>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<source>
+					<name>count</name>
+					<op>+</op>
+				</source>
+				<source>
+					<name>weight</name>
+					<op>*</op>
+				</source>
+				<frame>
+					<name>textline</name>
+					<offset>1,0,1,1</offset>
+				</frame>
+				<readonly />
+			</linkednumber>
+	
+
+
+
+			<buttoncontrol name="fullitem">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>398</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>indicator_zoom</normal>
+					<hover>indicator_casterprep</hover>
+					<pressed>indicator_zoom</pressed>
+				</icon> 	
+				<script>
+					function onButtonPress()
+						win = Interface.openWindow("itemfull",window.getDatabaseNode());
+					end
+					function onHover(state)
+						if state then
+							window.setFrame("rowshade");
+						else
+							window.setFrame(nil);
+						end
+					end
+				</script>
+			</buttoncontrol>
+
+			<windowreferencefield name="item_notes_shortcut">
+				<anchored>
+					<right>
+						<anchor>left</anchor>
+						<offset>445</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+
+				
+		</sheetdata>
+	</windowclass><!--}}}-->
+	
+
+</root>

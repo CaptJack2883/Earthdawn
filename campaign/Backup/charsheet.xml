@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+<!--
+	<includefile source="charsheet_templates.xml" />
+	<includefile source="charsheet_toplevel.xml" />
+	<includefile source="charsheet_main.xml" />
+	<includefile source="charsheet_talents.xml" />
+	<includefile source="charsheet_skills.xml" />
+	<includefile source="charsheet_spells.xml" />
+	<includefile source="charsheet_inventory.xml" />
+	<includefile source="charsheet_combat.xml" />
+	<includefile source="charsheet_threads.xml" />
+	<includefile source="charsheet_notes.xml" />
+	<includefile source="charsheet_minisheets.xml" />
+  -->
+  
+  <includefile source="campaign/charsheet_combat.xml" />
+  <includefile source="campaign/charsheet_inventory.xml" />
+  <includefile source="campaign/charsheet_main.xml" />
+  <includefile source="campaign/charsheet_minisheets.xml" />
+  <includefile source="campaign/charsheet_notes.xml" />
+  <includefile source="campaign/charsheet_skills.xml" />
+  <includefile source="campaign/charsheet_spells.xml" />
+  <includefile source="campaign/charsheet_talents.xml" />
+  <includefile source="campaign/charsheet_templates.xml" />
+  <includefile source="campaign/charsheet_threads.xml" />
+  <includefile source="campaign/charsheet_toplevel.xml" />
+  
+  
+</root>

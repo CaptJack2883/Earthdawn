@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- TODO List
+
+CRITICALLY IMPORTANT
+
+Potential Hint: "linked fields"
+
+TODO: Fix rSource on NPC rolls.
+TODO: In Progress: Get CT Menu working (rest, etc.) Menu is technically working, just need to add the rest of the nodes.
+TODO: Make HP boxes (current damage) allow add/drop for Charsheet and NPCs
+TODO: Add 'Senses' field for Charsheet.
+TODO: Get Spells reference to match definitions in book.
+TODO: Add Spells/Thread Items Tab(s) to charsheet.
+TODO: Update Talents/Skills tabs on char sheet to show circle/rank/step.
+TODO: Add Custom Modifier Fields to NPC and Charsheet, to allow custom bonuses/flaws.
+TODO: In Progress: Make all Character Sheet Main tab rolls work.
+TODO: Get Combat Tracker working. In progress, only Initiative Rolls are working so far.
+TODO: In Progress: Allow Drag/Drop Character Creation. Race/Discipline/Talents/Skills are now working.
+TODO: Add Racial Stats to Race records, so they can be added to character sheet by dragging. (Create New Tab?)
+TODO: Fix layout of main charsheet tab.
+
+This is caused by opening a map, then closing that map, then opening any map and adding tokens to it.
+TODO: Fix FGC "Script Error: [string "scripts/manager_image.lua"]:208: attempt to call field 'getDatabaseNode' (a nil value)"
+TODO: Fix FGC "Script Error: [string "scripts/manager_image.lua"]:223: attempt to call field 'getDatabaseNode' (a nil value)"
+TODO: Fix FGU [ERROR]  Handler error: [string "scripts/manager_image.lua"]:208: attempt to index local 'vImage' (a userdata value)
+Not related to these warnings, because they occur on CoreRPG without causing the error.
+Ruleset Warning: buttoncontrol: Missing normal icon definition for control (toggle_targetselect) in windowclass (imagewindow_toolbar)
+Ruleset Warning: buttoncontrol: Missing normal icon definition for control (toggle_select) in windowclass (imagewindow_toolbar)
+Ruleset Warning: buttoncontrol: Missing normal icon definition for control (toggle_grid) in windowclass (imagewindow_toolbar)
+
+
+CONTENT
+
+TODO: Add Base Races - In progress, need to add linked abilities.
+TODO: Add Base Disciplines - In progress, need to add linked abilities.
+TODO: Add Base Talents - In progress, need to add linked abilities.
+TODO: Add Base Skills - In progress, need to add linked abilities.
+TODO: Add Base Spells - In progress, need to add linked abilities.
+TODO: Add NPCs/Monsters from Gamemaster's Guide
+
+
+QUALITY OF LIFE
+
+TODO: Update Exploding dice to actually throwDice.
+TODO: Figure out LibraryDataED4 (data_library_ED4.lua) I think this is related to exporting races,disciplines, etc.
+TODO: Maybe we need a getStepFromDice function in Step_Action_Lookup? (reverse of getStepDice)
+TODO: Optimize getStepDice to be formulaic vs ugly slow chain of if/elseif/then. 
+
+
+FINISHED
+
+DONE: Reorganized the scripts files.
+DONE: Figure out how to get rSource from draginfo. SERIOUSLY!! ActionManager.decodeActors(draginfo)
+DONE: Add Current Damage and Wounds Fields to NPC records.
+DONE: Link NPC fields in CT to matching fields in NPC records.
+DONE: Fix recursive call from Charsheet Main "Stat_Step" fields.
+DONE: Update NPC Statistics to reflect stats automatically (Unconcious, Death, etc..)
+DONE: Remove Dice elements under Attributes, as they are no longer needed.
+DONE: Update NPC records to reflect stat blocks of monsters.
+DONE: Update numberColumn to show rollable property.
+DONE: All dice are exploding properly.
+DONE: AutoUpdate Attribute Step Values and Dice. (window.onUpdate();)
+DONE: Datasource of Skills
+DONE: 'locked' state actually locking the window for Races, Disciplines, Talents, Skills, Spells.
+DONE: Add OnUpdate to Lock button so that it locks instantly instead of after reload.
+DONE: Make all appropriate fields update based on attributes. (Characteristics Table)
+DONE: Create Step Table, ensure it matches with ED4.
+DONE: Make sure that steps 1 and 2 have the correct modifiers (1d4-2 and 1d4-1)
+DONE: Allow modifier box to increase the step number before rolling.
+DONE: Include ED4 logo for decal options.
+DONE: Add Legend Points(XP) to Party Sheet.
+FIXED: Spelling of Obsidimen vs Obsidiman in race descriptions. (Obsidiman is singular, Obsidimen is plural.)
+-->
+
+<!-- This logo is for the ruleset selection screen. -->
+<root version="3.0" release="1" logo="graphics/icons/Earthdawn4thSmallv2.png">
+  <announcement text="Earthdawn ruleset v4.5 for Fantasy Grounds" font="emotefont" icon="earthdawn_logo" />
+  <description>
+    <text>Earthdawn 4.5</text>
+    <author>CaptJack2883</author>
+  </description>
+  
+  <!-- Base -->
+  <importruleset source="CoreRPG" />
+  <includefile source="gameelements.xml" />
+    
+  <!-- Graphics -->
+  <includefile source="graphics/graphics_icons.xml" />
+  <includefile source="graphics/graphics_tabs.xml" />
+  <includefile source="graphics/graphics_frames.xml" />
+  <includefile source="graphics/graphics_decals.xml" />
+  
+  <!-- Window Classes -->
+  <includefile source="ref/ref_races.xml" />
+  <includefile source="ref/ref_disciplines.xml" />
+  <includefile source="ref/ref_talents.xml" />
+  <includefile source="ref/ref_skills.xml" />
+  <includefile source="ref/ref_spells.xml" />
+  
+  <!-- Window Classes -->
+  <includefile source="campaign/record_npc.xml" />
+  
+  <!-- Character Sheet (originally borrowed from ED4E V.5 and then updated.) -->
+  <includefile source="campaign/charsheet.xml" />
+  
+  	
+	<!-- Combat tracker -->
+	<includefile source="ct/template_ct.xml" />
+	<includefile source="ct/ct_host.xml" />
+	<includefile source="ct/ct_client.xml" />
+   
+  
+  <!-- Strings -->
+  <includefile source="strings/strings_campaign.xml" />
+  <includefile source="strings/strings_utility.xml" />
+  <includefile source="strings/strings_ct.xml" />
+  
+  <!-- Scripts -->
+  <script name="Global" file="scripts/global.lua" />
+	<script name="OOBManager" file="scripts/manager_oob.lua" />
+  <script name="LibraryDataED4" file="scripts/data_library_ED4.lua" />
+  <script name="StepLookup" file="scripts/step_action_lookup.lua" />
+  <script name="ActionsManager" file="scripts/manager_actions.lua" />
+  <script name="ManagerED4" file="scripts/manager_actions_ED4.lua" />
+  <script name="CharacterManager" file="scripts/manager_character.lua" />
+  <script name="CombatManager" file="scripts/manager_combat.lua" />
+  
+  
+  <!-- Templates -->
+  <includefile source="common/template_records.xml" />
+  <includefile source="common/template_common.xml" />
+  <includefile source="common/template_lists.xml" />
+  <includefile source="common/template_char.xml" />
+  
+</root>

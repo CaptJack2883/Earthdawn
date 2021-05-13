@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+  <!-- Library -->  
+	<string name="library_recordtype_label_races">Races</string>
+	<string name="library_recordtype_label_talents">Talents</string>
+	<string name="library_recordtype_label_disciplines">Disciplines</string>
+	<string name="library_recordtype_label_skills">Skills</string>
+	<string name="library_recordtype_label_spells">Spells</string>
+  
+  <string name="library_recordtype_empty_races">&#171; New Race &#187;</string>
+  <string name="library_recordtype_empty_talents">&#171; New Talent &#187;</string>
+  <string name="library_recordtype_empty_disciplines">&#171; New Discipline &#187;</string>
+  <string name="library_recordtype_empty_skills">&#171; New Skill &#187;</string>
+  <string name="library_recordtype_empty_spells">&#171; New Spell &#187;</string>
+  
+  <!-- Charsheet -->
+  <string name="char_label_attributes">Attributes</string>
+  <string name="char_label_defences">Defences</string>
+  <string name="char_label_physical">Physical</string>
+  <string name="char_label_mystic">Mystic</string>
+  <string name="char_label_social">Social</string>
+  <string name="char_label_armor">Armor</string>
+  <string name="char_label_health">Health</string>
+  <string name="char_label_uncon">Uncon</string>
+  <string name="char_label_death">Death</string>
+  <string name="char_label_threshold">Thresh.</string>
+  <string name="char_label_value">Value</string>
+  <string name="char_label_step">Step</string>
+  <string name="char_label_dice">Dice</string>
+  <string name="char_label_main">Main</string>
+  <string name="char_label_talents">Talents</string>
+  <string name="char_label_skills">Skills</string>
+  <string name="char_label_initiative">Initiative</string>
+  <string name="char_label_karma">Karma</string>
+  <string name="char_label_recovery">Recovery</string>
+  <string name="char_label_knockdown">Knockdown</string>
+  <string name="char_label_movement">Movement</string>
+  <string name="char_label_damage">Damage</string>
+  <string name="char_label_current">Current</string>
+  <string name="char_label_wounds">Wounds</string>
+  <string name="char_label_race">Race</string>
+  <string name="char_label_discipline">Discipline</string>
+  <string name="char_label_circle">Circle</string>
+  <string name="char_label_legendtotal">Total LP</string>
+  <string name="char_label_legendcurrent">Unspent LP</string>
+  <string name="char_label_hair">Hair</string>
+  <string name="char_label_eyes">Eyes</string>
+  <string name="char_label_skin">Skin</string>
+  <string name="char_attr_str">Strength</string>
+  <string name="char_attr_dex">Dexterity</string>
+  <string name="char_attr_tou">Toughness</string>
+  <string name="char_attr_per">Perception</string>
+  <string name="char_attr_wil">Willpower</string>
+  <string name="char_attr_cha">Charisma</string>
+  <string name="char_attr_value">Value</string>
+  <string name="char_attr_step">Step</string>
+  <string name="empty"> </string>
+  
+</root>

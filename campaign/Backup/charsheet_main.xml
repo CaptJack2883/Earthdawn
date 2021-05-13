@@ -1,0 +1,3720 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+
+	<windowclass name="charsheet_main"><!--{{{-->
+		<placement>
+			<size>
+				<width>525</width>
+				<height>611</height>
+			</size>
+		</placement>
+		<nodelete />
+		<sheetdata>
+			<genericcontrol>
+				<bounds>15,30,60,51</bounds>
+				<script>
+					function onInit()
+						setIcon("portrait_" .. window.getDatabaseNode().getName() .. "_charlist");
+					end
+				</script>
+			</genericcontrol>
+<!--}}}-->
+			
+<!-- OVERVIEW --><!--{{{-->
+			<genericcontrol name="overviewframe">
+				<bounds>75,20,415,70</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+
+			<labeledstring name="name">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>15,10</offset>
+					<size>
+						<width>250</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<anchorto>overviewframe</anchorto>
+				<height>20</height>
+				<label>name</label>
+				<tabtarget>
+					<next>race</next>
+					<prev>appearance</prev>
+				</tabtarget>
+			</labeledstring>
+	
+			<labeledstring name="race">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>275,10</offset>
+					<size>
+						<width>125</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<label>race</label>
+				<tabtarget>
+					<next>gender</next>
+					<prev>name</prev>
+				</tabtarget>
+			</labeledstring>
+			
+			<labeledstring name="gender">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>15,32</offset>
+					<size>
+						<width>60</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<label>gender</label>
+				<tabtarget>
+					<next>age</next>
+					<prev>race</prev>
+				</tabtarget>
+			</labeledstring>
+
+			<labeledstring name="age">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>80,32</offset>
+					<size>
+						<width>60</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<label>age</label>
+				<tabtarget>
+					<next>hair</next>
+					<prev>gender</prev>
+				</tabtarget>
+			</labeledstring>
+
+			<labeledstring name="hair">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>145,32</offset>
+					<size>
+						<width>60</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<label>hair</label>
+				<tabtarget>
+					<next>height</next>
+					<prev>age</prev>
+				</tabtarget>
+			</labeledstring>
+
+			<labeledstring name="height">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>210,32</offset>
+					<size>
+						<width>60</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<label>height</label>
+				<tabtarget>
+					<next>charweight</next>
+					<prev>hair</prev>
+				</tabtarget>
+			</labeledstring>
+
+			<labeledstring name="charweight">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>275,32</offset>
+					<size>
+						<width>60</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<label>weight</label>
+				<tabtarget>
+					<next>eyes</next>
+					<prev>height</prev>
+				</tabtarget>
+			</labeledstring>
+
+			<labeledstring name="eyes">
+				<anchored>
+					<to>overviewframe</to>
+					<position>insidetopleft</position>
+					<offset>340,32</offset>
+					<size>
+						<width>60</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<label>eyes</label>
+				<tabtarget>
+					<next>dexbase</next>
+					<prev>weight</prev>
+				</tabtarget>
+			</labeledstring><!--}}}-->
+			
+<!-- ATTRIBUTES --><!--{{{-->
+	<!--ATTRIBUTE FRAME-->	<!--{{{-->
+			<genericcontrol name="attrframe">
+				<bounds>15,100,165,190</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<stringcontrol name="attrlabel">
+				<anchored>
+					<to>attrframe</to>
+					<position>above</position>
+					<offset>-45,-8</offset>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+				<offset>10,5,3,5</offset>
+				</frame>
+				<font>titlefont</font>
+				<static>Attributes</static>
+			</stringcontrol><!--}}}-->
+			
+<!-- ATTRIBUTE HEADERS --><!--{{{-->
+			<stringcontrol name="baselabel">
+				<anchored>
+					<to>attrframe</to>
+					<position>insidetopright</position>
+					<offset>37,10</offset>
+					<size>
+						<width>40</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Base</static>
+			</stringcontrol>
+			
+			<stringcontrol name="steplabel">
+				<anchored>
+					<to>attrframe</to>
+					<position>insidetopright</position>
+					<offset>15,10</offset>
+					<size>
+						<width>25</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Step</static>
+			</stringcontrol>
+<!--}}}-->
+			
+<!-- ATTRIBUTE LABELS --><!--{{{-->
+			<stringcontrol name="dexlabel">
+				<anchored>
+					<to>attrframe</to>
+					<position>insidetopleft</position>
+					<offset>12,30</offset>
+					<size>
+						<width>65</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Dexterity</static>
+			</stringcontrol>
+			
+			<stringcontrol name="strlabel">
+				<anchored>
+					<to>dexlabel</to>
+					<position>below</position>
+					<offset>0,10</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Strength</static>
+			</stringcontrol>
+			
+			<stringcontrol name="toulabel">
+				<anchored>
+					<to>strlabel</to>
+					<position>below</position>
+					<offset>0,10</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Toughness</static>
+			</stringcontrol>
+			
+			<stringcontrol name="perlabel">
+				<anchored>
+					<to>toulabel</to>
+					<position>below</position>
+					<offset>0,10</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Perception</static>
+			</stringcontrol>
+			
+			<stringcontrol name="willlabel">
+				<anchored>
+					<to>perlabel</to>
+					<position>below</position>
+					<offset>0,10</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Willpower</static>
+			</stringcontrol>
+			
+			<stringcontrol name="chalabel">
+				<anchored>
+					<to>willlabel</to>
+					<position>below</position>
+					<offset>0,10</offset>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Charisma</static>
+			</stringcontrol><!--}}}-->
+			
+<!-- ATTRIBUTE BASE --><!--{{{-->
+			<numberfield name="dextmp" source="attributes.dexterity.tmp">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+			</numberfield>	
+
+
+			<attributefield name="dexbase" source="attributes.dexterity.user">
+				<anchored>
+					<to>attrframe</to>
+					<position>insidetopleft</position>
+					<offset>87,25</offset>
+					<size>
+						<width>25</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<description>
+					<text>Dexterity</text>
+				</description>
+				<modifierfield>attributes.dexterity.LPbonustotal</modifierfield>
+				<tabtarget>
+					<next>strbase</next>
+					<prev>eyes</prev>
+				</tabtarget>
+				<script>
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+							if window.dextmp.getValue() ~= 0 then
+								local dexRemain = window.dextot.getValue();
+								local something = "Effective Dex: " .. dexRemain;
+								enc = addTextWidget("sheettextsmall", "0");
+								enc.setFrame("tempmodsmall", 6, 3, 8, 5);
+								enc.setPosition("bottomleft", 1, -30);
+								enc.setText(something);
+								enc.setVisible(true);
+							end
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+							end
+							if window.dextmp.getValue() ~= 0 then
+								enc.setVisible(false);
+							end
+						end
+					end
+				</script>
+			</attributefield>
+
+			<linkednumber name="dextot" source="attributes.dexterity.base">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+				<source>
+					<name>attributes.dexterity.user</name>
+					<op>+</op>
+				</source>
+				<source>
+					<name>attributes.dexterity.tmp</name>
+					<op>+</op>
+				</source>
+			</linkednumber>	
+		
+			
+			<attributefield name="strbase" source="attributes.strength.base">
+				<anchored>
+					<to>dexbase</to>
+					<position>below</position>
+					<offset>0,5</offset>
+				</anchored>
+				<description>
+					<text>Strength</text>
+				</description>
+				<modifierfield>attributes.strength.LPbonustotal</modifierfield>
+				<tabtarget>
+					<next>toubase</next>
+					<prev>dexbase</prev>
+				</tabtarget>
+				<script>
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+							end
+						end
+					end
+				</script>
+			</attributefield>
+			
+			<attributefield name="toubase" source="attributes.toughness.base">
+				<anchored>
+					<to>strbase</to>
+					<position>below</position>
+					<offset>0,5</offset>
+				</anchored>
+				<description>
+					<text>Toughness</text>
+				</description>
+				<modifierfield>attributes.toughness.LPbonustotal</modifierfield>
+				<tabtarget>
+					<next>perbase</next>
+					<prev>strbase</prev>
+				</tabtarget>
+				<script>
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+							end
+						end
+					end
+				</script>
+			</attributefield>
+			
+			<attributefield name="perbase" source="attributes.perception.base">
+				<anchored>
+					<to>toubase</to>
+					<position>below</position>
+					<offset>0,5</offset>
+				</anchored>
+				<description>
+					<text>Perception</text>
+				</description>
+				<modifierfield>attributes.perception.LPbonustotal</modifierfield>
+				<tabtarget>
+					<next>wilbase</next>
+					<prev>toubase</prev>
+				</tabtarget>
+				<script>
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+							end
+						end
+					end
+				</script>
+			</attributefield>
+			
+			<attributefield name="wilbase" source="attributes.willpower.base">
+				<anchored>
+					<to>perbase</to>
+					<position>below</position>
+					<offset>0,5</offset>
+				</anchored>
+				<description>
+					<text>Willpower</text>
+				</description>
+				<modifierfield>attributes.willpower.LPbonustotal</modifierfield>
+				<tabtarget>
+					<next>chabase</next>
+					<prev>perbase</prev>
+				</tabtarget>
+				<script>
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+							end
+						end
+					end
+				</script>
+			</attributefield>
+			
+			<attributefield name="chabase" source="attributes.charisma.base">
+				<anchored>
+					<to>wilbase</to>
+					<position>below</position>
+					<offset>0,5</offset>
+				</anchored>
+				<description>
+					<text>Charisma</text>
+				</description>
+				<modifierfield>attributes.charisma.LPbonustotal</modifierfield>
+				<tabtarget>
+					<next>dexmod</next>
+					<prev>wilbase</prev>
+				</tabtarget>
+				<script>
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+							end
+						end
+					end
+				</script>
+			</attributefield><!--}}}-->
+
+<!--ATTRIBUTE STEPS --><!--{{{-->
+			<stepcontrol name="dexstepi" source="attributes.dexterity.basestep">
+				<bounds>0,0,1,1</bounds>
+				<valuefield>attributes.dexterity.base</valuefield>
+				<description>Dexterity</description>
+				<invisbile />
+			</stepcontrol>
+			<attributestepfield name="dexstep" source="attributes.dexterity.step">
+				<anchored>
+					<to>attrframe</to>
+					<position>insidetopleft</position>
+					<offset>124,25</offset>
+					<size>
+						<width>25</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<description>Dexterity</description>
+				<modifierfield>attributes.dexterity.temp</modifierfield>
+				<source>
+					<name>attributes.dexterity.basestep</name>
+					<op>+</op>
+				</source>
+			</attributestepfield>
+
+			<stepcontrol name="strstepi" source="attributes.strength.basestep">
+				<bounds>0,0,1,1</bounds>
+				<valuefield>attributes.strength.base</valuefield>
+				<description>Strength</description>
+				<invisbile />
+			</stepcontrol>
+			<attributestepfield name="strstep" source="attributes.strength.step">
+				<anchored>
+					<to>dexstep</to>
+					<position>below</position>
+					<offset>0,5</offset>
+					<size>
+						<height>20</height>
+					</size>
+				</anchored>
+				<description>Strength</description>
+				<modifierfield>attributes.strength.temp</modifierfield>
+				<source>
+					<name>attributes.strength.basestep</name>
+					<op>+</op>
+				</source>
+			</attributestepfield>
+
+			<stepcontrol name="toustepi" source="attributes.toughness.basestep">
+				<bounds>0,0,1,1</bounds>
+				<valuefield>attributes.toughness.base</valuefield>
+				<description>Toughness</description>
+				<invisbile />
+			</stepcontrol>
+			<attributestepfield name="toustep" source="attributes.toughness.step">
+				<anchored>
+					<to>strstep</to>
+					<position>below</position>
+					<offset>0,5</offset>
+					<size>
+						<height>20</height>
+					</size>
+				</anchored>
+				<description>Toughness</description>
+				<modifierfield>attributes.toughness.temp</modifierfield>
+				<source>
+					<name>attributes.toughness.basestep</name>
+					<op>+</op>
+				</source>
+			</attributestepfield>
+
+			<stepcontrol name="perstepi" source="attributes.perception.basestep">
+				<bounds>0,0,1,1</bounds>
+				<valuefield>attributes.perception.base</valuefield>
+				<description>Perception</description>
+				<invisbile />
+			</stepcontrol>
+			<attributestepfield name="perstep" source="attributes.perception.step">
+				<anchored>
+					<to>toustep</to>
+					<position>below</position>
+					<offset>0,5</offset>
+					<size>
+						<height>20</height>
+					</size>
+				</anchored>
+				<description>Perception</description>
+				<modifierfield>attributes.perception.temp</modifierfield>
+				<source>
+					<name>attributes.perception.basestep</name>
+					<op>+</op>
+				</source>
+			</attributestepfield>
+
+			<stepcontrol name="wilstepi" source="attributes.willpower.basestep">
+				<bounds>0,0,1,1</bounds>
+				<valuefield>attributes.willpower.base</valuefield>
+				<description>Willpower</description>
+				<invisbile />
+			</stepcontrol>
+			<attributestepfield name="wilstep" source="attributes.willpower.step">
+				<anchored>
+					<to>perstep</to>
+					<position>below</position>
+					<offset>0,5</offset>
+					<size>
+						<height>20</height>
+					</size>
+				</anchored>
+				<description>Willpower</description>
+				<modifierfield>attributes.willpower.temp</modifierfield>
+				<source>
+					<name>attributes.willpower.basestep</name>
+					<op>+</op>
+				</source>
+			</attributestepfield>
+
+			<stepcontrol name="chastepi" source="attributes.charisma.basestep">
+				<bounds>0,0,1,1</bounds>
+				<valuefield>attributes.charisma.base</valuefield>
+				<description>Charisma</description>
+				<invisbile />
+			</stepcontrol>
+			<attributestepfield name="chastep" source="attributes.charisma.step">
+				<anchored>
+					<to>wilstep</to>
+					<position>below</position>
+					<offset>0,5</offset>
+					<size>
+						<height>20</height>
+					</size>
+				</anchored>
+				<description>Charisma</description>
+				<modifierfield>attributes.charisma.temp</modifierfield>
+				<source>
+					<name>attributes.charisma.basestep</name>
+					<op>+</op>
+				</source>
+			</attributestepfield>
+	<!--}}}-->
+<!--}}}-->
+			
+<!-- DISCIPLINES --><!--{{{-->
+<!-- DISCIPLINE FRAME--><!--{{{-->
+			<genericcontrol name="discframe">
+				<bounds>175,100,330,90</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<stringcontrol name="disclabel">
+				<anchored>
+					<to>discframe</to>
+					<position>above</position>
+					<offset>-128,-8</offset>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>10,5,3,5</offset>
+				</frame>
+				<font>titlefont</font>
+				<static>Disciplines</static>
+			</stringcontrol><!--}}}-->
+
+<!-- DISCIPLINE HEADERS --><!--{{{-->
+			<stringcontrol name="disclabel">
+				<anchored>
+					<to>discframe</to>
+					<position>insidetopleft</position>
+					<offset>10,10</offset>
+					<size>
+						<width>55</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Discipline</static>
+			</stringcontrol>
+			
+			<stringcontrol name="circlelabel">
+				<anchored>
+					<to>discframe</to>
+					<position>insidetopleft</position>
+					<offset>120,10</offset>
+					<size>
+						<width>38</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Circle</static>
+			</stringcontrol>
+			<stringcontrol name="karmalabel">
+				<anchored>
+					<to>discframe</to>
+					<position>insidetopleft</position>
+					<offset>185,10</offset>
+					<size>
+						<width>35</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Karma</static>
+			</stringcontrol>
+			<stringcontrol name="discnoteslabel">
+				<anchored>
+					<to>discframe</to>
+					<position>insidetopleft</position>
+					<offset>280,10</offset>
+					<size>
+						<width>35</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Notes</static>
+			</stringcontrol>
+			<stringcontrol name="karmacostlabel">
+				<anchored>
+					<to>discframe</to>
+					<position>insidetopleft</position>
+					<offset>160,20</offset>
+					<size>
+						<width>35</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Cost</static>
+			</stringcontrol>
+			<stringcontrol name="karmamaxlabel">
+				<anchored>
+					<to>discframe</to>
+					<position>insidetopleft</position>
+					<offset>192,20</offset>
+					<size>
+						<width>35</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Max</static>
+			</stringcontrol>
+			<stringcontrol name="karmacurrlabel">
+				<anchored>
+					<to>discframe</to>
+					<position>insidetopleft</position>
+					<offset>220,20</offset>
+					<size>
+						<width>35</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Curr</static>
+			</stringcontrol>
+			<stringcontrol name="karmasteplabel">
+				<anchored>
+					<to>discframe</to>
+					<position>insidetopleft</position>
+					<offset>250,20</offset>
+					<size>
+						<width>35</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Step</static>
+			</stringcontrol>
+<!--}}}-->
+
+<!--DISCIPLINE LIST--><!--{{{-->
+			<windowlist name="disclist">
+				<anchored>
+					<to>discframe</to>
+					<position>over</position>
+					<offset>-12,-9</offset>
+					<top>
+						<parent>discframe</parent>
+						<offset>30</offset>
+					</top>
+				</anchored>
+
+				<datasource>.discipline</datasource>
+				<class>discipline_listitem</class>
+				<allowcreate />
+				<allowdelete />
+				<skipempty />
+				<script>
+					function onSortCompare(w1, w2)
+						if w1.name.getValue() == "" then
+							return true;
+						elseif w2.name.getValue() == "" then
+							return false;
+						end
+					
+						return w1.name.getValue() &gt; w2.name.getValue();
+					end
+				</script>
+			</windowlist>
+			<scrollercontrol>
+				<anchored>
+					<to>disclist</to>
+					<position>belowright</position>
+					<offset>-5,-10</offset>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>disclist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol><!--}}}-->
+<!--}}}-->
+			
+<!-- HEALTH, DAMAGE, AND CHARACTERISTICS --><!--{{{-->
+
+<!-- HEALTH --><!--{{{-->
+
+<!-- HEALTH FRAME --><!--{{{-->
+			<genericcontrol name="healthframe">
+				<bounds>175,190,330,100</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			<stringcontrol name="healthlabel">
+				<anchored>
+					<to>healthframe</to>
+					<position>above</position>
+					<offset>-140,-8</offset>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>10,5,3,5</offset>
+				</frame>
+				<font>titlefont</font>
+				<static>Health</static>
+			</stringcontrol><!--}}}-->
+
+<!-- DURABILITY --><!--{{{-->
+			<stringcontrol name="durlabel">
+				<anchored>
+					<to>healthframe</to>
+					<position>insidetopleft</position>
+					<offset>7,15</offset>
+					<size>
+						<width>58</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Durability</static>
+			</stringcontrol>
+			<stringfield name="durname">
+				<anchored>
+					<to>durlabel</to>
+					<position>righthigh</position>
+					<offset>2,-5</offset>
+					<size>
+						<width>78</width>
+					</size>
+				</anchored>
+				<font>sheettextsmall</font>
+				<frame>
+					<name>textline</name>
+					<offset>1,1,0,0</offset>
+				</frame>
+				<script>
+					function onGainFocus()
+						setColor("#FF990099");
+					end
+					
+					function onLoseFocus()
+						setColor(nil);
+					end
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+						else
+							if hasFocus() == false then
+								setColor(nil);
+							end
+						end
+					end
+				</script>
+
+			</stringfield>
+			<stringcontrol name="durranklabel">
+				<anchored>
+					<to>healthframe</to>
+					<position>insidetopleft</position>
+					<offset>148,15</offset>
+					<size>
+						<width>32</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Rank:</static>
+			</stringcontrol>
+			<numberfield name="durrank" source="dur.rank.base">
+				<anchored>
+					<to>durranklabel</to>
+					<position>righthigh</position>
+					<offset>0,-5</offset>
+					<size>
+						<width>15</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>textline</name>
+					<offset>1,1,0,0</offset>
+				</frame>
+				<font>sheettextsmall</font>
+				<center />
+				<script>
+					function onWheel()
+						return true;
+					end
+					function onGainFocus()
+						setColor("#FF990099");
+					end
+					
+					function onLoseFocus()
+						setColor(nil);
+					end
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+						else
+							if hasFocus() == false then
+								setColor(nil);
+							end
+						end
+					end
+				</script>
+			</numberfield>
+			<stringcontrol name="durunconlabel">
+				<anchored>
+					<to>healthframe</to>
+					<position>insidetopleft</position>
+					<offset>200,15</offset>
+					<size>
+						<width>35</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Uncon:</static>
+			</stringcontrol>
+			<numberfield name="duruncon" source="dur.uncon.base">
+				<anchored>
+					<to>durunconlabel</to>
+					<position>righthigh</position>
+					<offset>2,-5</offset>
+					<size>
+						<width>15</width>
+					</size>
+				</anchored>
+				<center />
+				<font>sheettextsmall</font>
+				<frame>
+					<name>textline</name>
+					<offset>1,1,0,0</offset>
+				</frame>
+				<script>
+					function onGainFocus()
+						setColor("#FF990099");
+					end
+					
+					function onLoseFocus()
+						setColor(nil);
+					end
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+						else
+							if hasFocus() == false then
+								setColor(nil);
+							end
+						end
+					end
+				</script>
+			</numberfield>
+			<stringcontrol name="durdeathlabel">
+				<anchored>
+					<to>healthframe</to>
+					<position>insidetopleft</position>
+					<offset>260,15</offset>
+					<size>
+						<width>35</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Death:</static>
+			</stringcontrol>
+			<numberfield name="durdeath" source="dur.death.base">
+				<anchored>
+					<to>durdeathlabel</to>
+					<position>righthigh</position>
+					<offset>2,-5</offset>
+					<size>
+						<width>15</width>
+					</size>
+				</anchored>
+				<center />
+				<font>sheettextsmall</font>
+				<frame>
+					<name>textline</name>
+					<offset>1,1,0,0</offset>
+				</frame>
+				<script>
+					function onWheel()
+						return true;
+					end
+					function onGainFocus()
+						setColor("#FF990099");
+					end
+					
+					function onLoseFocus()
+						setColor(nil);
+					end
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+						else
+							if hasFocus() == false then
+								setColor(nil);
+							end
+						end
+					end
+				</script>
+			</numberfield>
+			<linkednumber name="durdeathadded" source="health.death.dur">
+				<bounds>0,0,1,1</bounds>
+				<font>sheetnumber</font>
+				<invisible />
+				<script>
+					function update()
+						--[[print("update health.death.dur");]]
+						local durdeth = source1.getValue();
+						local durrank = source2.getValue();
+						local durdethaddl = durdeth * durrank;
+						setValue(durdethaddl);
+					end
+					function onInit()
+						source1 = window.getDatabaseNode().getChild("dur.death.base");
+						source2 = window.getDatabaseNode().getChild("dur.rank.base");
+						source1.onUpdate = update;
+						source2.onUpdate = update;
+						update();
+					end
+				</script>
+			</linkednumber>
+			<linkednumber name="durunconadded" source="health.uncon.dur">
+				<bounds>0,0,1,1</bounds>
+				<font>sheetnumber</font>
+				<invisible />
+				<script>
+					function update()
+						--[[print("update health.uncon.dur");]]
+						local durdeth = source1.getValue();
+						local durrank = source2.getValue();
+						local durdethaddl = durdeth * durrank;
+						setValue(durdethaddl);
+					end
+					function onInit()
+						source1 = window.getDatabaseNode().getChild("dur.uncon.base");
+						source2 = window.getDatabaseNode().getChild("dur.rank.base");
+						source1.onUpdate = update;
+						source2.onUpdate = update;
+						update();
+					end
+				</script>
+			</linkednumber>
+<!-- /DURABILITY --><!--}}}-->
+
+<!--Wound Threshold --><!--{{{-->
+			<stringcontrol name="threshlabel">
+				<anchored>
+					<to>healthframe</to>
+					<position>insidetopleft</position>
+					<offset>10,30</offset>
+					<size>
+						<width>105</width>
+					</size>
+				</anchored>
+				<font>sheettextsmall</font>
+				<static>Wound Threshold</static>
+			</stringcontrol>
+			<numberfield name="threshnumbase" source="health.threshnum.base">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+			</numberfield>	
+			<numberfield name="threshbase" source="health.woundthreshold.base">
+				<bounds>0,0,1,1</bounds>
+				<font>sheetnumber</font>
+				<invisible />
+				<script>
+					function update()
+						--[[print("update health.woundthreshold.base");]]
+						local death,uncon,wound,rec = Lookup.getHealth(tounode.getValue());
+						setValue(wound);
+					end
+					function onInit()
+						tounode = window.getDatabaseNode().getChild("attributes.toughness.base");
+						tounode.onUpdate = update;
+						update();
+					end
+				</script>
+			</numberfield>
+			<modifiernumber name="threshold" source="health.woundthreshold.total">
+				<anchored>
+					<to>threshlabel</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<font>sheetnumber</font>
+				<description>
+					<text>Wound Threshold</text>
+				</description>
+				<modifierfield>health.woundthreshold.temp</modifierfield>
+				<source>
+					<name>health.woundthreshold.base</name>
+					<op>+</op>
+				</source>
+				<source>
+					<name>health.threshnum.base</name>
+					<op>+</op>
+				</source>
+				<script>
+					function onHover(state)
+						if state then
+							setColor("#FF228822");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+							end
+						end
+					end
+				</script>
+				
+			</modifiernumber><!--}}}-->
+
+<!-- Unconscious --><!--{{{-->
+			<stringcontrol name="unconlabel">
+				<anchored>
+					<to>healthframe</to>
+					<position>insidetopleft</position>
+					<offset>10,50</offset>
+					<size>
+						<width>80</width>
+					</size>
+				</anchored>
+				<font>sheettextsmall</font>
+				<static>Unconscious</static>
+			</stringcontrol>
+			<numberfield name="unconnumbase" source="health.unconnum.base">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+			</numberfield>	
+			<numberfield name="unconbase" source="health.unconscious.base">
+				<bounds>0,0,1,1</bounds>
+				<font>sheetnumber</font>
+				<invisible />
+				<script>
+					function update()
+						--[[print("update health.unconscious.base");]]
+						local death,uncon,wound,rec = Lookup.getHealth(tounode.getValue());
+						setValue(uncon);
+					end
+					function onInit()
+						tounode = window.getDatabaseNode().getChild("attributes.toughness.base");
+						tounode.onUpdate = update;
+						update();
+					end
+				</script>
+			</numberfield>
+			<modifiernumber name="unconscious" source="health.unconscious.total">
+				<anchored>
+					<to>unconlabel</to>
+					<position>right</position>
+					<offset>30,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<font>sheetnumber</font>
+				<description>
+					<text>Unconscious Rating</text>
+				</description>
+				<modifierfield>health.unconscious.temp</modifierfield>
+				<source>
+					<name>health.unconscious.base</name>
+					<op>+</op>
+				</source>
+				<source>
+					<name>health.uncon.dur</name>
+					<op>+</op>
+				</source>
+				<source>
+					<name>health.unconnum.base</name>
+					<op>+</op>
+				</source>
+				<script>
+					function onHover(state)
+						if state then
+							setColor("#FF228822");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+							end
+						end
+					end
+				</script>
+			</modifiernumber><!--}}}-->
+			
+<!-- Death --><!--{{{-->
+			<stringcontrol name="deathlabel">
+				<anchored>
+					<to>unconlabel</to>
+					<position>below</position>
+					<offset>0,2</offset>
+				</anchored>
+				<font>sheettextsmall</font>
+				<static>Death</static>
+			</stringcontrol>
+			<numberfield name="deathnumbase" source="health.deathnum.base">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+			</numberfield>	
+			<numberfield name="deathbase" source="health.death.base">
+				<bounds>0,0,1,1</bounds>
+				<font>sheetnumber</font>
+				<invisible />
+				<script>
+					function update()
+						--[[print("update health.death.base");]]
+						local death,uncon,wound,rec = Lookup.getHealth(tounode.getValue());
+						setValue(death);
+					end
+					function onInit()
+						tounode = window.getDatabaseNode().getChild("attributes.toughness.base");
+						tounode.onUpdate = update;
+						update();
+					end
+				</script>
+			</numberfield>
+			<modifiernumber name="death" source="health.death.total">
+				<anchored>
+					<to>unconscious</to>
+					<position>below</position>
+					<offset>0,3</offset>
+					<size>
+						<height>20</height>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<font>sheetnumber</font>
+				<description>
+					<text>Death Rating</text>
+				</description>
+				<modifierfield>health.death.temp</modifierfield>
+				<source>
+					<name>health.death.base</name>
+					<op>+</op>
+				</source>
+				<source>
+					<name>health.death.dur</name>
+					<op>+</op>
+				</source>
+				<source>
+					<name>health.deathnum.base</name>
+					<op>+</op>
+				</source>
+				<script>
+					function onHover(state)
+						if state then
+							setColor("#FF228822");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+							end
+						end
+					end
+				</script>
+			</modifiernumber><!--}}}-->
+
+<!-- Recovery --><!--{{{-->
+			<stringcontrol name="recoveryheader">
+				<anchored>
+					<to>healthframe</to>
+					<position>insidetopright</position>
+					<offset>57,30</offset>
+					<size>
+						<width>90</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Recovery Tests:</static>
+			</stringcontrol>
+
+			<stringcontrol name="reccurlabel">
+				<anchored>
+					<to>healthframe</to>
+					<position>insidetopright</position>
+					<offset>130,44</offset>
+					<size>
+						<width>45</width>
+					</size>
+				</anchored>
+				<font>sheettextsmall</font>
+				<static>Current:</static>
+			</stringcontrol>
+					
+			<stringcontrol name="recperlabel">
+				<anchored>
+					<to>reccurlabel</to>
+					<position>right</position>
+					<offset>40,0</offset>
+					<size>
+						<width>50</width>
+					</size>
+				</anchored>
+				<font>sheettextsmall</font>
+				<static>Per Day</static>
+			</stringcontrol>
+			
+			<numberfield name="recoverperday" source="health.recovery.testperday">
+				<anchored>
+					<to>recperlabel</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<invisible />
+				<font>sheetnumber</font>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<readonly />
+				<description>
+					<text>Recovery Tests per Day</text>
+				</description>
+				<script>
+					function update()
+						--[[print("update health.recovery.testperday");]]
+						local death,uncon,wound,rec = Lookup.getHealth(tounode.getValue());
+						setValue(rec);
+					end
+					function onInit()
+						tounode = window.getDatabaseNode().getChild("attributes.toughness.base");
+						tounode.onUpdate = update;
+						update();
+					end
+				</script>
+			</numberfield>
+
+			<modifiernumber name="recoverperdaytot" source="health.recovery.testperday.total">
+				<anchored>
+					<to>recperlabel</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<font>sheetnumber</font>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<readonly />
+				<description>
+					<text>Recovery Tests per Day</text>
+				</description>
+				<source>
+					<name>health.recovery.testperday</name>
+					<op>+</op>
+				</source>
+				<modifierfield>health.recovery.testperday.temp</modifierfield>
+				<script>
+					function onHover(state)
+						if state then
+							setColor("#FF228822");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+							end
+						end
+					end
+				</script>
+			</modifiernumber>
+
+			<modifiernumber name="recovercurrent" source="health.recovery.current.total">
+				<anchored>
+					<to>reccurlabel</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<font>sheetnumber</font>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<readonly />
+				<description>
+					<text>Current Recovery Tests</text>
+				</description>
+				<source>
+					<name>health.recovery.testperday.total</name>
+					<op>+</op>
+				</source>
+				<modifierfield>health.recovery.current.temp</modifierfield>
+				<script>
+					function onHover(state)
+						if state then
+							setColor("#FF228822");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+							end
+						end
+					end
+				</script>
+			</modifiernumber>
+
+			<stringcontrol name="recsteplabel">
+				<anchored>
+					<to>healthframe</to>
+					<position>insidetopleft</position>
+					<offset>170,70</offset>
+					<size>
+						<width>90</width>
+					</size>
+				</anchored>
+				<font>sheettextsmall</font>
+				<static>Recovery Step</static>
+			</stringcontrol>
+
+			<stepcontrol_mod_ns name="recoverystep" source="recovery.step.total">
+				<anchored>
+					<to>recsteplabel</to>
+					<position>righthigh</position>
+					<offset>5,-3</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<font>sheetnumber</font>
+				<description>Recovery Test</description>
+				<modifierfield>recovery.step.temp</modifierfield>
+				<source>
+					<name>attributes.toughness.step</name>
+					<op>+</op>
+				</source>
+				<script>
+					function onHover(state)
+						if state then
+							local diestring = "";
+							local dice = {};
+							local mod = 0;
+							local dice, mod = Step.getStepDice(getValue());
+							for i=1,table.maxn(dice) do
+								diestring = diestring .. dice[i] .. "+";
+							end
+							if mod &lt; 0 then
+								diestring = string.sub(diestring,1,string.len(diestring)-1) .. mod;
+							else
+								diestring = string.sub(diestring,1,string.len(diestring)-1);
+							end
+							dieWidget.setPosition("right", -20, 0);
+							dieWidget.setText(diestring);
+							dieWidget.setVisible(true);
+							setColor("#FF228822");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+							end
+							dieWidget.setVisible(false);
+						end
+					end
+				</script>
+			</stepcontrol_mod_ns><!--}}}-->
+
+<!--}}}-->
+
+<!-- DAMAGE --><!--{{{-->
+<!-- DAMAGE FRAME --><!--{{{-->
+			<genericcontrol name="damageframe">
+				<bounds>15,290,490,50</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			<stringcontrol name="damagelabel">
+				<anchored>
+					<to>damageframe</to>
+					<position>above</position>
+					<offset>-215,-15</offset>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>10,5,3,5</offset>
+				</frame>
+				<font>titlefont</font>
+				<static>Damage</static>
+			</stringcontrol><!--}}}-->
+
+<!-- TOTAL DAMAGE --><!--{{{-->
+			<stringcontrol name="totdamagelabel">
+				<anchored>
+					<to>damageframe</to>
+					<position>insideleft</position>
+					<offset>20,-17</offset>
+					<size>
+						<width>36</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Total:</static>
+			</stringcontrol>
+	
+			<linkednumber name="totdamage">
+				<anchored>
+					<to>totdamagelabel</to>
+					<position>righthigh</position>
+					<offset>5,-4</offset>
+					<size>
+						<height>25</height>
+						<width>35</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<font>sheetnumber</font>
+				<description>
+					<text>Total Damage</text>
+				</description>
+				<source>
+					<name>health.damage</name>
+					<op>+</op>
+				</source>
+				<source>
+					<name>health.bmdamage.base</name>
+					<op>+</op>
+				</source>
+				<noreset />
+				<readonly />
+			</linkednumber>
+<!--}}}-->
+
+<!-- TAKEN DAMAGE --><!--{{{-->
+			<stringcontrol name="takenlabel">
+				<anchored>
+					<to>damageframe</to>
+					<position>insideleft</position>
+					<offset>120,-17</offset>
+					<size>
+						<width>38</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Taken:</static>
+			</stringcontrol>
+	
+			<numberfield name="damage" source="health.damage">
+				<anchored>
+					<to>takenlabel</to>
+					<position>righthigh</position>
+					<offset>5,-4</offset>
+					<size>
+						<height>25</height>
+						<width>35</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,5</offset>
+				</keyeditframe>
+				<font>sheetnumber</font>
+				<description>
+					<text>Damage Taken</text>
+				</description>
+				<script>
+					function onDrop(x, y, draginfo)
+						local userguy, effecttext,currentDamage;
+						if User.isHost() then
+							userguy = GmIdentityManager.getCurrent();
+						else
+							userguy = User.getIdentityLabel();
+						end
+						if draginfo.getType() == "number" then
+							currentDamage = getValue() + draginfo.getNumberData();
+							if currentDamage &lt;= 0 then
+								currentDamage = 0;
+							end
+							setValue(currentDamage);
+							if draginfo.getNumberData() ~= 0  then
+								if draginfo.getNumberData() &gt; 0 then
+									effecttext = "Damage";
+								else
+									effecttext = "Healing";
+								end
+								ChatManager.control.deliverMessage({ icon = "indicator_damage", font = "narratorfont", text = "[" .. userguy .. "]" .. ": " .. effecttext .." [" .. draginfo.getDescription() .. "] --> " .. window.name.getValue(), mode = "emote" });
+								if draginfo.getNumberData() &gt; window.threshold.getValue() then
+									local newWounds = window.wounddamage.getValue() + 1;
+									window.wounddamage.setValue(newWounds);
+									ChatManager.control.deliverMessage({ icon = "indicator_damage", font = "narratorfont", text = "[" .. userguy .. "]" .. ": Wound [" .. draginfo.getDescription() .. "] --> " .. window.name.getValue(), mode = "emote" });
+								end
+								if window.totdamage.getValue() &gt;= window.death.getValue() then
+									ChatManager.control.deliverMessage({ icon = "indicator_effect", font = "narratorfont", text = "[" .. userguy .. "]" .. ": Dead [" .. draginfo.getDescription() .. "] --> " .. window.name.getValue(), mode = "emote" });
+								elseif window.totdamage.getValue() &gt;= window.unconscious.getValue() then
+									ChatManager.control.deliverMessage({ icon = "indicator_effect", font = "narratorfont", text = "[" .. userguy .. "]" .. ": Unconscious [" .. draginfo.getDescription() .. "] --> " .. window.name.getValue(), mode = "emote" });
+								end
+							end
+						end
+						return true;
+					end
+					function onGainFocus()
+						setColor("#FF990099");
+					end
+					
+					function onLoseFocus()
+						setColor(nil);
+					end
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+							end
+						end
+					end
+					function onValueChanged()
+						if getValue() &lt; 0 then
+							setValue(0);
+						end
+					end
+				</script>
+			</numberfield>
+<!--}}}-->
+	
+<!-- BLOOD DAMAGE --><!--{{{-->
+			<stringcontrol name="bmlabel">
+				<anchored>
+					<to>damageframe</to>
+					<position>insideleft</position>
+					<offset>220,-17</offset>
+					<size>
+						<width>80</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Blood Magic:</static>
+			</stringcontrol>
+			<numberfield name="bmdamagetmp" source="health.bmdamage.tmp">
+				<bounds>0,0,0,0</bounds>
+				<invisible />
+			</numberfield>
+			<linkednumber name="bmdamage" source="health.bmdamage.base">
+				<anchored>
+					<to>bmlabel</to>
+					<position>righthigh</position>
+					<offset>5,-4</offset>
+					<size>
+						<height>25</height>
+						<width>35</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<readonly />
+				<source>
+					<name>health.bmdamage.tmp</name>
+					<op>+</op>
+				</source>
+				<font>sheetnumber</font>
+				<description>
+					<text>Blood Magic</text>
+				</description>
+				<script>
+				function onHover(state)
+						if state then
+							setColor("#FF990099");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+							end
+						end
+					end
+				</script>
+			</linkednumber><!--}}}-->
+
+<!-- WOUNDS --><!--{{{-->
+			<stringcontrol name="woundlabel">
+				<anchored>
+					<to>damageframe</to>
+					<position>insideleft</position>
+					<offset>370,-17</offset>
+					<size>
+						<width>50</width>
+					</size>
+				</anchored>
+				<font>sheetlabel</font>
+				<static>Wounds:</static>
+			</stringcontrol>
+
+			<numberfield name="wounddamage" source="health.wounds">
+				<anchored>
+					<to>woundlabel</to>
+					<position>righthigh</position>
+					<offset>5,-4</offset>
+					<size>
+						<height>25</height>
+						<width>35</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,5</offset>
+				</keyeditframe>
+				<font>sheetnumber</font>
+				<description>
+					<text>Wounds</text>
+				</description>
+				<script>
+					function onGainFocus()
+						setColor("#FF990099");
+					end
+					
+					function onLoseFocus()
+						setColor(nil);
+					end
+					function onValueChanged()
+						if getValue() &lt; 0 then
+							setValue(0);
+						end
+					end
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+							end
+						end
+					end
+				</script>
+			</numberfield><!--}}}-->
+
+<!--}}}-->
+
+<!-- CHARFRAME--><!--{{{-->
+			<genericcontrol name="charframe">
+				<bounds>15,340,490,98</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+<!--}}}-->
+
+<!-- DEFENSE -->			<!--{{{-->
+			<stringcontrol name="deflabel">
+				<anchored>
+					<to>charframe</to>
+					<position>insidetopleft</position>
+					<offset>27,10</offset>
+					<size>
+						<width>60</width>
+					</size>
+		
+				</anchored>
+					<frame>
+						<name>modifier</name>
+						<offset>20,5,140,35</offset>
+					</frame>
+				<font>titlefont</font>
+				<static>Defense</static>
+			</stringcontrol>
+			
+			<stringcontrol name="pdlabel">
+				<anchored>
+					<to>charframe</to>
+					<position>insidetopleft</position>
+					<offset>14,27</offset>
+					<size>
+						<width>50</width>
+					</size>
+				</anchored>
+				<font>sheettext</font>
+				<static>Physical</static>
+			</stringcontrol>
+			<numberfield name="physbase" source="defense.physical.base">
+				<bounds>0,0,1,1</bounds>
+				<font>sheetnumber</font>
+				<invisible />
+				<script>
+					function update()
+						--[[print("update defense.physical.base");]]
+						setValue(Lookup.getDef(dexnode.getValue()));
+					end
+					function onInit()
+						dexnode = window.getDatabaseNode().getChild("attributes.dexterity.base");
+						dexnode.onUpdate = update;
+						update();
+					end
+				</script>
+			</numberfield>
+			<numberfield name="phydefnumdefbase" source="phydefnum.def.base">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+			</numberfield>	
+			<modifiernumber name="physicaldefense" source="defense.physical.total">
+				<anchored>
+					<to>pdlabel</to>
+					<position>right</position>
+					<offset>0,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<font>sheetnumber</font>
+				<description>
+					<text>Physical Defense</text>
+				</description>
+				<modifierfield>defense.physical.temp</modifierfield>
+				<source>
+					<name>defense.physical.base</name>
+					<op>+</op>
+				</source>
+				<source>
+					<name>phydefnum.def.base</name>
+					<op>+</op>
+				</source>
+				<script>
+					function onHover(state)
+						if state then
+							setColor("#FF228822");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+							end
+						end
+					end
+				</script>
+			</modifiernumber>
+			
+			<stringcontrol name="spdlabel">
+				<anchored>
+					<to>charframe</to>
+					<position>insidetopleft</position>
+					<offset>94,27</offset>
+					<size>
+						<width>32</width>
+					</size>
+				</anchored>
+				<font>sheettext</font>
+				<static>Spell</static>
+			</stringcontrol>
+			<numberfield name="spellbase" source="defense.spell.base">
+				<bounds>0,0,1,1</bounds>
+				<font>sheetnumber</font>
+				<invisible />
+				<script>
+					function update()
+						--[[print("update defense.spell.base");]]
+						setValue(Lookup.getDef(pernode.getValue()));
+					end
+					function onInit()
+						pernode = window.getDatabaseNode().getChild("attributes.perception.base");
+						pernode.onUpdate = update;
+						update();
+					end
+				</script>
+			</numberfield>
+			<numberfield name="spdefnumdefbase" source="spdefnum.def.base">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+			</numberfield>	
+			<modifiernumber name="spelldefense" source="defense.spell.total">
+				<anchored>
+					<to>spdlabel</to>
+					<position>right</position>
+					<offset>0,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<font>sheetnumber</font>
+				<description>
+					<text>Spell Defense</text>
+				</description>
+				<modifierfield>defense.spell.temp</modifierfield>
+				<source>
+					<name>spdefnum.def.base</name>
+					<op>+</op>
+				</source>
+				<source>
+					<name>defense.spell.base</name>
+					<op>+</op>
+				</source>
+				<script>
+					function onHover(state)
+						if state then
+							setColor("#FF228822");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+							end
+						end
+					end
+				</script>
+			</modifiernumber>
+			
+			<stringcontrol name="sdlabel">
+				<anchored>
+					<to>charframe</to>
+					<position>insidetopleft</position>
+					<offset>154,27</offset>
+					<size>
+						<width>40</width>
+					</size>
+				</anchored>
+				<font>sheettext</font>
+				<static>Social</static>
+			</stringcontrol>
+			<numberfield name="socialbase" source="defense.social.base">
+				<bounds>0,0,1,1</bounds>
+				<font>sheetnumber</font>
+				<invisible />
+				<script>
+					function update()
+						--[[print("update defense.social.base");]]
+						setValue(Lookup.getDef(chanode.getValue()));
+					end
+					function onInit()
+						chanode = window.getDatabaseNode().getChild("attributes.charisma.base");
+						chanode.onUpdate = update;
+						update();
+					end
+				</script>
+			</numberfield>
+			<numberfield name="sodefnumdefbase" source="sodefnum.def.base">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+			</numberfield>	
+			<modifiernumber name="socialdefense" source="defense.social.total">
+				<anchored>
+					<to>sdlabel</to>
+					<position>right</position>
+					<offset>0,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<font>sheetnumber</font>
+				<description>
+					<text>Social Defense</text>
+				</description>
+				<modifierfield>defense.social.temp</modifierfield>
+				<source>
+					<name>sodefnum.def.base</name>
+					<op>+</op>
+				</source>
+				<source>
+					<name>defense.social.base</name>
+					<op>+</op>
+				</source>
+				<script>
+					function onHover(state)
+						if state then
+							setColor("#FF228822");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+							end
+						end
+					end
+				</script>
+			</modifiernumber><!--}}}-->
+			
+<!-- ARMOR -->					<!--{{{-->
+			<stringcontrol name="armorlabel">
+				<anchored>
+					<to>charframe</to>
+					<position>insidetopleft</position>
+					<offset>245,10</offset>
+					<size>
+						<width>60</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>20,5,100,35</offset>
+				</frame>
+				<font>titlefont</font>
+				<static>Armor</static>
+			</stringcontrol>
+			
+			<stringcontrol name="palabel">
+				<anchored>
+					<to>charframe</to>
+					<position>insidetopleft</position>
+					<offset>233,27</offset>
+					<size>
+						<width>50</width>
+					</size>
+				</anchored>
+				<font>sheettext</font>
+				<static>Physical</static>
+			</stringcontrol>
+			<numberfield name="pharmnumdefbase" source="pharmnum.def.base">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+			</numberfield>	
+			<modifiernumber name="physicalarmor" source="armor.physical.total">
+				<anchored>
+					<to>palabel</to>
+					<position>right</position>
+					<offset>5,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>acicon_small</name>
+					<offset>3,3,1,1</offset>
+				</frame>
+				<font>sheetnumber</font>
+				<description>
+					<text>Physical Armor</text>
+				</description>
+				<modifierfield>armor.physical.temp</modifierfield>
+				<source>
+					<name>pharmnum.def.base</name>
+					<op>+</op>
+				</source>
+				<source>
+					<name>armortotal.totalpa</name>
+					<op>+</op>
+				</source>
+				<script>
+					function onDrop(x, y, draginfo)
+						local userguy, currentDamage;
+						if User.isHost() then
+							userguy = GmIdentityManager.getCurrent();
+						else
+							userguy = User.getIdentityLabel();
+						end
+						if draginfo.getType() == "number" then
+							currentDamage = draginfo.getNumberData() - getValue();
+							if currentDamage &lt;= 0 then
+								currentDamage = 0;
+							end
+							ChatManager.control.deliverMessage({ icon = "indicator_shield", font = "narratorfont", text = "[" .. userguy .. "]" .. ": Physical Armor Applied vs " .. draginfo.getDescription() .. " (" .. draginfo.getNumberData() .. " - " .. getValue() .. " = " .. currentDamage .. ") --> " .. window.getDatabaseNode().getChild("name").getValue(), mode = "emote" });
+							draginfo.setDescription("Total: " .. currentDamage);
+							draginfo.setNumberData(currentDamage);
+							window.damage.onDrop(x, y, draginfo)
+						end
+						return true;
+					end
+					function onHover(state)
+						if state then
+							setColor("#FF228822");
+						else
+							if hasFocus() == false then
+								setColor(nil);
+							end
+						end
+					end
+				</script>
+			</modifiernumber>
+			
+			<stringcontrol name="malabel">
+				<anchored>
+					<to>charframe</to>
+					<position>insidetopleft</position>
+					<offset>318,27</offset>
+					<size>
+						<width>50</width>
+					</size>
+				</anchored>
+				<font>sheettext</font>
+				<static>Mystic</static>
+			</stringcontrol>
+			
+			<numberfield name="mysticbase" source="armor.mystic.base">
+				<bounds>0,0,1,1</bounds>
+				<font>sheetnumber</font>
+				<invisible />
+				<script>
+					function update()
+						--[[print("update armor.mystic.base");]]
+						setValue(Lookup.getMA(willnode.getValue()));
+					end
+					function onInit()
+						willnode = window.getDatabaseNode().getChild("attributes.willpower.base");
+						willnode.onUpdate = update;
+						update();
+					end
+				</script>
+			</numberfield>
+			<numberfield name="myarmnumdefbase" source="myarmnum.def.base">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+			</numberfield>	
+			<modifiernumber name="mysticarmor" source="armor.mystic.total">
+				<anchored>
+					<to>malabel</to>
+					<position>right</position>
+					<offset>0,0</offset>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>acicon_small</name>
+					<offset>3,3,1,1</offset>
+				</frame>
+				<font>sheetnumber</font>
+				<description>
+					<text>Mystic Armor</text>
+				</description>
+				<modifierfield>armor.mystic.temp</modifierfield>
+				<source>
+					<name>myarmnum.def.base</name>
+					<op>+</op>
+				</source>
+				<source>
+					<name>armor.mystic.base</name>
+					<op>+</op>
+				</source>
+				<source>
+					<name>armortotal.totalma</name>
+					<op>+</op>
+				</source>
+				<script>
+					function onDrop(x, y, draginfo)
+						local userguy, currentDamage;
+						if User.isHost() then
+							userguy = GmIdentityManager.getCurrent();
+						else
+							userguy = User.getIdentityLabel();
+						end
+						if draginfo.getType() == "number" then
+							currentDamage = draginfo.getNumberData() - getValue();
+							if currentDamage &lt;= 0 then
+								currentDamage = 0;
+							end
+							ChatManager.control.deliverMessage({ icon = "indicator_powertype_aura", font = "narratorfont", text = "[" .. userguy .. "]" .. ": Mystic Armor Applied vs " .. draginfo.getDescription() .. " (" .. draginfo.getNumberData() .. " - " .. getValue() .. " = " .. currentDamage .. ") --> " .. window.getDatabaseNode().getChild("name").getValue(), mode = "emote" });
+							draginfo.setDescription("[Total: " .. currentDamage .. "]");
+							draginfo.setNumberData(currentDamage);
+							window.damage.onDrop(x, y, draginfo)
+						end
+						return true;
+					end
+					function onHover(state)
+						if state then
+							setColor("#FF228822");
+						else
+							if hasFocus() == false then
+								setColor(nil);
+							end
+						end
+					end
+				</script>
+			</modifiernumber> <!--}}}-->
+						
+<!-- INITIATIVE -->	<!--{{{-->
+			<stringcontrol name="initlabel">
+				<anchored>
+					<to>charframe</to>
+					<position>insidetopleft</position>
+					<offset>413,10</offset>
+					<size>
+						<width>65</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>10,5,5,35</offset>
+				</frame>
+
+				<font>titlefont</font>
+				<static>Initiative</static>
+			</stringcontrol>
+
+			<numberfield name="initmoddefbase" source="initmod.def.base">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+			</numberfield>	
+
+			<stepcontrol_mod_ns name="initstep" source="init.step.total">
+				<anchored>
+					<to>charframe</to>
+					<position>insidetopleft</position>
+					<offset>432,27</offset>
+					<size>
+						<height>25</height>
+						<width>25</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<font>sheetnumber</font>
+				<description>Initiative</description>
+				<modifierfield>init.step.temp</modifierfield>
+				<source>
+					<name>initmod.def.base</name>
+					<op>+</op>
+				</source>
+				<source>
+					<name>attributes.dexterity.step</name>
+					<op>+</op>
+				</source>
+				<script>
+					function onHover(state)
+						if state then
+							local diestring = "";
+							local dice = {};
+							local mod = 0;
+							local dice, mod = Step.getStepDice(getValue());
+							for i=1,table.maxn(dice) do
+								diestring = diestring .. dice[i] .. "+";
+							end
+							if mod &lt; 0 then
+								diestring = string.sub(diestring,1,string.len(diestring)-1) .. mod;
+							else
+								diestring = string.sub(diestring,1,string.len(diestring)-1);
+							end
+							dieWidget.setPosition("left", -20, 0);
+							dieWidget.setText(diestring);
+							dieWidget.setVisible(true);
+							setColor("#FF228822");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+							end
+							dieWidget.setVisible(false);
+						end
+					end
+				</script>
+			</stepcontrol_mod_ns><!--}}}-->
+
+<!-- MOVE --><!--{{{-->
+			<stringcontrol name="movelabel">
+				<anchored>
+					<to>charframe</to>
+					<position>insidetopleft</position>
+					<offset>27,65</offset>
+					<size>
+						<width>50</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>20,10,80,10</offset>
+				</frame>
+				<font>titlefont</font>
+				<static>Move</static>
+			</stringcontrol>
+			
+			<labelednumber name="combatmove" source="move.combat">
+				<anchored>
+					<to>charframe</to>
+					<position>insidetopleft</position>
+					<offset>75,60</offset>
+					<size>
+						<height>20</height>
+						<width>40</width>
+					</size>
+				</anchored>
+				<label>combat</label>
+				<center />
+				<script>
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+						else
+							if hasFocus() == false then
+								setColor(nil);
+							end
+						end
+					end
+				</script>
+			</labelednumber>
+			<labelednumber name="fullmove" source="move.full">
+				<anchored>
+					<to>charframe</to>
+					<position>insidetopleft</position>
+					<offset>125,60</offset>
+					<size>
+						<height>20</height>
+						<width>20</width>
+					</size>
+				</anchored>
+				<label>full</label>
+				<center />
+				<script>
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+						else
+							if hasFocus() == false then
+								setColor(nil);
+							end
+						end
+					end
+				</script>
+			</labelednumber><!--}}}-->
+
+<!-- LEGEND POINTS --><!--{{{-->
+
+			<stringcontrol name="lphlabel">
+				<anchored>
+					<to>charframe</to>
+					<position>insidetopleft</position>
+					<offset>177,65</offset>
+					<size>
+						<width>50</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>20,10,256,10</offset>
+				</frame>
+				<font>titlefont</font>
+				<static>Legend Points</static>
+			</stringcontrol>
+			
+			<stringcontrol name="lplabel">
+				<anchored>
+					<to>charframe</to>
+					<position>insidetopleft</position>
+					<offset>240,64</offset>
+					<size>
+						<width>50</width>
+					</size>
+				</anchored>
+				<font>sheettext</font>
+				<static>Total</static>
+			</stringcontrol>
+
+			<numberfield name="lp">
+				<anchored>
+					<to>lplabel</to>
+					<position>right</position>
+					<offset>-10,0</offset>
+					<size>
+						<width>65</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,5</offset>
+				</keyeditframe>
+				<font>sheetnumber</font>
+				<description>
+					<text>Total LP</text>
+				</description>
+				<tabtarget>
+					<next>appearance</next>
+					<prev>level</prev>
+				</tabtarget>
+				<script>
+					function onWheel()
+						return true;
+					end
+					function onGainFocus()
+						setColor("#FF990099");
+					end
+					
+					function onLoseFocus()
+						setColor(nil);
+					end
+					function onHover(state)
+						if state then
+							setColor("#FF990099");
+						else
+							if hasFocus() == false then
+								setColor(nil);
+							end
+						end
+					end
+					function onDrop(x, y, draginfo)
+						local userguy, curlp;
+						if User.isHost() then
+							userguy = GmIdentityManager.getCurrent();
+						else
+							userguy = User.getIdentityLabel();
+						end
+						if draginfo.getType() == "number" then
+							curlp = getValue() + draginfo.getNumberData();
+							setValue(curlp);
+						end
+						return true;
+					end
+				</script>
+			</numberfield>
+			<numberfield name="legendspent" source="legend.spent">
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+			</numberfield>	
+
+			<stringcontrol name="lpspentlabel">
+				<anchored>
+					<to>charframe</to>
+					<position>insidetopleft</position>
+					<offset>358,64</offset>
+					<size>
+						<width>50</width>
+					</size>
+				</anchored>
+				<font>sheettext</font>
+				<static>Spent</static>
+			</stringcontrol>
+			
+			<linkednumber name="lpspent" source="legend.spent">
+				<anchored>
+					<to>lpspentlabel</to>
+					<position>right</position>
+					<offset>-7,0</offset>
+					<size>
+						<width>65</width>
+					</size>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+					<offset>5,5,5,5</offset>
+				</frame>
+				<keyeditframe>
+					<name>sheetfocus</name>
+					<offset>5,5,5,5</offset>
+				</keyeditframe>
+				<font>sheetnumber</font>
+				<description>
+					<text>LP Spent</text>
+				</description>
+				<tabtarget>
+					<next>appearance</next>
+					<prev>level</prev>
+				</tabtarget>
+				<script>
+					function onWheel()
+						return true;
+					end
+					function onHover(state)
+						if state then
+							local lpRemain = window.lp.getValue() - window.lpspent.getValue();
+							local something = "Unspent: " .. lpRemain;
+							remainingLP = addTextWidget("sheettextsmall", "0");
+							remainingLP.setFrame("tempmodsmall", 6, 3, 8, 5);
+							remainingLP.setPosition("bottomleft", 1, -30);
+							remainingLP.setText(something);
+							remainingLP.setVisible(true);
+						else
+							remainingLP.setVisible(false);
+							
+						end
+					end
+				</script>
+				<readonly />
+			</linkednumber>
+			
+	<!--}}}-->
+			
+<!--}}}-->
+
+<!-- LEGEND WORKSHEET --><!--{{{-->
+
+<!-- LEGEND WORKSHEET FRAME --><!--{{{-->
+			<genericcontrol name="legendwsframe">
+				<bounds>15,438,490,158</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+			
+			<stringcontrol name="lplabel">
+				<anchored>
+					<to>legendwsframe</to>
+					<position>above</position>
+					<offset>-180,-8</offset>
+				</anchored>
+				<frame>
+					<name>modifier</name>
+				<offset>10,5,3,5</offset>
+				</frame>
+				<font>titlefont</font>
+				<static>Legend Worksheet</static>
+			</stringcontrol><!--}}}-->
+
+<!-- LEGEND HEADERS --><!--{{{-->
+			<stringcontrol name="lpdisclabel">
+				<anchored>
+					<to>legendwsframe</to>
+					<position>insidetopleft</position>
+					<offset>10,10</offset>
+					<size>
+						<width>55</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Discipline</static>
+			</stringcontrol>
+			
+			<stringcontrol name="lpadvancelabel">
+				<anchored>
+					<to>legendwsframe</to>
+					<position>insidetopleft</position>
+					<offset>127,10</offset>
+					<size>
+						<width>50</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Advance</static>
+			</stringcontrol>
+			<stringcontrol name="lpcostlabel">
+				<anchored>
+					<to>legendwsframe</to>
+					<position>insidetopleft</position>
+					<offset>405,10</offset>
+					<size>
+						<width>35</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Cost</static>
+			</stringcontrol>
+			<stringcontrol name="legendwsnoteslabel">
+				<anchored>
+					<to>legendwsframe</to>
+					<position>insidetopleft</position>
+					<offset>445,10</offset>
+					<size>
+						<width>35</width>
+					</size>
+				</anchored>
+				<font>sheetlabelsmallbold</font>
+				<static>Notes</static>
+			</stringcontrol>
+<!--}}}-->
+
+<!-- LEGEND WS LIST --><!--{{{-->
+			<windowlist name="legendwslist">
+				<anchored>
+					<to>legendwsframe</to>
+					<position>over</position>
+					<offset>-12,-8</offset>
+					<top>
+						<parent>legendwsframe</parent>
+						<offset>20</offset>
+					</top>
+				</anchored>
+				<script>
+					function total(source)
+						--[[print("update legendwslist");]]
+						local temp = 0;
+						local templist = source.getChildren();
+						for i in pairs(templist) do
+							if templist[i].getChild("cost") then
+							temp = temp + templist[i].getChild("cost").getValue();
+							end
+						end
+						if temp ~= window.getDatabaseNode().getChild("legend.spent").getValue() then
+							window.getDatabaseNode().getChild("legend.spent").setValue(temp);
+							--[[print("updating legend.spent to " .. temp);]]
+						else
+							--[[print("not updating legend.spent");]]
+						end
+					end
+					local updating = false;
+					function onChildUpdatex()
+						local source = getDatabaseNode();
+						if not updating then
+							updating = true;
+							total(source);
+							updating = false;
+						end
+					end
+
+					function onInit()
+						local source = getDatabaseNode();
+						source.onChildUpdate = onChildUpdatex;
+						total(source);
+					end
+				</script>
+				<datasource>.legendwsipline</datasource>
+				<class>legendws_listitem</class>
+				<allowcreate />
+				<allowdelete />
+				<skipempty />
+			</windowlist>
+			<scrollercontrol>
+				<anchored>
+					<to>legendwslist</to>
+					<position>belowright</position>
+					<offset>-5,-5</offset>
+					<size>
+						<width>45</width>
+						<height>27</height>
+					</size>
+				</anchored>
+				<target>legendwslist</target>
+				<button>
+					<normal>button_scroller</normal>
+					<pressed>button_scroller_down</pressed>
+				</button>
+			</scrollercontrol><!--}}}-->
+			
+<!--}}}-->
+
+<!--INVISIBLE LISTS to stop the errors--><!--{{{-->
+			<windowlist name="talentlist"><!--{{{-->
+				<invisible />
+				<bounds>0,0,0,0</bounds>
+				<datasource>.talents</datasource>
+				<class>talent_listitem</class>
+				<allowcreate />
+				<allowdelete />
+				<skipempty />
+				<script>
+					function onSortCompare(w1, w2)
+						local returnValue = false;
+												
+						local circle1 = tonumber(w1.circle.getValue());
+						local circle2 = tonumber(w2.circle.getValue());
+						
+						if circle1 == nil then
+							circle1 = 0;
+						end
+						if circle2 == nil then
+							circle2 = 0;
+						end
+							
+ 
+						if circle1 == circle2 then
+							returnValue = w1.name.getValue() &gt; w2.name.getValue();
+						else
+							returnValue = circle1 &gt; circle2;
+						end
+ 
+						return returnValue;
+					end
+				</script>
+			</windowlist><!--}}}-->
+			<windowlist name="skilllist"><!--{{{-->
+				<invisible />
+				<bounds>0,0,0,0</bounds>
+				<datasource>.skills</datasource>
+				<class>skill_listitem</class>
+				<allowcreate />
+				<allowdelete />
+				<skipempty />
+				<script>
+					function onSortCompare(w1, w2)
+						local returnValue = false;
+												
+						local circle1 = tonumber(w1.circle.getValue());
+						local circle2 = tonumber(w2.circle.getValue());
+						
+						if circle1 == nil then
+							circle1 = 0;
+						end
+						if circle2 == nil then
+							circle2 = 0;
+						end
+							
+ 
+						if circle1 == circle2 then
+							returnValue = w1.name.getValue() &gt; w2.name.getValue();
+						else
+							returnValue = circle1 &gt; circle2;
+						end
+ 
+						return returnValue;
+					end
+				</script>
+			</windowlist><!--}}}-->
+			<numberfield name="wfstepbase" source="willforce.step.base"><!--{{{-->
+				<bounds>420,18,30,30</bounds>
+				<font>sheetnumber</font>
+				<readonly />
+				<invisible />
+			</numberfield>
+
+
+			<stepcontrol_mod_ns name="wfstep" source="willforce.step.total">
+				<invisible />
+				<bounds>450,18,30,29</bounds>
+				<frame>
+					<name>modifier</name>
+					<offset>3,3,3,3</offset>
+				</frame>
+				<font>sheetnumber</font>
+				<source>
+					<name>attributes.willpower.step</name>
+					<op>+</op>
+				</source>
+				<source>
+					<name>willforce.step.base</name>
+					<op>+</op>
+				</source>
+				<description>Willforce</description>
+				<modifierfield>willforce.step.temp</modifierfield>
+				<readonly />
+				<script>
+					function onHover(state)
+						if state then
+							local diestring = "";
+							local dice = {};
+							local mod = 0;
+							local dice, mod = Step.getStepDice(getValue());
+							for i=1,table.maxn(dice) do
+								diestring = diestring .. dice[i] .. "+";
+							end
+							if mod &lt; 0 then
+								diestring = string.sub(diestring,1,string.len(diestring)-1) .. mod;
+							else
+								diestring = string.sub(diestring,1,string.len(diestring)-1);
+							end
+							dieWidget.setPosition("left", -20, 0);
+							dieWidget.setText(diestring);
+							dieWidget.setVisible(true);
+							setColor("#FF228822");
+							setFrame("sheetfocus", 3, 3, 3, 3);
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 3, 3, 3, 3);
+							end
+							dieWidget.setVisible(false);
+						end
+					end
+					function onWheel()
+						return true;
+					end
+				</script>
+			</stepcontrol_mod_ns>		<!--}}}-->
+			<windowlist name="spelllist"><!--{{{-->
+				<invisible />
+				<bounds>0,0,0,0</bounds>
+				<datasource>.spells</datasource>
+				<class>spell_listitem</class>
+				<allowcreate />
+				<allowdelete />
+				<skipempty />
+				<script>
+					function onSortCompare(w1, w2)
+						local returnValue = false;
+												
+						local circle1 = tonumber(w1.circle.getValue());
+						local circle2 = tonumber(w2.circle.getValue());
+						
+						if circle1 == nil then
+							circle1 = 0;
+						end
+						if circle2 == nil then
+							circle2 = 0;
+						end
+							
+ 
+						if circle1 == circle2 then
+							returnValue = w1.name.getValue() &gt; w2.name.getValue();
+						else
+							returnValue = circle1 &gt; circle2;
+						end
+ 
+						return returnValue;
+					end
+				</script>
+			</windowlist><!--}}}-->
+			<numberfield name="invtw" source="weight.inv"><!--{{{-->
+				<bounds>0,0,1,1</bounds>
+				<invisible />
+			</numberfield>	<!--}}}-->
+			<windowlist name="itemlist"><!--{{{-->
+				<invisible />
+				<bounds>0,0,0,0</bounds>
+				<datasource>.items</datasource>
+				<class>item_listitem</class>
+				<allowcreate />
+				<allowdelete />
+				<skipempty />
+				<script>
+					function onSortCompare(w1, w2)
+						local returnValue = w1.name.getValue() &gt; w2.name.getValue();
+						return returnValue;
+					end
+					function total(source)
+						--[[print("main_total inv");]]
+						local temp = 0;
+						local templist = source.getChildren();
+						for i in pairs(templist) do
+							if templist[i].getChild("totalweight") then
+								if templist[i].getChild("carried") then
+									if templist[i].getChild("carried").getValue() == 1 then
+										temp = temp + templist[i].getChild("totalweight").getValue();
+									end
+								end
+							end
+						end
+						window.getDatabaseNode().getChild("weight.inv").setValue(temp);
+					end
+					
+					local updating = false;
+					function onChildUpdatex()
+						local source = getDatabaseNode();
+						if not updating then
+							updating = true;
+							total(source);
+							updating = false;
+						end
+					end
+					function onInit()
+						local source = getDatabaseNode();
+						--[[source.onChildUpdate = onChildUpdatex;]]
+						total(source);
+					end
+
+				</script>
+			</windowlist><!--}}}-->
+			<windowlist name="attacklist"><!--{{{-->
+				<invisible />
+				<bounds>0,0,0,0</bounds>
+				<datasource>.attacks</datasource>
+				<class>attack_listitem</class>
+				<allowcreate />
+				<allowdelete />
+				<skipempty />
+				<script>
+					function onSortCompare(w1, w2)
+						local returnValue = w1.name.getValue() &gt; w2.name.getValue();
+						return returnValue;
+					end
+				</script>
+			</windowlist><!--}}}-->
+			<windowlist name="defenselist"><!--{{{-->
+				<invisible />
+				<bounds>0,0,0,0</bounds>
+				<datasource>.defenses</datasource>
+				<class>defense_listitem</class>
+				<allowcreate />
+				<allowdelete />
+				<skipempty />
+				<script>
+					function onSortCompare(w1, w2)
+						local returnValue = w1.name.getValue() &gt; w2.name.getValue();
+						return returnValue;
+					end
+					function total(source)
+						if not updatingdef then
+							updatingdef = true;
+							--[[print("update defenselist");]]
+							local tempinit = 0;
+							local tempphdef = 0;
+							local tempspdef = 0;
+							local tempsodef = 0;
+							local temppharm = 0;
+							local tempmyarm = 0;
+							local templist = source.getChildren();
+							for i in pairs(templist) do
+								if templist[i].getChild("activebox") then
+									if templist[i].getChild("activebox").getValue() == 1 then
+										if templist[i].getChild("initmodnum.total") then
+											tempinit = tempinit + templist[i].getChild("initmodnum.total").getValue();
+										end
+										if templist[i].getChild("physicaldefensenum.total") then
+											tempphdef = tempphdef + templist[i].getChild("physicaldefensenum.total").getValue();
+										end
+										if templist[i].getChild("spelldefensenum.total") then
+											tempspdef = tempspdef + templist[i].getChild("spelldefensenum.total").getValue();
+										end
+										if templist[i].getChild("socialdefensenum.total") then
+											tempsodef = tempsodef + templist[i].getChild("socialdefensenum.total").getValue();
+										end
+										if templist[i].getChild("physicalarmornum.total") then
+											temppharm = temppharm + templist[i].getChild("physicalarmornum.total").getValue();
+										end
+										if templist[i].getChild("mysticarmornum.total") then
+											tempmyarm = tempmyarm + templist[i].getChild("mysticarmornum.total").getValue();
+										end
+									end
+								end
+							end
+							if tempinit ~= window.getDatabaseNode().getChild("initmod.def.base").getValue() then
+								window.getDatabaseNode().getChild("initmod.def.base").setValue(tempinit);
+								--[[print("updating tempinit to " .. tempinit);]]
+							else
+								--[[print("not updating tempinit");]]
+							end
+							if tempphdef ~= window.getDatabaseNode().getChild("phydefnum.def.base").getValue() then
+								window.getDatabaseNode().getChild("phydefnum.def.base").setValue(tempphdef);
+								--[[print("updating tempphdef to " .. tempphdef);]]
+							else
+								--[[print("not updating tempphdef");]]
+							end
+							if tempspdef ~= window.getDatabaseNode().getChild("spdefnum.def.base").getValue() then
+								window.getDatabaseNode().getChild("spdefnum.def.base").setValue(tempspdef);
+								--[[print("updating tempspdef to " .. tempspdef);]]
+							else
+								--[[print("not updating tempspdef");]]
+							end
+							if tempsodef ~= window.getDatabaseNode().getChild("sodefnum.def.base").getValue() then
+								window.getDatabaseNode().getChild("sodefnum.def.base").setValue(tempsodef);
+								--[[print("updating tempsodef to " .. tempsodef);]]
+							else
+								--[[print("not updating tempsodef");]]
+							end
+							if temppharm ~= window.getDatabaseNode().getChild("pharmnum.def.base").getValue() then
+								window.getDatabaseNode().getChild("pharmnum.def.base").setValue(temppharm);
+								--[[print("updating temppharm to " .. temppharm);]]
+							else
+								--[[print("not updating temppharm");]]
+							end
+							if tempmyarm ~= window.getDatabaseNode().getChild("myarmnum.def.base").getValue() then
+								window.getDatabaseNode().getChild("myarmnum.def.base").setValue(tempmyarm);
+								--[[print("updating tempmyarm to " .. tempmyarm);]]
+							else
+								--[[print("not updating tempmyarm");]]
+							end
+							updatingdef = false;
+						end
+					end
+
+					local updatingdefx = false;
+					function onChildUpdatex()
+						local source = getDatabaseNode();
+						if not updating then
+							updatingdefx = true;
+							total(source);
+							updatingdefx = false;
+						end
+					end
+
+
+					function onInit()
+						local source = getDatabaseNode();
+						--[[source.onChildUpdate = onChildUpdatex;]]
+						updatingdef = false;
+						total(source);
+					end
+
+				</script>
+			</windowlist>
+<!--}}}-->
+<!-- CARRIED --><!--{{{-->
+			<genericcontrol name="carriedframe">
+				<invisible />
+				<bounds>15,430,200,120</bounds>
+				<frame>
+					<name>sheetgroup</name>
+				</frame>
+			</genericcontrol>
+						
+			<labeledstring name="cwtotal">
+				<invisible />
+				<anchored>
+					<to>carriedframe</to>
+					<position>insidetopleft</position>
+					<offset>15,20</offset>
+					<size>
+						<width>175</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<anchorto>overviewframe</anchorto>
+				<height>30</height>
+				<label>total carried</label>
+				<static />
+				<font>sheettext</font>
+				<frame>
+					<name>textline</name>
+				</frame>
+				<script file="scripts/totalweight.lua"/>
+			</labeledstring>
+		
+			<labeledstring name="cwlimit">
+				<invisible />
+				<anchored>
+					<to>carriedframe</to>
+					<position>insidetopleft</position>
+					<offset>15,50</offset>
+					<size>
+						<width>175</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<anchorto>overviewframe</anchorto>
+				<height>30</height>
+				<label>weight limit</label>
+				<readonly />
+			</labeledstring>		
+		
+			<labeledstring name="cwencumbrance">
+				<invisible />
+				<anchored>
+					<to>carriedframe</to>
+					<position>insidetopleft</position>
+					<offset>15,80</offset>
+					<size>
+						<width>175</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<anchorto>overviewframe</anchorto>
+				<height>30</height>
+				<label>encumbrance</label>
+			</labeledstring>				<!--}}}-->
+			<windowlist name="bloodmagicslist"><!--{{{-->
+				<bounds>0,0,0,0</bounds>
+				<datasource>.bloodmagics</datasource>
+				<class>bloodmagic_listitem</class>
+				<invisible />
+				<allowcreate />
+				<allowdelete />
+				<skipempty />
+				<script>
+					function onSortCompare(w1, w2)
+						local returnValue = false;
+						if w1.name.getValue() == "" then
+							return true;
+						elseif w2.name.getValue() == "" then
+							return false;
+						end
+						
+						returnValue = w1.name.getValue() &gt; w2.name.getValue();
+						return returnValue;
+					end
+					function total()
+						--[[print("update bloodmagicslist");]]
+						local temp = 0;
+						local templist = source.getChildren();
+						for i in pairs(templist) do
+							if templist[i].getChild("bloodmagicdam") then
+								temp = temp + templist[i].getChild("bloodmagicdam").getValue();
+							end
+						end
+						window.getDatabaseNode().getChild("health.bmdamage.tmp").setValue(temp);
+					end
+					function onInit()
+						source = getDatabaseNode();
+						source.onChildUpdate = total;
+						total();
+					end
+				</script>
+			</windowlist><!--}}}-->
+
+
+
+<!--}}}-->
+
+		</sheetdata>
+	</windowclass>
+
+<!--LISTS--><!--{{{-->
+<!-- DISCIPLINE LIST ITEM -->	<!--{{{-->
+	<windowclass name="discipline_listitem">
+		<sizelimits>
+			<minimum>
+				<height>25</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			
+			<textlistitemvalue name="name">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>5</offset>
+					</top>
+					<size>
+						<width>110</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>circle</next>
+					<prev>kstep</prev>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<script>
+					function onLoseFocus()
+						super.onLoseFocus();
+						window.windowlist.applySort();
+					end
+				</script>
+			</textlistitemvalue>
+			
+			<textlistitemnumber name="circle">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>115</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>5</offset>
+					</top>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>cost</next>
+					<previous>name</previous>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<center />
+				<script>
+					function onWheel()
+						return false;
+					end
+				</script>
+			</textlistitemnumber>
+			<textlistitemnumber name="cost">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>150</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>5</offset>
+					</top>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>max</next>
+					<previous>circle</previous>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<center />
+			</textlistitemnumber>
+			<textlistitemnumber name="max">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>180</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>5</offset>
+					</top>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>curr</next>
+					<previous>cost</previous>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<center />
+			</textlistitemnumber>
+			<textlistitemnumber name="curr">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>210</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>5</offset>
+					</top>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>kstep</next>
+					<previous>max</previous>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<center />
+			</textlistitemnumber>
+			
+			
+			<stepcontrol_field name="kstep">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>240</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>1</offset>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>name</next>
+					<previous>curr</previous>
+				</tabtarget>
+				<field>name</field>
+				<description>Karma</description>
+				<script>
+					function onWheel()
+						return false;
+					end
+					function onDrag(button,x,y,dragdata)
+						dragdata.setType("dice");
+						dragdata.setSlot(1);
+						local dice = {};
+						local mod = 0;
+						local dice, mod = Step.getStepDice(getValue());
+						dragdata.setDieList(dice);
+						
+						dragdata.setDescription("[" .. window.windowlist.window.getDatabaseNode().getChild("name").getValue() .. "] " .. window.name.getValue() .. " Karma (Step " .. getValue() .. ")" );
+						dragdata.setNumberData(mod);
+						return true;
+					end	
+
+					function onDoubleClick()
+						local userguy;
+						if User.isHost() then
+							userguy = GmIdentityManager.getCurrent();
+						else
+							userguy = User.getIdentityLabel();
+						end
+
+						if window.curr.getValue() &gt;= 1 then
+							local dice = {};
+							local mod = 0;
+							local dice, mod = Step.getStepDice(getValue());
+							ChatManager.control.throwDice("dice",dice, mod, "[" .. window.windowlist.window.getDatabaseNode().getChild("name").getValue() .. "] " .. window.name.getValue() .. " Karma (Step " .. getValue() .. ")");
+							window.curr.setValue(window.curr.getValue() - 1);
+							ChatManager.control.deliverMessage({ font = "narratorfont", text = "[" .. userguy .. "]" .. ": " .. window.name.getValue() .. " Karma Remaining: [" .. window.curr.getValue() .. "] --> " .. window.windowlist.window.getDatabaseNode().getChild("name").getValue(), mode = "emote"});
+						else
+							ChatManager.control.deliverMessage({ font = "narratorfont", text = "[" .. userguy .. "]" .. ": Out of " .. window.name.getValue() .. " Karma! --> " .. window.windowlist.window.getDatabaseNode().getChild("name").getValue(), mode = "emote"});
+						end
+					end
+					function onHover(state)
+						if state then
+							local diestring = "";
+							local dice = {};
+							local mod = 0;
+							local dice, mod = Step.getStepDice(getValue());
+							for i=1,table.maxn(dice) do
+								diestring = diestring .. dice[i] .. "+";
+							end
+							if mod &lt; 0 then
+								diestring = string.sub(diestring,1,string.len(diestring)-1) .. mod;
+							else
+								diestring = string.sub(diestring,1,string.len(diestring)-1);
+							end
+							dieWidget.setPosition("left", -50, 0);
+							dieWidget.setText(diestring);
+							dieWidget.setVisible(true);
+							setColor("#FF990099");
+							setFrame("sheetfocus", 5, 5, 5, 5);
+							window.setFrame("rowshade");
+						else
+							if hasFocus() == false then
+								setColor(nil);
+								setFrame("modifier", 5, 5, 5, 5);
+								window.setFrame(nil);
+							end
+							dieWidget.setVisible(false);
+						end
+					end
+					function onGainFocus()
+						setColor("#FF990099");
+						setFrame("sheetfocus", 5, 5, 5, 5);
+						window.setFrame("rowshade");
+					end
+					
+					function onLoseFocus()
+						setColor(nil);
+						setFrame("modifier", 5, 5, 5, 5);
+						window.setFrame(nil);
+					end
+				</script>
+			</stepcontrol_field>
+
+			<buttoncontrol name="knotes">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>275</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>indicator_zoom</normal>
+					<hover>indicator_casterprep</hover>
+					<pressed>indicator_zoom</pressed>
+				</icon> 	
+				<script>
+					function onButtonPress()
+						local win = Interface.openWindow("knotes",window.getDatabaseNode());
+						win.label.setValue(window.name.getValue());
+						win.label2.setValue(window.name.getValue() .. " Discipline and Karma Notes");
+						win.label.setReadOnly(true);
+					end
+					function onHover(state)
+						if state then
+							window.setFrame("rowshade");
+						else
+							window.setFrame(nil);
+						end
+					end
+				</script>
+			</buttoncontrol>
+		</sheetdata>
+	</windowclass><!--}}}-->
+
+<!-- LEGEND LIST ITEM -->	<!--{{{-->
+	<windowclass name="legendws_listitem">
+		<sizelimits>
+			<minimum>
+				<height>25</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			
+			<textlistitemvalue name="discipline">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>110</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>advance</next>
+				</tabtarget>
+				<font>sheettextsmall</font>
+			</textlistitemvalue>
+
+			<textlistitemvalue name="advance">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>115</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>260</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>cost</next>
+				</tabtarget>
+				<font>sheettextsmall</font>
+			</textlistitemvalue>
+			
+			<textlistitemnumber name="cost">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>380</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>0</offset>
+					</top>
+					<size>
+						<width>50</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>discipline</next>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<center />
+			</textlistitemnumber>
+
+			<windowreferencefield name="legendws_shortcut">
+				<anchored>
+					<right>
+						<anchor>right</anchor>
+						<offset>-5</offset>
+					</right>
+					<top>
+						<anchor>top</anchor>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow</normal>
+					<empty>button_emptytarget</empty>
+					<pressed>button_emptytarget</pressed>
+				</icon>
+				<allowdrop />
+			</windowreferencefield>
+
+
+<!--
+			<buttoncontrol name="notes">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>275</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>3</offset>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow2</normal>
+					<pressed>button_openwindow2_down</pressed>
+				</icon> 	
+				<script>
+					function onButtonPress()
+						local win = Interface.openWindow("knotes",window.getDatabaseNode());
+						win.label.setValue(window.name.getValue());
+						win.label.setReadOnly(true);
+					end
+				</script>
+			</buttoncontrol>
+-->
+
+
+		</sheetdata>
+	</windowclass><!--}}}-->
+
+<!-- WEAPONS LIST ITEM -->	<!--{{{-->
+	<windowclass name="weapon_listitem">
+		<sizelimits>
+			<minimum>
+				<height>25</height>
+			</minimum>
+		</sizelimits>
+		<sheetdata>
+			
+			<textlistitemvalue name="name">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>0</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>5</offset>
+					</top>
+					<size>
+						<width>105</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>attackstep</next>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<script>
+					function onLoseFocus()
+						super.onLoseFocus();
+						window.windowlist.applySort();
+					end
+				</script>
+			</textlistitemvalue>
+			<stepcontrol_field name="attackstep">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>115</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>1</offset>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>damagestep</next>
+					<previous>name</previous>
+				</tabtarget>
+				<field>name</field>
+				<description>attack</description>
+			</stepcontrol_field>
+			
+			<stepcontrol_field name="damagestep">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>165</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>1</offset>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>range</next>
+					<previous>attackstep</previous>
+				</tabtarget>
+				<field>name</field>
+				<description>damage</description>
+			</stepcontrol_field>
+			
+			<textlistitemvalue name="range">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>210</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>5</offset>
+					</top>
+					<size>
+						<width>80</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>size</next>
+					<previous>damagestep</previous>
+				</tabtarget>
+				<font>sheettextsmall</font>
+			</textlistitemvalue>
+			
+			<textlistitemvalue name="size">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>300</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>5</offset>
+					</top>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>strmin</next>
+					<previous>range</previous>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<center />
+			</textlistitemvalue>
+			
+			<textlistitemvalue name="strmin">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>335</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>5</offset>
+					</top>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>notes</next>
+					<previous>size</previous>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<center />
+			</textlistitemvalue>
+			
+			<textlistitemvalue name="dexmin">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>365</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>5</offset>
+					</top>
+					<size>
+						<width>20</width>
+					</size>
+				</anchored>
+				<tabtarget>
+					<next>weaponnotes</next>
+					<previous>size</previous>
+				</tabtarget>
+				<font>sheettextsmall</font>
+				<center />
+			</textlistitemvalue>
+			
+			<buttoncontrol name="weaponnotes">
+				<anchored>
+					<left>
+						<anchor>left</anchor>
+						<offset>425</offset>
+					</left>
+					<top>
+						<anchor>top</anchor>
+						<offset>5</offset>
+					</top>
+					<size>
+						<width>20</width>
+						<height>20</height>
+					</size>
+				</anchored>
+				<icon>
+					<normal>button_openwindow2</normal>
+					<pressed>button_openwindow2_down</pressed>
+				</icon> 	
+				<script>
+					function onButtonPress()
+						local win = Interface.openWindow("weaponnotes",window.getDatabaseNode());
+						win.label.setValue(window.name.getValue() .. " Notes");
+						win.label.setReadOnly(true);
+					end
+				</script>
+			</buttoncontrol>
+		</sheetdata>
+	</windowclass><!--}}}-->
+<!--}}}-->
+</root>

@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="npc">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="530" height="570" />
+		</placement>
+		<sizelimits>
+      <minimum width="530" height="570" />
+			<dynamic />
+    </sizelimits>
+		<minimize>minimized_npc</minimize>
+		<tooltip field="name" />
+		<nodelete />
+		<gmexport>npc</gmexport>
+		<script file="campaign/scripts/npc.lua" />
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>npc_header</class>
+			</sub_record_header>
+
+			<frame_record_content_tabbed name="contentframe" />
+
+			<subwindow_record name="main">
+				<class>npc_main</class>
+			</subwindow_record>
+			<ft_record name="notes">
+				<anchored to="contentframe" position="over" />
+				<empty textres="ft_empty" hidereadonly="true" />
+				<invisible />
+			</ft_record>
+
+			<scrollbar_record>
+				<target>main</target>
+			</scrollbar_record>
+			<scrollbar_record>
+				<target>notes</target>
+			</scrollbar_record>
+
+			<tabs_recordsheet name="tabs">
+				<tab>
+					<icon>tab_main</icon>
+					<subwindow>main</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_notes</icon>
+					<subwindow>notes</subwindow>
+				</tab>
+			</tabs_recordsheet>
+			
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="npc_header">
+		<margins control="0,0,0,7" />
+		<script file="campaign/scripts/npc_header.lua" />
+		<sheetdata>
+			<link_record_header_id name="link">
+				<class>npc</class>
+			</link_record_header_id>
+			
+			<anchor_record_header_right name="rightanchor" />
+			<button_activateid>
+				<anchored to="rightanchor" width="23" height="22">
+					<top offset="-2" />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+			</button_activateid>
+			<tokenfield name="token">
+				<anchored to="rightanchor" width="25" height="25">
+					<top offset="-2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-3" />
+				</anchored>
+				<empty>token_empty</empty>
+				<script>
+					function onDoubleClick(x, y)
+						CombatManager.openMap(window.getDatabaseNode());
+					end
+				</script>
+			</tokenfield>
+			<button_record_isidentified name="isidentified" />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name_id name="name">
+				<empty textres="library_recordtype_empty_npc" />
+			</string_record_name_id>
+			<string_record_name_id name="nonid_name">
+				<empty textres="library_recordtype_empty_nonid_npc" />
+				<invisible />
+			</string_record_name_id>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="npc_main">
+		<margins control="0,0,0,2" />
+		<script file="campaign/scripts/npc_main.lua" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+
+			<label_column name="nonid_name_label">
+				<static textres="npc_label_unidentified" />
+			</label_column>
+			<string_columnh name="nonid_name" />
+      
+			<line_column name="divider" />
+            
+			<label_column name="attributes_label">
+				<static textres="npc_label_attributes" />
+			</label_column>
+      
+			<label_column name="strength_label">
+				<static textres="npc_label_strength" />
+				<anchored to="attributes_label" position="topright" relation="absolute">
+        <left offset="100" />
+        </anchored>
+			</label_column>
+			<label_column name="dexterity_label">
+				<static textres="npc_label_dexterity" />
+				<anchored to="strength_label" position="topright" relation="absolute">
+        <left offset="60" />
+        </anchored>
+			</label_column>
+			<label_column name="toughness_label">
+				<static textres="npc_label_toughness" />
+				<anchored to="dexterity_label" position="topright" relation="absolute">
+        <left offset="60" />
+        </anchored>
+			</label_column>
+			<label_column name="perception_label">
+				<static textres="npc_label_perception" />
+				<anchored to="toughness_label" position="topright" relation="absolute">
+        <left offset="60" />
+        </anchored>
+			</label_column>
+			<label_column name="willpower_label">
+				<static textres="npc_label_willpower" />
+				<anchored to="perception_label" position="topright" relation="absolute">
+        <left offset="60" />
+        </anchored>
+			</label_column>
+			<label_column name="charisma_label">
+				<static textres="npc_label_charisma" />
+				<anchored to="willpower_label" position="topright" relation="absolute">
+        <left offset="60" />
+        </anchored>
+			</label_column>
+			<number_column name="npc_strength">
+				<anchored to="strength_label" position="bottomleft" parent="strength_label" width="30">
+        <left offset="-3" />
+        <top offset="30" />
+        </anchored>
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ManagerED4.performRoll(draginfo, "Strength", getValue(), rActor);
+            return true;
+          end
+          function onValueChanged()
+            window.onStatUpdate();
+          end
+        </script>
+        <rollable />
+				<default>5</default>
+			</number_column>
+			<number_column name="npc_dexterity">
+				<anchored to="dexterity_label" position="bottomleft" parent="dexterity_label" width="30">
+        <left offset="-3" />
+        <top offset="-20" />
+        </anchored>
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ManagerED4.performRoll(draginfo, "Dexterity", getValue(), rActor);
+            return true;
+          end
+          function onValueChanged()
+            window.onStatUpdate();
+          end
+        </script>
+        <rollable />
+				<default>5</default>
+			</number_column>
+			<number_column name="npc_toughness">
+				<anchored to="toughness_label" position="bottomleft" parent="toughness_label" width="30">
+        <left offset="-3" />
+        <top offset="-20" />
+        </anchored>
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ManagerED4.performRoll(draginfo, "Toughness", getValue(), rActor);
+            return true;
+          end
+          function onValueChanged()
+            window.onStatUpdate();
+          end
+        </script>
+        <rollable />
+				<default>5</default>
+			</number_column>
+			<number_column name="npc_perception">
+				<anchored to="perception_label" position="bottomleft" parent="perception_label" width="30">
+        <left offset="-3" />
+        <top offset="-20" />
+        </anchored>
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ManagerED4.performRoll(draginfo, "Perception", getValue(), rActor);
+            return true;
+          end
+          function onValueChanged()
+            window.onStatUpdate();
+          end
+        </script>
+        <rollable />
+				<default>5</default>
+			</number_column>
+			<number_column name="npc_willpower">
+				<anchored to="willpower_label" position="bottomleft" parent="willpower_label" width="30">
+        <left offset="-3" />
+        <top offset="-20" />
+        </anchored>
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ManagerED4.performRoll(draginfo, "Willpower", getValue(), rActor);
+            return true;
+          end
+          function onValueChanged()
+            window.onStatUpdate();
+          end
+        </script>
+        <rollable />
+				<default>5</default>
+			</number_column>
+			<number_column name="npc_charisma">
+				<anchored to="charisma_label" position="bottomleft" parent="charisma_label" width="30">
+        <left offset="-3" />
+        <top offset="-20" />
+        </anchored>
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ManagerED4.performRoll(draginfo, "Charisma", getValue(), rActor);
+            return true;
+          end
+          function onValueChanged()
+            window.onStatUpdate();
+          end
+        </script>
+        <rollable />
+				<default>5</default>
+			</number_column>
+      
+			<line_column name="divider" />      
+      
+			<label_column name="initiative_label">
+				<static textres="npc_label_initiative" />
+			</label_column>
+      
+			<number_column name="initiative" source="initiative.step">
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ManagerED4.performRoll(draginfo, "InitRoll", getValue(), rActor);
+            return true;
+          end
+        </script>
+        <rollable />
+				<default>5</default>
+			</number_column>
+      
+			<label_column_right name="npc_challenge_label">
+				<anchored to="initiative">
+          <right offset="-150" />
+        </anchored>
+				<static textres="npc_label_challenge" />
+			</label_column_right>
+      
+			<string_column_right name="npc_challenge">
+				<anchored to="initiative" parent="initiative" relation="relative" width="130">
+          <top offset="0" />
+          <right offset="-5" />
+        </anchored>
+			</string_column_right>
+      
+			<line_column name="divider" />      
+      
+			<label_column name="currentDamage_label">
+				<static textres="npc_label_currentDamage" />
+			</label_column>
+      
+			<number_column name="currentDamage" source="health.damage.value">
+				<default>0</default>
+			</number_column>
+      
+			<label_column_right name="npc_currentWounds_label">
+				<anchored to="currentDamage_label">
+          <right offset="-60" />
+        </anchored>
+				<static textres="npc_label_currentWounds" />
+			</label_column_right>
+      
+			<number_column_right name="npc_currentWounds" source="health.wounds.value">
+				<anchored to="currentDamage_label" />
+				<default>0</default>
+			</number_column_right>
+      
+			<line_column name="divider" />
+      
+			<label_column name="phys_def_label">
+				<static textres="npc_label_defensePhysical" />
+			</label_column>      
+			<number_column name="defensePhysical">
+				<default>5</default>
+			</number_column>
+      
+			<label_column_right name="npc_unconcious_label">
+				<anchored to="defensePhysical" />
+				<static textres="npc_label_unconciousRating" />
+			</label_column_right>
+			<number_column_right name="npc_unconcious" source="health.uncon.value">
+				<anchored to="defensePhysical" />
+				<default>0</default>
+			</number_column_right>
+      
+			<label_column name="mystic_def_label">
+				<static textres="npc_label_defenseMystic" />
+			</label_column>      
+			<number_column name="defenseMystic">
+				<default>5</default>
+			</number_column>
+      
+			<label_column_right name="npc_deathRating_label">
+				<anchored to="defenseMystic" />
+				<static textres="npc_label_deathRating" />
+			</label_column_right>
+			<number_column_right name="npc_deathRating" source="health.death.value">
+				<anchored to="defenseMystic" />
+				<default>0</default>
+			</number_column_right>
+      
+			<label_column name="social_def_label">
+				<static textres="npc_label_defenseSocial" />
+			</label_column>      
+			<number_column name="defenseSocial">
+				<default>5</default>
+			</number_column>
+      
+			<label_column_right name="npc_woundThresh_label">
+				<anchored to="defenseSocial" />
+				<static textres="npc_label_woundThresh" />
+			</label_column_right>
+			<number_column_right name="npc_woundThresh" source="health.wound.threshold">
+				<anchored to="defenseSocial" />
+				<default>0</default>
+			</number_column_right>
+      
+			<label_column name="physical_armor_label">
+				<static textres="npc_label_armorPhysical" />
+			</label_column>      
+			<number_column name="armorPhysical">
+				<default>0</default>
+			</number_column>
+      
+			<label_column_right name="npc_knockdown_label">
+				<anchored to="armorPhysical" />
+				<static textres="npc_label_knockdown" />
+			</label_column_right>
+			<number_column_right name="npc_knockdown">
+				<anchored to="armorPhysical" />
+				<default>0</default>
+			</number_column_right>
+      
+			<label_column name="mystic_armor_label">
+				<static textres="npc_label_armorMystic" />
+			</label_column>
+			<number_column name="armorMystic">
+				<default>0</default>
+			</number_column>
+      
+			<label_column_right name="npc_recovery_label">
+				<anchored to="armorMystic" />
+				<static textres="npc_label_recovery" />
+			</label_column_right>
+			<number_column_right name="npc_recovery">
+				<anchored to="armorMystic" />
+				<default>0</default>
+			</number_column_right>
+      
+			<line_column name="divider" />
+			
+			<label_column name="space_label">
+				<static textres="npc_label_size" />
+			</label_column>
+			<number_column name="space">
+				<default>1</default>
+			</number_column>
+			
+			<label_column_right name="reach_label">
+				<anchored to="space" />
+				<static textres="npc_label_reach" />
+			</label_column_right>
+			<number_column_right name="reach">
+				<anchored to="space" />
+				<default>1</default>
+			</number_column_right>
+			
+			<label_column name="movement_label">
+				<static textres="npc_label_movement" />
+			</label_column>
+			<string_columnh name="movement" />
+
+			<label_column name="senses_label">
+				<static text="Senses" />
+			</label_column>
+			<string_columnh name="senses" />
+
+			<line_column name="divider2" />
+			
+      <!-- "Rolls" -->
+			<label_column name="skills_label">
+				<static textres="npc_label_skills" />
+			</label_column>
+			<string_columnh name="skills">
+				<nodragselect />
+				<script file="campaign/scripts/npc_roll.lua" />
+			</string_columnh>
+
+			<label_column name="powers_label">
+				<static textres="npc_label_powers" />
+			</label_column>
+			<string_columnh name="powers">
+				<nodragselect />
+				<script file="campaign/scripts/npc_roll.lua" />
+			</string_columnh>
+
+			<label_column name="maneuvers_label">
+				<static textres="npc_label_maneuvers" />
+			</label_column>
+			<string_columnh name="maneuvers">
+				<nodragselect />
+				<script file="campaign/scripts/npc_roll.lua" />
+			</string_columnh>
+
+			<label_column name="items_label">
+				<static textres="npc_label_items" />
+			</label_column>
+			<string_columnh name="items" />
+
+			<label_column name="languages_label">
+				<static textres="npc_label_languages" />
+			</label_column>
+			<string_columnh name="languages" />
+		</sheetdata>
+	</windowclass>
+</root>
