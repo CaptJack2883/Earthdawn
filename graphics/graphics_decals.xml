@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+		<script name="ED4_Decals">
+			function onInit()
+				OptionsManager.addOptionValue("DDCL", "option_val_ED4_custom2", "desktopdecal_ED4_custom2", true);
+			end
+		</script>
+		
+		<!-- Custom theme option strings -->
+		<string name="option_val_ED4_custom2">ED4 Logo</string>
+		
+		<!-- Custom theme textures -->
+		<icon name="desktopdecal_ED4_custom2" file="graphics/decals/Earthdawn_4th_logo.png" />
+</root>
