@@ -11,7 +11,7 @@
 	<string name="ct_emptylist">Drop PC, NPC or encounter links to add entries.</string>
 	
 	<string name="ct_label_name">Name</string>
-	<string name="ct_label_init">Order</string>
+	<string name="ct_label_init">Initiative</string>
 	<string name="ct_label_deathrating">Death</string>
 	<string name="ct_label_unconrating">Uncon.</string>
 	<string name="ct_label_threshold">Thresh.</string>
@@ -59,7 +59,12 @@
 	<string name="ct_menu_effectadd">Add Effect</string>
 	<string name="ct_menu_effectdelete">Delete Effect</string>
 	<string name="ct_menu_restmenu">Rest</string>
-	<string name="ct_menu_initmenu">Turn Order</string>
+	<string name="ct_menu_restShort">Short Rest</string>
+	<string name="ct_menu_restOvernight">Overnight Rest</string>
+	<string name="ct_menu_initmenu">Initiative</string>
+	<string name="ct_menu_initRollAll">Roll All</string>
+	<string name="ct_menu_initRollNPCs">Roll NPCs</string>
+	<string name="ct_menu_initRollPCs">Roll PCs</string>
 	<string name="ct_menu_initreset">Reset Turn Order</string>
 	<string name="ct_menu_itemdelete">Delete From Tracker</string>
 	<string name="ct_menu_itemdeletenonfriendly">Delete All Non-Friendly</string>

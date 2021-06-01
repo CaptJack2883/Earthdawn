@@ -3,6 +3,16 @@
 <!-- 
   Please see the license.html file included with this distribution for 
   attribution and copyright information.
+  
+  
+			<string_textlistitem name="name">
+				<anchored to="rightanchor">
+					<top />
+					<left parent="" offset="30" />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+			</string_textlistitem>
 -->
 
 <root>
@@ -15,31 +25,79 @@
 				<anchored to="talentframe" />
 				<static textres="char_label_talents" />
 			</label_frametop>
-			<list_text name="talents">
+			<label>
+				<anchored to="talentframe" position="insidetopleft" offset="50,30" />
+				<static textres="char_label_talentname" />
+			</label>
+			<label>
+				<anchored to="talentframe" position="insidetopleft" offset="290,30" />
+				<static textres="char_label_rank" />
+			</label>
+			<label>
+				<anchored to="talentframe" position="insidetopleft" offset="340,30" />
+				<static textres="char_label_attribute" />
+			</label>
+			<label>
+				<anchored to="talentframe" position="insidetopleft" offset="420,30" />
+				<static textres="char_label_total" />
+			</label>
+      
+      <list_chartalent name="talents">
 				<anchored to="talentframe">
 					<left offset="15" />
-					<top offset="35" />
+					<top offset="55" />
 					<right offset="-20" />
 					<bottom offset="-20" />
 				</anchored>
-				<columns width="222" filldown="true" />
-				<newfocus>name</newfocus>
-				<datasource>.abilitylist</datasource>
-				<class>char_talents</class>
 				<acceptdrop>
 					<class>referencetext</class>
 					<class>referencetextwide</class>
           <class>talents</class>
 					<field>*</field>
 				</acceptdrop>
-			</list_text>
+        <script>
+          function onInit()
+            onUpdate();
+          end
+          
+          function onListChanged()
+            onUpdate();
+          end
+          
+          function onUpdate()
+            local node = getDatabaseNode();
+            for _,w in ipairs(getWindows()) do
+              w.onUpdate();
+            end
+          end
+          
+          function update()
+            local bEditMode = (window.talents_iedit.getValue() == 1);
+            for _,w in ipairs(getWindows()) do
+              w.idelete.setVisibility(bEditMode);
+            end
+            onUpdate();
+          end
+          
+          function addEntry(bFocus)
+            local w = createWindow();
+            if bFocus and w then
+              w.name.setFocus();
+            end
+            return w;
+          end
+          function onDrop(x, y, draginfo)
+            onUpdate();
+          end
+        </script>
+      </list_chartalent>
 			<scrollbar_list>
 				<anchored to="talents" />
 				<target>talents</target>
 			</scrollbar_list>
 
 			<button_iedit name="talents_iedit">
-				<anchored to="talents" position="aboveright" offset="5,5" />
+				<anchored to="talents" position="aboveright" offset="5,23" />
 				<target>talents</target>
 			</button_iedit>
 			<button_iadd name="talents_iadd">
@@ -51,36 +109,145 @@
 
 	<windowclass name="char_talents">
 		<margins control="0,0,0,2" />
+    <script>
+      function onStatUpdate()
+        stat.update(statname.getStringValue());
+      end
+      function onUpdate()
+        local nodeTalent = getDatabaseNode();
+        local talentName = DB.getValue(nodeTalent, "name");
+        DB.setValue(nodeTalent, "talent.name", "string", talentName);
+        local nStat = stat.getValue();
+        local nRank = ranks.getValue();
+        local nTotal = 0;
+        if nStat > 0 then
+          if nRank > 0 then
+            nTotal = nStat + nRank;
+          else
+            nTotal = nStat;
+          end
+        end
+        if nRank > 0 then
+          if nStat > 0 then
+            nTotal = nStat + nRank;
+          else
+            nTotal = nRank;
+          end
+        end            
+        DB.setValue(nodeTalent, "talent.total", "number", nTotal);
+      end
+    </script>
 		<sheetdata>
+			<genericcontrol name="leftanchor">
+				<anchored height="0" width="0">
+					<top offset="2" />
+					<left />
+				</anchored>
+			</genericcontrol>
 			<genericcontrol name="rightanchor">
 				<anchored height="0" width="0">
 					<top offset="2" />
 					<right />
 				</anchored>
 			</genericcontrol>
+			<linkfield name="shortcut">
+				<anchored to="leftanchor" width="20" height="20">
+					<top />
+					<left anchor="left" relation="relative" offset="5" />
+				</anchored>
+				<class>talents</class>
+				<description field="name" />
+				<readonly />
+			</linkfield>
 			<button_idelete name="idelete">
 				<anchored to="rightanchor">
 					<top />
 					<right anchor="left" relation="relative" offset="-5" />
 				</anchored>
 			</button_idelete>
-			<linkfield name="shortcut">
-				<anchored to="rightanchor" width="20" height="20">
-					<top />
-					<right anchor="left" relation="relative" offset="-5" />
+      
+      <number_chartalentfield name="total" source="talent.total">
+				<anchored width="32" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
 				</anchored>
-				<class>talents</class>
-				<description field="name" />
-				<readonly />
-			</linkfield>
-			<string_textlistitem name="name">
-				<anchored to="rightanchor">
-					<top />
-					<left parent="" offset="5" />
-					<right anchor="left" relation="relative" offset="-5" />
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ActionManagerED4.dragRoll(draginfo, "Talent", getValue(), rActor);
+            return true;
+          end
+          function onDoubleClick()
+            local rType = "Talent";
+            local rStep = getValue();
+            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+            local bSecretRoll = false;
+            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+          end
+        </script>
+        <readonly />
+        <rollable />
+      </number_chartalentfield>
+      
+			<number_chartalentfield_static name="stat">
+				<anchored width="32" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
 				</anchored>
-				<multilinespacing>20</multilinespacing>
-			</string_textlistitem>
+				<script>
+					function update(statname)
+						setValue(DB.getValue(window.getDatabaseNode(), "...abilities." .. statname .. ".step", 0));
+					end
+				</script>
+			</number_chartalentfield_static>
+			<cycler_chartalentability name="statname">
+				<anchored width="40" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<script>
+					function onValueChanged()
+						window.onStatUpdate();
+            window.onUpdate();
+					end
+				</script>
+			</cycler_chartalentability>
+      <number_chartalentranks name="ranks" source="talent.rank">
+				<anchored width="32" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
+				</anchored>
+				<tabtarget prev="name" />
+      </number_chartalentranks>
+      
+			<stringu name="name" source="talent.name">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<tabtarget next="ranks" />
+				<script>
+					function onEnter()
+						window.windowlist.addEntry(true);
+						return true;
+					end
+				</script>
+			</stringu>
+			<stringu name="subname">
+				<anchored to="name" height="20">
+					<top anchor="bottom" />
+					<left />
+					<right />
+				</anchored>
+				<invisible />
+				<script>
+					function onEnter()
+						window.windowlist.addNewInstance(window.name.getValue());
+						return true;
+					end
+				</script>
+			</stringu>
 		</sheetdata>
 	</windowclass>	
 </root>

@@ -144,6 +144,10 @@
 		<bitmap file="graphics/frames/tempmodmini.png" />
 		<offset>7,7,9,9</offset>
 	</framedef>
+	<framedef name="minidark">
+		<bitmap file="graphics/frames/minidark.png" />
+		<offset>7,7,9,9</offset>
+	</framedef>
 	<framedef name="durationadjustment">
 		<bitmap file="graphics/frames/durationadjustment.png" />
 		<topleft rect="0,0,12,12" />

@@ -8,17 +8,12 @@
 <root>
 	<windowclass name="charsheet_main">
 		<margins control="5,5,5,5" />
-    <script name="mainChar" file="campaign/scripts/char_main.lua" />
+    <script file="campaign/scripts/char_main.lua" />
 		<sheetdata>
       
       <anchor_column name="MainFrame">
 				<bounds>20,20,400,400</bounds>
-      </anchor_column>    
-      <!--
-      <frame_char name="MainFrame">
-				<bounds>15,0,-29,-5</bounds>
-			</frame_char>      
-      -->
+      </anchor_column>
       <anchor_column name="columnanchor">
 				<anchored to="MainFrame" position="insidetopright" />
       </anchor_column>
@@ -85,122 +80,47 @@
 			</string_labeled>
       
       <frame_char name="AttrFrame">
-				<bounds>1,56,250,230</bounds>
+				<bounds>1,45,260,240</bounds>
       </frame_char>
-      <label_column name="AttrLabel">
-				<anchored>
-          <top offset="50" />
-          <left offset="35" />
-				</anchored>
+      <label_frametop name="AttrLabel">
+				<anchored to="AttrFrame" />
         <static textres="char_label_attributes" />
-      </label_column>
+      </label_frametop>
       <label_column name="ValueLabel">
 				<anchored>
-          <top offset="57" />
-          <left offset="115" />
+          <top offset="60" />
+          <left offset="95" />
 				</anchored>
         <static textres="char_label_value" />
       </label_column>
+      <label_column name="BonusLabel">
+				<anchored>
+          <top offset="60" />
+          <left offset="152" />
+				</anchored>
+        <static textres="char_label_bonus" />
+      </label_column>
       <label_column name="StepLabel">
 				<anchored>
-          <top offset="57" />
-          <left offset="175" />
+          <top offset="60" />
+          <left offset="202" />
 				</anchored>
         <static textres="char_label_step" />
       </label_column>
       
-      <!--
-      <label_column name="DiceLabel">
-				<anchored>
-          <top offset="57" />
-          <left offset="235" />
-				</anchored>
-        <static textres="char_label_dice" />
-      </label_column>
-      -->
-      
-      <label_column name="Strength">
-				<anchored>
-          <top offset="75" />
-          <left offset="35" />
-				</anchored>
-        <static textres="char_attr_str" />
-      </label_column>      
-      <number_column name="Str_Value" source="abilities.strength.value">
-				<anchored>
-          <top offset="75" />
-          <left offset="110" />
-				</anchored>
-        <default>10</default>
-        
-        <script>
-          function onUpdate()
-          end
-          function onValueChanged()
-            if not Global.cmUpdating then
-              Global.cmUpdating = true;
-              window.onUpdate();
-              Global.cmUpdating = false;
-            end
-          end
-        </script>
-         
-      </number_column>
-      
-      <number_column name="Str_Step" source="abilities.strength.step">
-				<anchored>
-          <top offset="-20" />
-          <left offset="170" />
-				</anchored>
-        <script>
-          function onUpdate()
-          end
-          function onValueChanged()
-            if not Global.cmUpdating then
-              Global.cmUpdating = true;
-              window.onUpdate();
-              Global.cmUpdating = false;
-            end
-          end
-          function onDragStart(button, x, y, draginfo)
-            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ManagerED4.performRoll(draginfo, "Strength", getValue(), rActor);
-            return true;
-          end
-        </script>
-        <default>5</default>
-        <rollable />
-      </number_column>
-      <!--
-      <basicdice name="Str_Dice" source="abilities.strength.dice">
-				<anchored>
-          <top offset="95" />
-          <left offset="230" />
-				</anchored>
-        <script>
-        </script>
-				<bounds>225,90,50,20</bounds>
-        <default>d8</default>
-				<acceptdrop>
-					<type>dice</type>
-				</acceptdrop>
-      </basicdice>
-      -->
       <label_column name="Dexterity">
 				<anchored>
-          <top offset="10" />
-          <left offset="35" />
+          <top offset="80" />
+          <left offset="15" />
 				</anchored>
         <static textres="char_attr_dex" />
       </label_column>
       <number_column name="Dex_Value" source="abilities.dexterity.value">
 				<anchored>
-          <top offset="10" />
-          <left offset="110" />
+          <top offset="80" />
+          <left offset="90" />
 				</anchored>
         <script>
-          function onUpdate()
-          end
           function onValueChanged()
             if not Global.cmUpdating then
               Global.cmUpdating = true;
@@ -211,14 +131,28 @@
         </script>
         <default>10</default>
       </number_column>
+      <number_column name="Dex_Bonus" source="abilities.dexterity.bonus">
+				<anchored>
+          <top offset="-20" />
+          <left offset="145" />
+				</anchored>
+        <script>
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>0</default>
+      </number_column>
       <number_column name="Dex_Step" source="abilities.dexterity.step">
 				<anchored>
           <top offset="-20" />
-          <left offset="170" />
+          <left offset="200" />
 				</anchored>
         <script>
-          function onUpdate()
-          end
           function onValueChanged()
             if not Global.cmUpdating then
               Global.cmUpdating = true;
@@ -228,43 +162,103 @@
           end
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ManagerED4.performRoll(draginfo, "Dexterity", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "Dexterity", getValue(), rActor);
             return true;
+          end
+          function onDoubleClick()
+            local rType = "Dexterity";
+            local rStep = getValue();
+            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+            local bSecretRoll = false;
+            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <rollable />
         <default>5</default>
       </number_column>
       
-      <!--
-      <basicdice name="Dex_Dice" source="abilities.dexterity.dice">
+      <label_column name="Strength">
 				<anchored>
-          <top offset="50" />
-          <left offset="230" />
+          <top offset="10" />
+          <left offset="15" />
 				</anchored>
-				<bounds>225,120,50,20</bounds>
-        <default>d8</default>
-				<acceptdrop>
-					<type>dice</type>
-				</acceptdrop>
-      </basicdice>      
-      -->
+        <static textres="char_attr_str" />
+      </label_column>      
+      <number_column name="Str_Value" source="abilities.strength.value">
+				<anchored>
+          <top offset="10" />
+          <left offset="90" />
+				</anchored>
+        <default>10</default>
+        <script>
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+      </number_column>
+      <number_column name="Str_Bonus" source="abilities.strength.bonus">
+				<anchored>
+          <top offset="-20" />
+          <left offset="145" />
+				</anchored>
+        <script>
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>0</default>
+      </number_column>
+      <number_column name="Str_Step" source="abilities.strength.step">
+				<anchored>
+          <top offset="-20" />
+          <left offset="200" />
+				</anchored>
+        <script>
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ActionManagerED4.dragRoll(draginfo, "Strength", getValue(), rActor);
+            return true;
+          end
+          function onDoubleClick()
+            local rType = "Strength";
+            local rStep = getValue();
+            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+            local bSecretRoll = false;
+            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+          end
+        </script>
+        <default>5</default>
+        <rollable />
+      </number_column>
       
       <label_column name="Toughness">
 				<anchored>
           <top offset="10" />
-          <left offset="35" />
+          <left offset="15" />
 				</anchored>
         <static textres="char_attr_tou" />
       </label_column>
       <number_column name="Tou_Value" source="abilities.toughness.value">
 				<anchored>
           <top offset="10" />
-          <left offset="110" />
+          <left offset="90" />
 				</anchored>
         <script>
-          function onUpdate()
-          end
           function onValueChanged()
             if not Global.cmUpdating then
               Global.cmUpdating = true;
@@ -275,14 +269,28 @@
         </script>
         <default>10</default>
       </number_column>
+      <number_column name="Tou_Bonus" source="abilities.toughness.bonus">
+				<anchored>
+          <top offset="-20" />
+          <left offset="145" />
+				</anchored>
+        <script>
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>0</default>
+      </number_column>
       <number_column name="Tou_Step" source="abilities.toughness.step">
 				<anchored>
           <top offset="-20" />
-          <left offset="170" />
+          <left offset="200" />
 				</anchored>
         <script>
-          function onUpdate()
-          end
           function onValueChanged()
             if not Global.cmUpdating then
               Global.cmUpdating = true;
@@ -292,43 +300,34 @@
           end
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ManagerED4.performRoll(draginfo, "Toughness", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "Toughness", getValue(), rActor);
             return true;
+          end
+          function onDoubleClick()
+            local rType = "Toughness";
+            local rStep = getValue();
+            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+            local bSecretRoll = false;
+            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <rollable />
         <default>5</default>
       </number_column>
-      
-      <!--
-      <basicdice name="Tou_Dice" source="abilities.toughness.dice">
-				<anchored>
-          <top offset="50" />
-          <left offset="230" />
-				</anchored>
-				<bounds>225,150,50,20</bounds>
-        <default>d8</default>
-				<acceptdrop>
-					<type>dice</type>
-				</acceptdrop>
-      </basicdice>
-      -->
-      
+
       <label_column name="Perception">
 				<anchored>
           <top offset="10" />
-          <left offset="35" />
+          <left offset="15" />
 				</anchored>
         <static textres="char_attr_per" />
       </label_column>
       <number_column name="Per_Value" source="abilities.perception.value">
 				<anchored>
           <top offset="10" />
-          <left offset="110" />
+          <left offset="90" />
 				</anchored>
         <script>
-          function onUpdate()
-          end
           function onValueChanged()
             if not Global.cmUpdating then
               Global.cmUpdating = true;
@@ -339,14 +338,28 @@
         </script>
         <default>10</default>
       </number_column>
+      <number_column name="Per_Bonus" source="abilities.perception.bonus">
+				<anchored>
+          <top offset="-20" />
+          <left offset="145" />
+				</anchored>
+        <script>
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>0</default>
+      </number_column>
       <number_column name="Per_Step" source="abilities.perception.step">
 				<anchored>
           <top offset="-20" />
-          <left offset="170" />
+          <left offset="200" />
 				</anchored>
         <script>
-          function onUpdate()
-          end
           function onValueChanged()
             if not Global.cmUpdating then
               Global.cmUpdating = true;
@@ -356,43 +369,34 @@
           end
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ManagerED4.performRoll(draginfo, "Perception", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "Perception", getValue(), rActor);
             return true;
+          end
+          function onDoubleClick()
+            local rType = "Perception";
+            local rStep = getValue();
+            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+            local bSecretRoll = false;
+            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <rollable />
         <default>5</default>
       </number_column>
-      
-      <!--
-      <basicdice name="Per_Dice" source="abilities.perception.dice">
-				<anchored>
-          <top offset="50" />
-          <left offset="230" />
-				</anchored>
-				<bounds>225,180,50,20</bounds>
-        <default>d8</default>
-				<acceptdrop>
-					<type>dice</type>
-				</acceptdrop>
-      </basicdice>
-      -->
-      
+
       <label_column name="Willpower">
 				<anchored>
           <top offset="10" />
-          <left offset="35" />
+          <left offset="15" />
 				</anchored>
         <static textres="char_attr_wil" />
       </label_column>
       <number_column name="Wil_Value" source="abilities.willpower.value">
 				<anchored>
           <top offset="10" />
-          <left offset="110" />
+          <left offset="90" />
 				</anchored>
         <script>
-          function onUpdate()
-          end
           function onValueChanged()
             if not Global.cmUpdating then
               Global.cmUpdating = true;
@@ -403,14 +407,28 @@
         </script>
         <default>10</default>
       </number_column>
+      <number_column name="Wil_Bonus" source="abilities.willpower.bonus">
+				<anchored>
+          <top offset="-20" />
+          <left offset="145" />
+				</anchored>
+        <script>
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>0</default>
+      </number_column>
       <number_column name="Wil_Step" source="abilities.willpower.step">
 				<anchored>
           <top offset="-20" />
-          <left offset="170" />
+          <left offset="200" />
 				</anchored>
         <script>
-          function onUpdate()
-          end
           function onValueChanged()
             if not Global.cmUpdating then
               Global.cmUpdating = true;
@@ -420,43 +438,34 @@
           end
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ManagerED4.performRoll(draginfo, "Willpower", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "Willpower", getValue(), rActor);
             return true;
+          end
+          function onDoubleClick()
+            local rType = "Willpower";
+            local rStep = getValue();
+            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+            local bSecretRoll = false;
+            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <rollable />
         <default>5</default>
       </number_column>
-      
-      <!--
-      <basicdice name="Wil_Dice" source="abilities.willpower.dice">
-				<anchored>
-          <top offset="50" />
-          <left offset="230" />
-				</anchored>
-				<bounds>225,210,50,20</bounds>
-        <default>d8</default>
-				<acceptdrop>
-					<type>dice</type>
-				</acceptdrop>
-      </basicdice>
-      -->
-      
+
       <label_column name="Charisma">
 				<anchored>
           <top offset="10" />
-          <left offset="35" />
+          <left offset="15" />
 				</anchored>
         <static textres="char_attr_cha" />
       </label_column>
       <number_column name="Cha_Value" source="abilities.charisma.value">
 				<anchored>
           <top offset="10" />
-          <left offset="110" />
+          <left offset="90" />
 				</anchored>
         <script>
-          function onUpdate()
-          end
           function onValueChanged()
             if not Global.cmUpdating then
               Global.cmUpdating = true;
@@ -467,14 +476,28 @@
         </script>
         <default>10</default>
       </number_column>
+      <number_column name="Cha_Bonus" source="abilities.charisma.bonus">
+				<anchored>
+          <top offset="-20" />
+          <left offset="145" />
+				</anchored>
+        <script>
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>0</default>
+      </number_column>
       <number_column name="Cha_Step" source="abilities.charisma.step">
 				<anchored>
           <top offset="-20" />
-          <left offset="170" />
+          <left offset="200" />
 				</anchored>
         <script>
-          function onUpdate()
-          end
           function onValueChanged()
             if not Global.cmUpdating then
               Global.cmUpdating = true;
@@ -484,29 +507,21 @@
           end
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ManagerED4.performRoll(draginfo, "Charisma", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "Charisma", getValue(), rActor);
             return true;
+          end
+          function onDoubleClick()
+            local rType = "Charisma";
+            local rStep = getValue();
+            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+            local bSecretRoll = false;
+            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <rollable />
         <default>5</default>
       </number_column>
-      
-      <!--
-      <basicdice name="Cha_Dice" source="abilities.charisma.dice">
-				<anchored>
-          <top offset="50" />
-          <left offset="230" />
-				</anchored>
-				<bounds>225,240,50,20</bounds>
-        <default>d8</default>
-				<acceptdrop>
-					<type>dice</type>
-				</acceptdrop>
-      </basicdice>
-      -->
-      
-      
+
       <frame_char name="DefFrame">
 				<bounds>330,56,160,75</bounds>
       </frame_char>
@@ -515,7 +530,7 @@
           <top offset="-199" />
           <left offset="385" />
 				</anchored>
-        <static textres="char_label_defences" />
+        <static textres="char_label_defenses" />
       </label_column>
       <label_column name="PhysicalDefLabel">
 				<anchored>
@@ -538,14 +553,12 @@
 				</anchored>
         <static textres="char_label_social" />
       </label_column>
-      <number_column name="Physical_Def" source="defences.physical.value">
+      <number_column name="Physical_Def" source="defenses.physical.value">
         <anchored width="35" height="20">
           <top offset="-165" />
           <left offset="346" />
 				</anchored>
         <script>
-          function onUpdate()
-          end
           function onValueChanged()
             if not Global.cmUpdating then
               Global.cmUpdating = true;
@@ -556,14 +569,12 @@
         </script>
         <default>5</default>
       </number_column>
-      <number_column name="Mystic_Def" source="defences.mystic.value">
+      <number_column name="Mystic_Def" source="defenses.mystic.value">
         <anchored width="35" height="20">
           <top offset="-165" />
           <left offset="394" />
 				</anchored>
         <script>
-          function onUpdate()
-          end
           function onValueChanged()
             if not Global.cmUpdating then
               Global.cmUpdating = true;
@@ -574,14 +585,12 @@
         </script>
         <default>5</default>
       </number_column>
-      <number_column name="Social_Def" source="defences.social.value">
+      <number_column name="Social_Def" source="defenses.social.value">
         <anchored width="35" height="20">
           <top offset="-165" />
           <left offset="440" />
 				</anchored>
         <script>
-          function onUpdate()
-          end
           function onValueChanged()
             if not Global.cmUpdating then
               Global.cmUpdating = true;
@@ -623,8 +632,6 @@
           <left offset="360" />
 				</anchored>
         <script>
-          function onUpdate()
-          end
           function onValueChanged()
             if not Global.cmUpdating then
               Global.cmUpdating = true;
@@ -641,8 +648,6 @@
           <left offset="418" />
 				</anchored>
         <script>
-          function onUpdate()
-          end
           function onValueChanged()
             if not Global.cmUpdating then
               Global.cmUpdating = true;
@@ -691,8 +696,6 @@
           <left offset="345" />
 				</anchored>
         <script>
-          function onUpdate()
-          end
           function onValueChanged()
             if not Global.cmUpdating then
               Global.cmUpdating = true;
@@ -709,8 +712,6 @@
           <left offset="392" />
 				</anchored>
         <script>
-          function onUpdate()
-          end
           function onValueChanged()
             if not Global.cmUpdating then
               Global.cmUpdating = true;
@@ -727,8 +728,6 @@
           <left offset="439" />
 				</anchored>
         <script>
-          function onUpdate()
-          end
           function onValueChanged()
             if not Global.cmUpdating then
               Global.cmUpdating = true;
@@ -741,24 +740,13 @@
       </number_column>
       
       <frame_char name="InitFrame">
-				<bounds>1,285,325,75</bounds>
+				<bounds>1,285,260,75</bounds>
       </frame_char>
       <label_column name="InitiativeLabel">
 				<anchored>
           <top offset="25" />
           <left offset="17" />
 				</anchored>
-        <script>
-          function onUpdate()
-          end
-          function onValueChanged()
-            if not Global.cmUpdating then
-              Global.cmUpdating = true;
-              window.onUpdate();
-              Global.cmUpdating = false;
-            end
-          end
-        </script>
         <static textres="char_label_initiative" />
       </label_column>
       <label_column name="KarmaLabel">
@@ -781,8 +769,6 @@
           <left offset="174" />
 				</anchored>
         <script>
-          function onUpdate()
-          end
           function onValueChanged()
             if not Global.cmUpdating then
               Global.cmUpdating = true;
@@ -793,13 +779,6 @@
         </script>
         <static textres="char_label_knockdown" />
       </label_column>
-      <label_column name="MovementLabel">
-				<anchored>
-          <top offset="25" />
-          <left offset="247" />
-				</anchored>
-        <static textres="char_label_movement" />
-      </label_column>
       <number_column name="Initiative_Step" source="initiative.step">
         <anchored width="35" height="20">
           <top offset="50" />
@@ -808,19 +787,41 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ManagerED4.performRoll(draginfo, "InitRoll", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "InitRoll", getValue(), rActor);
             return true;
+          end
+          function onDoubleClick()
+            local rType = "InitRoll";
+            local rStep = getValue();
+            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+            local bSecretRoll = false;
+            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <default>5</default>
         <rollable />
       </number_column>
+      <number_column name="KarmaStep" source="karma.step">
+        <script>
+          function onInit()
+            window.updateKarma();
+          end
+          function onValueChanged()
+            Debug.chat("Updating Karma Step");
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>4</default>
+        <invisible />
+      </number_column>
       <number_column name="MaxKarma" source="karma.max">
         <script>
           function onInit()
             window.updateKarma();
-            print("Max Karma:");
-            print(getValue());
           end
           function onValueChanged()
             if not Global.cmUpdating then
@@ -837,18 +838,31 @@
           <top offset="-20" />
           <left offset="75" />
 				</anchored>
+        <min>0</min>
         <script>
           function onDragStart(button, x, y, draginfo)
-            local karmaStep = 4;
-            local oldKarma = getValue();
-            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ManagerED4.performRoll(draginfo, "Karma", karmaStep, rActor);
-            setValue(oldKarma - 1);
+            local kValue = getValue();
+            if kValue > 0 then
+              local karmaStep = 4;
+              local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+              karmaStep = CharacterManager.getKarmaStep(rActor);
+              ActionManagerED4.dragRoll(draginfo, "Karma", karmaStep, rActor);
+            end
             return true;
+          end
+          function onDoubleClick()
+            local kValue = getValue();
+            if kValue > 0 then
+              local karmaStep = 4;
+              local rType = "Karma";
+              local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+              karmaStep = CharacterManager.getKarmaStep(nodeChar);
+              local bSecretRoll = false;
+              ActionManagerED4.pushRoll(rType, karmaStep, nodeChar, bSecretRoll);
+            end
           end
         </script>
         <rollable />
-        <default>4</default>
       </number_column>
       <number_column name="Recovery_Step" source="health.recovery.step">
         <anchored width="35" height="20">
@@ -858,14 +872,21 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ManagerED4.performRoll(draginfo, "Recovery", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "Recovery", getValue(), rActor);
             return true;
+          end
+          function onDoubleClick()
+            local rType = "Recovery";
+            local rStep = getValue();
+            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+            local bSecretRoll = false;
+            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <rollable />
         <default>5</default>
       </number_column>
-      <number_column name="Knockdown_Step" source="defences.knockdown.step">
+      <number_column name="Knockdown_Step" source="defenses.knockdown.step">
         <anchored width="45" height="20">
           <top offset="-20" />
           <left offset="185" />
@@ -873,23 +894,85 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ManagerED4.performRoll(draginfo, "Knockdown", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "Knockdown", getValue(), rActor);
             return true;
+          end
+          function onDoubleClick()
+            local rType = "Knockdown";
+            local rStep = getValue();
+            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+            local bSecretRoll = false;
+            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <rollable />
         <default>5</default>
       </number_column>
-      <number_column name="Movement_Value" source="movement.value">
-        <anchored width="45" height="20">
-          <top offset="-20" />
-          <left offset="255" />
-				</anchored>        
-        <default>10</default>
-      </number_column>
+            
+      <frame_char name="movementFrame">
+				<bounds>1,360,260,75</bounds>
+      </frame_char>
+      <label_frametop name="movementLabel">
+				<anchored to="movementFrame" />
+        <static textres="char_label_movement" />
+      </label_frametop>
+			<string_labeled name="movement" source="movement.value">
+				<anchored to="movementFrame" position="insidetopleft" offset="20,30" width="200" height="20" />
+				<labelres>char_label_movement</labelres>
+				<acceptdrop>
+          <class>movement</class>
+          <type>string</type>
+				</acceptdrop>
+        <droptypes>
+					<type merge="add">string</type>
+					<type merge="add">shortcut</type>
+        </droptypes>
+        <script>
+          function onDrop(x, y, draginfo)
+            if draginfo.isType("shortcut") then
+              local sClass, sRecord = draginfo.getShortcutData();
+              if StringManager.contains({"movement"}, sClass) then
+								setValue(DB.getValue(DB.getPath(sRecord, "name")));
+                return true;
+              end
+            end
+          end
+        </script>
+			</string_labeled>      
+            
+      <frame_char name="sensesFrame">
+				<bounds>1,435,260,75</bounds>
+      </frame_char>
+      <label_frametop name="sensesLabel">
+				<anchored to="sensesFrame" />
+        <static textres="char_label_senses" />
+      </label_frametop>
+			<string_labeled name="senses">
+				<anchored to="sensesFrame" position="insidetopleft" offset="20,30" width="200" height="20" />
+				<labelres>char_label_senses</labelres>
+				<acceptdrop>
+          <class>senses</class>
+          <type>string</type>
+				</acceptdrop>
+        <droptypes>
+					<type merge="add">string</type>
+					<type merge="add">shortcut</type>
+        </droptypes>
+        <script>
+          function onDrop(x, y, draginfo)
+            if draginfo.isType("shortcut") then
+              local sClass, sRecord = draginfo.getShortcutData();
+              if StringManager.contains({"senses"}, sClass) then
+								setValue(DB.getValue(DB.getPath(sRecord, "name")));
+                return true;
+              end
+            end
+          end
+        </script>
+			</string_labeled>
       
       <frame_char name="CurrentHealthFrame">
-				<bounds>330,285,160,75</bounds>
+				<bounds>330,285,160,150</bounds>
       </frame_char>
       <label_column name="CurrentLabel">
 				<anchored>
@@ -900,30 +983,102 @@
       </label_column>
       <label_column name="CurrentDamageLabel">
 				<anchored>
-          <top offset="-35" />
+          <top offset="-30" />
           <left offset="350" />
 				</anchored>
         <static textres="char_label_damage" />
       </label_column>
       <label_column name="CurrentWoundsLabel">
 				<anchored>
-          <top offset="-35" />
+          <top offset="-30" />
           <left offset="420" />
 				</anchored>
         <static textres="char_label_wounds" />
       </label_column>
       <number_column name="Current_Damage" source="health.damage.value">
         <anchored width="45" height="20">
-          <top offset="-15" />
+          <top offset="-5" />
           <left offset="350" />
-				</anchored>        
+				</anchored>
+        <min>0</min>
+        <script>
+          function onDrop(x, y, draginfo)
+            if draginfo.isType("Recovery") then
+              setValue(getValue() - draginfo.getNumberData());
+              return true;
+            elseif draginfo.isType("Heal") then
+              setValue(getValue() - draginfo.getNumberData());
+              return true;
+            elseif draginfo.isType("Damage") then
+              setValue(getValue() + draginfo.getNumberData());
+              return true;
+            end
+          end
+        </script>
         <default>0</default>
       </number_column>
       <number_column name="Current_Wounds" source="health.wounds.value">
-        <anchored width="35" height="20">
+        <anchored width="40" height="20">
           <top offset="-20" />
           <left offset="425" />
-				</anchored>        
+				</anchored>
+        <min>0</min>
+        <script>
+          function onDrop(x, y, draginfo)
+            if draginfo.isType("Wound") then
+              setValue(getValue() + draginfo.getNumberData());
+              return true;
+            elseif draginfo.isType("WoundHeal") then
+              setValue(getValue() - draginfo.getNumberData());
+              return true;
+            end
+          end
+        </script>
+        <default>0</default>
+      </number_column>
+      
+      <label_column name="StunDamageLabel">
+				<anchored>
+          <top offset="5" />
+          <left offset="350" />
+				</anchored>
+        <static textres="char_label_stun" />
+      </label_column>
+      <label_column name="BloodDamageLabel">
+				<anchored>
+          <top offset="5" />
+          <left offset="420" />
+				</anchored>
+        <static textres="char_label_blood" />
+      </label_column>
+      <number_column name="Stun_Damage" source="health.stun.value">
+        <anchored width="45" height="20">
+          <top offset="30" />
+          <left offset="350" />
+				</anchored>
+        <min>0</min>
+        <script>
+          function onDrop(x, y, draginfo)
+            if draginfo.isType("Recovery") then
+              setValue(getValue() - draginfo.getNumberData());
+              return true;
+            elseif draginfo.isType("Heal") then
+              setValue(getValue() - draginfo.getNumberData());
+              return true;
+            elseif draginfo.isType("Damage") then
+              setValue(getValue() + draginfo.getNumberData());
+              return true;
+            end
+          end
+        </script>
+        <default>0</default>
+      </number_column>
+      <number_column name="Blood_Damage" source="health.blood.value">
+        <anchored width="40" height="20">
+          <top offset="-20" />
+          <left offset="425" />
+				</anchored>
+        <min>0</min>
         <default>0</default>
       </number_column>
       

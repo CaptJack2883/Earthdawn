@@ -111,6 +111,17 @@ function toggleSpacing()
 	end
 end
 
+function toggleDefensive()
+	if not enableglobaltoggle then
+		return;
+	end
+	
+	local defensiveon = window.button_global_defensive.getValue();
+	for _,v in pairs(getWindows()) do
+		v.activatedefensive.setValue(defensiveon);
+	end
+end
+
 function toggleEffects()
 	if not enableglobaltoggle then
 		return;
@@ -138,6 +149,7 @@ end
 function onEntrySectionToggle()
 	local anyTargeting = 0;
 	local anySpacing = 0;
+	local anyDefensive = 0;
 	local anyEffects = 0;
 
 	for _,v in pairs(getWindows()) do
@@ -147,6 +159,9 @@ function onEntrySectionToggle()
 		if v.activatespacing.getValue() == 1 then
 			anySpacing = 1;
 		end
+		if v.activatedefensive.getValue() == 1 then
+			anyDefensive = 1;
+		end
 		if v.activateeffects.getValue() == 1 then
 			anyEffects = 1;
 		end
@@ -155,6 +170,7 @@ function onEntrySectionToggle()
 	enableglobaltoggle = false;
 	window.button_global_targeting.setValue(anyTargeting);
 	window.button_global_spacing.setValue(anySpacing);
+	window.button_global_defensive.setValue(anyDefensive);
 	window.button_global_effects.setValue(anyEffects);
 	enableglobaltoggle = true;
 end

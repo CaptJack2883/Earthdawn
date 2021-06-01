@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- Custom ED4 Templates Only -->
+  
+	<!-- Character Sheet -->
+  
+	<template name="frame_attr">
+		<genericcontrol>
+			<frame name="groupbox" />
+		</genericcontrol>
+	</template>
+  
+  <template name="char_attr_column">
+    <genericcontrol>
+      <anchored position="insidetop" offset="0, 20, 20" height="0"/>
+      <disabled />
+      <invisible />
+    </genericcontrol>
+  </template>
+
+	<template name="label_attr">
+		<label>
+			<anchored>
+				<top parent="columnattr" anchor="bottom" relation="current" offset="7" />
+				<left />
+			</anchored>
+		</label>
+	</template>
+  
+	<template name="string_column_right">
+		<basicstring>
+			<anchored>
+				<top />
+				<right parent="" offset="-10" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+		</basicstring>
+	</template>
+  
+	<template name="number_column">
+		<basicnumber>    
+			<script>
+				local nodeSrc = nil;
+				function onInit()
+					nodeSrc = window.getDatabaseNode();
+					if nodeSrc then
+						onValueChanged();
+						DB.addHandler(DB.getPath(nodeSrc, "isidentified"), "onUpdate", onValueChanged);
+					end          
+          if rollable or (gmrollable and Session.IsHost) then
+            local w = addBitmapWidget("field_rollable");
+            w.setPosition("bottomleft", -1, -4);
+            setHoverCursor("hand");
+          elseif rollable2 or (gmrollable2 and Session.IsHost) then
+            local w = addBitmapWidget("field_rollable_transparent");
+            w.setPosition("topright", 0, 2);
+            w.sendToBack();
+            setHoverCursor("hand");
+          end          
+				end
+				function onClose()
+					if nodeSrc then
+						DB.removeHandler(DB.getPath(nodeSrc, "isidentified"), "onUpdate", onValueChanged);
+					end
+				end
+				function onValueChanged()
+					if window.onIDChanged then
+						window.onIDChanged();
+					elseif class then
+						local bIgnoreHost = false;
+						if ignorehost then bIgnoreHost = true; end
+						local bID = LibraryData.getIDState(class[1], nodeSrc, bIgnoreHost);
+						window.name.setVisible(bID);
+						window.nonid_name.setVisible(not bID);
+					end
+				end
+			</script>
+			<anchored width="40" height="20">
+				<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+				<left offset="97" />
+			</anchored>
+      <source mergerule="resetandadd" />
+		</basicnumber>
+	</template>
+  
+	<!-- Talent/Skill Lists -->
+  
+	<template name="list_charskill">
+		<windowlist>
+      <allowcreate />
+      <allowdelete />
+			<child></child>
+			<child><backcolor>1A40301E</backcolor></child>
+			<datasource>.skillslist</datasource>
+			<class>char_skills</class>
+			<sortby>
+				<control>label</control>
+				<control>sublabel</control>
+			</sortby>
+    <!--  
+			<script file="campaign/scripts/char_skilllist.lua" /> 
+    -->
+		</windowlist>
+	</template>
+	<template name="number_charskillfield">
+		<basicnumber>
+			<delaykeyupdate />
+			<hideonvalue>0</hideonvalue>
+			<nodrag />
+			<displaysign />
+		</basicnumber>
+	</template>
+	<template name="number_charskillranks">
+		<basicnumber>
+			<delaykeyupdate />
+			<hideonvalue>0</hideonvalue>
+			<nodrag />
+			<min>0</min>
+			<script>
+				function onWheel(notches)
+					if not Input.isControlPressed() then
+						return false;
+					end
+
+					if not Input.isShiftPressed() then
+						setValue(getValue() + notches);
+					else
+						setValue(getValue() + (notches * 0.5));
+					end
+					
+					return true;
+				end
+
+				function onValueChanged()
+          
+				end
+			</script>
+		</basicnumber>
+	</template>
+	<template name="cycler_charskillability">
+		<button_stringcycler>
+			<!--<disabled />-->
+			<parameters>
+				<labelsres>dex|str|tou|per|wil|cha</labelsres>
+				<values>dexterity|strength|toughness|perception|willpower|charisma</values>
+			</parameters>
+		</button_stringcycler>
+	</template>
+  
+	<template name="number_charskillfield_static">
+		<simplenumber>
+			<hideonvalue>0</hideonvalue>
+			<nodrag />
+			<displaysign />
+			<disabled />
+		</simplenumber>
+	</template>
+  
+	<template name="list_chartalent">
+		<windowlist>
+      <allowcreate />
+      <allowdelete />
+			<child></child>
+			<child><backcolor>1A40301E</backcolor></child>
+			<datasource>.talentlist</datasource>
+			<class>char_talents</class>
+			<sortby>
+				<control>label</control>
+				<control>sublabel</control>
+			</sortby>
+    <!--  
+			<script file="campaign/scripts/char_talentlist.lua" /> 
+    -->
+		</windowlist>
+	</template>
+	<template name="number_chartalentfield">
+		<basicnumber>
+			<delaykeyupdate />
+			<hideonvalue>0</hideonvalue>
+			<nodrag />
+			<displaysign />
+		</basicnumber>
+	</template>
+	<template name="number_chartalentranks">
+		<basicnumber>
+			<delaykeyupdate />
+			<hideonvalue>0</hideonvalue>
+			<nodrag />
+			<min>0</min>
+			<script>
+				function onValueChanged()
+          window.onUpdate()
+				end
+			</script>
+		</basicnumber>
+	</template>
+	<template name="cycler_chartalentability">
+		<button_stringcycler>
+			<!--<disabled />-->
+			<parameters>
+				<labelsres>dex|str|tou|per|wil|cha</labelsres>
+				<values>dexterity|strength|toughness|perception|willpower|charisma</values>
+			</parameters>
+		</button_stringcycler>
+	</template>
+  
+	<template name="number_chartalentfield_static">
+		<simplenumber>
+			<hideonvalue>0</hideonvalue>
+			<nodrag />
+			<displaysign />
+			<disabled />
+		</simplenumber>
+	</template>
+  
+	<!-- Combat Tracker -->
+  
+	<template name="button_ct_menu">
+		<buttoncontrol>
+			<bounds>26,11,40,20</bounds>
+			<icon normal="button_menu" pressed="button_menu_down" />
+			<tooltip textres="ct_tooltip_menu" />
+			<script file="ct/scripts/ct_menu.lua" />
+		</buttoncontrol>
+	</template>
+  
+  <template name="number_ctentry_deathrating">
+		<number_ct_crosslink name="deathrating">
+			<anchored to="rightanchor" width="40" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="-10" />
+			</anchored>
+			<hideonvalue>0</hideonvalue>
+			<script>
+				function update()
+				end
+			</script>
+		</number_ct_crosslink>
+	</template>
+  
+  <template name="number_ctentry_unconrating">
+		<number_ct_crosslink name="unconrating">
+			<anchored to="rightanchor" width="40" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="-10" />
+			</anchored>
+			<hideonvalue>0</hideonvalue>
+			<script>
+				function update()
+				end
+			</script>
+		</number_ct_crosslink>
+	</template>
+  
+  <template name="number_ctentry_threshold">
+		<number_ct_crosslink name="threshold">
+			<anchored to="rightanchor" width="40" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="-10" />
+			</anchored>
+			<hideonvalue>0</hideonvalue>
+			<script>
+				function update()
+				end
+			</script>
+		</number_ct_crosslink>
+	</template>
+  
+  <template name="number_ctentry_damage">
+		<number_ct_crosslink name="damage">
+			<anchored to="rightanchor" width="40" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="-10" />
+			</anchored>
+      <min>0</min>
+			<hideonvalue>0</hideonvalue>
+			<tabtarget prev="initresult" />
+			<tabtarget next="wounds" />
+			<script>
+				function update()
+				end
+        function onDrop(x, y, draginfo)
+          if draginfo.isType("Recovery") then
+            setValue(getValue() - draginfo.getNumberData());
+            return true;
+          elseif draginfo.isType("Heal") then
+            setValue(getValue() - draginfo.getNumberData());
+            return true;
+          elseif draginfo.isType("Damage") then
+            setValue(getValue() + draginfo.getNumberData());
+            return true;
+          end
+        end
+			</script>
+		</number_ct_crosslink>
+	</template>
+  
+  <template name="number_ctentry_wounds">
+		<number_ct_crosslink name="wounds">
+			<anchored to="rightanchor" width="40" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="-10" />
+			</anchored>
+      <min>0</min>
+			<hideonvalue>0</hideonvalue>
+			<tabtarget prev="damage" />
+			<script>
+				function update()
+				end
+			</script>
+		</number_ct_crosslink>
+	</template>
+  
+  <template name="number_ctentry_initresult">
+		<number_ct_crosslink name="initresult">
+			<anchored to="rightanchor" width="40" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="-10" />
+			</anchored>
+			<hideonvalue>0</hideonvalue>
+			<tabtarget next="damage" />
+			<script>
+				function update()
+					window.windowlist.applySort();
+				end
+			</script>
+		</number_ct_crosslink>
+	</template>
+  
+</root>

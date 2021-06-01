@@ -29,7 +29,6 @@ function onClose()
 end
 	
 function onUpdate()
-  --print("ButtonRecordLocked onUpdate");
 	if bUpdating then
 		return;
 	end
@@ -41,18 +40,15 @@ function onUpdate()
 		setValue(1);
 	end
   if window.parentcontrol and window.parentcontrol.window.onUpdate then
-    --print("ButtonRecordLocked Parent Control onUpdate");
     window.parentcontrol.window.onUpdate();
   end
   if window.onUpdate then
-    --print("ButtonRecordLocked Window onUpdate");
     window.onUpdate();
   end
 	bUpdating = false;
 end
 
 function onValueChanged()
-  --print("ButtonRecordLocked onValueChanged");
 	if not bUpdating then
 		bUpdating = true;
 		if nodeSrc then
@@ -62,20 +58,10 @@ function onValueChanged()
 	end
 	notify();
   if window.parentcontrol and window.parentcontrol.window.onUpdate then
-    --print("ButtonRecordLocked Parent Control onUpdate");
     window.parentcontrol.window.onUpdate();
   end
   if window.onUpdate then
-    --print("ButtonRecordLocked Window onUpdate");
     window.onUpdate();
-  end
-  if window.parentcontrol and window.parentcontrol.window.onInit then
-    --print("ButtonRecordLocked Parent Control onInit");
-    window.parentcontrol.window.onInit();
-  end
-  if window.onInit then
-    --print("ButtonRecordLocked Window onInit");
-    window.onInit();
   end
 end
 
@@ -86,11 +72,9 @@ function notify()
   if window.onLockChanged then
 		window.onLockChanged();
     window.onUpdate();
-    --print("ButtonRecordLocked Notify");
 	end
 end
 
 function onLockStateChanged()
-  --print("ButtonRecordLocked LockStateChanged");
   window.onUpdate();
 end

@@ -12,7 +12,8 @@ function onInit()
 	setTargetingVisible();
 	setSpacingVisible();
 	setEffectsVisible();
-
+	setDefensiveVisible();
+  
 	-- Acquire token reference, if any
 	linkToken();
 	
@@ -154,6 +155,9 @@ function linkPCFields()
     threshold.setLink(nodeChar.createChild("health.wound.threshold", "number"), true);
     damage.setLink(nodeChar.createChild("health.damage.value", "number"));
     wounds.setLink(nodeChar.createChild("health.wounds.value", "number"));
+    phys_def.setLink(nodeChar.createChild("defenses.physical.value", "number"));
+    myst_def.setLink(nodeChar.createChild("defenses.mystic.value", "number"));
+    social_def.setLink(nodeChar.createChild("defenses.social.value", "number"));
 	end
 end
 
@@ -167,6 +171,9 @@ function linkNPCFields()
     threshold.setLink(nodeChar.createChild("health.wound.threshold", "number"), true);
     damage.setLink(nodeChar.createChild("health.damage.value", "number"));
     wounds.setLink(nodeChar.createChild("health.wounds.value", "number"));
+    phys_def.setLink(nodeChar.createChild("defenses.physical.value", "number"));
+    myst_def.setLink(nodeChar.createChild("defenses.mystic.value", "number"));
+    social_def.setLink(nodeChar.createChild("defenses.social.value", "number"));
 	end
 end
 --
@@ -222,3 +229,31 @@ function setEffectsVisible()
 
 	effect_summary.onEffectsChanged();
 end
+
+function setDefensiveVisible()
+	local v = false;
+	if activatedefensive.getValue() == 1 then
+		v = true;
+	end
+	defensiveicon.setVisible(v);
+	phys_def.setVisible(v);
+	phys_def_label.setVisible(v);
+	myst_def.setVisible(v);
+	myst_def_label.setVisible(v);
+	social_def.setVisible(v);
+	social_def_label.setVisible(v);
+	specialqualities.setVisible(v);
+	specialqualitieslabel.setVisible(v);
+	frame_defensive.setVisible(v);
+	
+  
+end
+
+
+
+
+
+
+
+
+

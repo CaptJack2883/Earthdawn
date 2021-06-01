@@ -16,10 +16,10 @@
 	<windowclass name="charsheet">
 		<frame>charsheet</frame>
 		<placement>
-			<size width="530" height="570" />
+			<size width="530" height="600" />
 		</placement>
 		<sizelimits>
-      <minimum width="530" height="570" />
+      <minimum width="530" height="600" />
 			<dynamic />
     </sizelimits>
 		<minimize>minimized_npc</minimize>
@@ -43,6 +43,11 @@
 		
 			<token_char name="token">
 				<bounds>-86,23,40,40</bounds>
+				<script>
+					function onDoubleClick(x, y)
+						CombatManager.openMap(window.getDatabaseNode());
+					end
+				</script>
 			</token_char>
 		
 			<genericcontrol>

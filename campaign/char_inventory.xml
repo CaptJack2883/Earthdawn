@@ -7,6 +7,7 @@
 
 <root>
 	<windowclass name="charsheet_inventory">
+    <script file="campaign/scripts/char_inventory.lua" />
 		<sheetdata>
 			<frame_char name="inventoryframe">
 				<bounds>15,0,-29,-205</bounds>
@@ -100,12 +101,43 @@
 			</frame_char>
 			<simplenumber name="encumbranceload" source="encumbrance.load">
 				<anchored to="encumbranceframe" position="insidetopleft" offset="160,30" width="55" height="20" />
-				<frame name="fieldlight" offset="7,5,7,5" />
+				<frame name="fielddark" offset="7,5,7,5" />
 				<readonly />
+        <script>
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
 			</simplenumber>
+			<simplenumber name="encumbrancemax" source="encumbrance.max">
+				<anchored to="encumbranceframe" position="insidetopleft" offset="160,60" width="55" height="20" />
+				<frame name="fielddark" offset="7,5,7,5" />
+				<readonly />
+        <script>
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+			</simplenumber>
+			<label name="encumbrance_frame_label">
+				<anchored to="encumbranceframe" position="insidetopleft" offset="80,10" />
+				<static textres="char_label_encumbrance" />
+			</label>
 			<label name="encumbrance_label">
 				<anchored to="encumbranceframe" position="insidetopleft" offset="15,30" />
 				<static textres="char_label_totalweight" />
+			</label>
+			<label name="encumbrance_limit_label">
+				<anchored to="encumbranceframe" position="insidetopleft" offset="15,60" />
+				<static textres="char_label_weightlimit" />
 			</label>
 
 			<frame_char name="coinframe">

@@ -1,58 +1,199 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<root>
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
 
+<root>
 	<windowclass name="skills">
-		<frame>recordsheet</frame>    
+		<frame>recordsheet</frame>
 		<placement>
-			<size width="350" height="300" />
-		</placement>    
+			<size width="350" height="350" />
+		</placement>
 		<sizelimits>
-			<minimum width="350" height="300" />
+			<minimum width="350" height="350" />
 			<dynamic />
-		</sizelimits>    
+		</sizelimits>
+		<minimize>minimized_note</minimize>
+		<playercontrol />
+		<nodelete />
+		<sharable />
 		<tooltip field="name" />
-		<nodelete />    
-		<script file="ref/scripts/skills.lua" />    
+		<script>
+			function onLockChanged()
+				if header.subwindow then
+					header.subwindow.update();
+				end
+				
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				text.setReadOnly(bReadOnly);
+				step.setReadOnly(bReadOnly);
+				strain.setReadOnly(bReadOnly);
+				artisan.setReadOnly(bReadOnly);
+				dropdownCost.setComboBoxReadOnly(bReadOnly);
+				dropdownAction.setComboBoxReadOnly(bReadOnly);
+			end
+		</script>
 		<sheetdata>
-			<sub_record_header name="header">
+			<sub_note_header name="header">
 				<class>skills_header</class>
-			</sub_record_header>
-			<frame_record_content name="main">
-				<class>skills_main</class>
-			</frame_record_content>
+			</sub_note_header>
+
+			<frame_note_content name="contentframe">
+        <margins control="15,15,15,15" />
+        <frame name="groupbox" offset="20,17,20,17" />
+        <anchored>
+          <top parent="header" anchor="bottom" offset="15" />
+          <left offset="35" />
+          <right offset="-35" />
+          <bottom offset="-32" />
+        </anchored>
+			</frame_note_content>
       
-      <simpleft name="text">
-        <anchored to="main" position="over" />
-        <empty textres="ft_empty" hidereadonly="true" />
-      </simpleft>
-      <scrollbar>
-        <anchored to="text" />
-        <target>text</target>
-      </scrollbar>
       
-			<resize_recordsheet />
-			<close_recordsheet />
+			<anchor_column name="columnanchor">
+			<anchored>
+				<top parent="contentframe" />
+			</anchored>
+			</anchor_column>
+      
+			<label_column name="step_label">
+        <anchored parent="contentframe">
+          <left offset="40" />
+        </anchored>
+				<static textres="char_label_step" />
+			</label_column>
+			<string_column name="step">
+        <anchored parent="contentframe">
+          <right offset="-50" />
+        </anchored>
+			</string_column>
+      
+			<label_column name="strain_label">
+        <anchored parent="contentframe" relation="relative" >
+          <left offset="40" />
+        </anchored>
+				<static textres="char_label_strain" />
+			</label_column>
+			<string_column name="strain">
+        <anchored parent="contentframe" relation="relative" >
+          <right offset="-50" />
+        </anchored>
+        <default>0</default>
+			</string_column>
+      
+			<label_column name="action_label">
+        <anchored parent="contentframe" relation="relative" >
+          <left offset="40" />
+        </anchored>
+				<static textres="char_label_action" />
+			</label_column>
+      <combobox name="dropdownAction">
+        <anchored height="15" width="75" relation="relative" >
+          <top parent="action_label" anchor="top" offset="3" />
+          <left parent="action_label" anchor="left" offset="65" />
+        </anchored>
+        <script>
+          function onInit()
+            local sList = {"Standard", "Simple", "Sustained", "Free"};
+            addItems(sList);
+          end
+        </script>
+        <frame>
+          <name>minidark</name>
+          <offset>10,2,5,4</offset>
+        </frame>
+        <font>chatfont</font>
+        <listmaxsize>4</listmaxsize>
+      </combobox>
+      
+			<label_column name="cost_label">
+        <anchored parent="contentframe" relation="relative" >
+          <left offset="40" />
+          <top offset="35" />
+        </anchored>
+				<static textres="char_label_cost" />
+			</label_column>
+      <combobox name="dropdownCost">
+        <anchored height="15" width="75" relation="relative" >
+          <top parent="cost_label" anchor="top" offset="3" />
+          <left parent="cost_label" anchor="left" offset="65" />
+        </anchored>
+        <script>
+          function onInit()
+            local sList = {"Novice", "Journeyman"};
+            addItems(sList);
+          end
+        </script>
+        <default>Novice</default>
+        <frame>
+          <name>minidark</name>
+          <offset>10,2,5,4</offset>
+        </frame>
+        <font>chatfont</font>
+        <listmaxsize>2</listmaxsize>
+      </combobox>
+      
+			<label_column name="artisan_label">
+        <anchored parent="contentframe" relation="relative" >
+          <left offset="40" />
+          <top offset="70" />
+        </anchored>
+				<static textres="char_label_artisan" />
+			</label_column>
+			<button_checkbox_column name="artisan">
+        <anchored to="contentframe" relation="relative" >
+          <top offset="70" />
+        </anchored>
+			</button_checkbox_column>
+      
+			<line_column name="divider">
+        <anchored parent="contentframe">
+          <left offset="30" />
+          <right offset="-40" />
+        </anchored>
+			</line_column>
+      
+			<simpleft name="text">
+				<anchored to="divider" position="below" offset="-10,10">
+        <bottom parent="contentframe" />
+        </anchored>
+				<empty textres="ft_empty" hidereadonly="true" />
+			</simpleft>
+			<scrollbar>
+				<anchored to="text" />
+				<target>text</target>
+			</scrollbar>
+
+			<resize_storybox />
+			<close_storybox />
 		</sheetdata>
 	</windowclass>
-  
-  <windowclass name="skills_header">
-      <script file="ref/scripts/skills_header.lua" />
-      <sheetdata>      
-			<link_record_header_id name="link">
+
+	<windowclass name="skills_header">
+		<margins control="0,0,0,7" />
+		<script>
+      function onInit()
+        update();
+      end
+      function update()
+        local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+        name.setReadOnly(bReadOnly);
+      end
+		</script>
+		<sheetdata>
+			<link_record_header>
 				<class>skills</class>
-			</link_record_header_id>			
+			</link_record_header>
+
 			<anchor_record_header_right name="rightanchor" />
-      <icon_record_locked />
-			<button_record_locked />      
+			<icon_record_locked />
+			<button_record_locked />
+
       <string_record_name name="name">
         <empty textres="library_recordtype_empty_skills" />
-      </string_record_name>      
-      </sheetdata>
-  </windowclass>
-  
-  <windowclass name="skills_main">
-  <sheetdata>
-    </sheetdata>
-  </windowclass>
+      </string_record_name>
+		</sheetdata>
+	</windowclass>
 </root>
