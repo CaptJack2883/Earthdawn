@@ -64,7 +64,9 @@
 	<string name="char_label_abilities">Abilities</string>
 	<string name="char_label_itemlocation">Location</string>
 	<string name="char_label_itemname">Name</string>
+	<string name="char_label_encumbrance">Encumbrance</string>
 	<string name="char_label_totalweight">Total weight carried</string>
+	<string name="char_label_weightlimit">Weight Limit</string>
 	<string name="char_label_money">Currency</string>
 	<string name="char_label_appearance">Appearance</string>
 	<string name="char_label_languages">Languages</string>

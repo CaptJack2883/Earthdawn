@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="racials">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="350" height="350" />
+		</placement>
+		<sizelimits>
+			<minimum width="350" height="350" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_note</minimize>
+		<playercontrol />
+		<nodelete />
+		<sharable />
+		<tooltip field="name" />
+		<script>
+			function onLockChanged()
+				if header.subwindow then
+					header.subwindow.update();
+				end
+				
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				text.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<sub_note_header name="header">
+				<class>racials_header</class>
+			</sub_note_header>
+      
+			<frame_note_content name="contentframe">
+        <margins control="15,15,15,15" />
+        <frame name="groupbox" offset="20,17,20,17" />
+        <anchored>
+          <top parent="header" anchor="bottom" offset="15" />
+          <left offset="35" />
+          <right offset="-35" />
+          <bottom offset="-32" />
+        </anchored>
+			</frame_note_content>
+      
+      
+			<anchor_column name="columnanchor">
+			<anchored>
+				<top parent="contentframe" />
+			</anchored>
+			</anchor_column>
+
+			<simpleft name="text">
+				<anchored to="contentframe" position="over">
+        <bottom parent="contentframe" />
+        </anchored>
+				<empty textres="ft_empty" hidereadonly="true" />
+			</simpleft>
+			<scrollbar>
+				<anchored to="text" />
+				<target>text</target>
+			</scrollbar>
+
+			<resize_storybox />
+			<close_storybox />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="racials_header">
+		<margins control="0,0,0,7" />
+		<script>
+      function onInit()
+        update();
+      end
+      function update()
+        local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+        name.setReadOnly(bReadOnly);
+      end
+		</script>
+		<sheetdata>
+			<link_record_header>
+				<class>racials</class>
+			</link_record_header>
+
+			<anchor_record_header_right name="rightanchor" />
+			<icon_record_locked />
+			<button_record_locked />
+
+      <string_record_name name="name">
+        <empty textres="library_recordtype_empty_racials" />
+      </string_record_name>
+		</sheetdata>
+	</windowclass>
+</root>

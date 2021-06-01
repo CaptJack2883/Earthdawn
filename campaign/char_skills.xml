@@ -15,31 +15,58 @@
 				<anchored to="skillframe" />
 				<static textres="char_label_skills" />
 			</label_frametop>
-			<list_text name="skills">
+			<label>
+				<anchored to="skillframe" position="insidetopleft" offset="85,30" />
+				<static textres="char_label_skillname" />
+			</label>
+      <list_charskill name="skills">
 				<anchored to="skillframe">
 					<left offset="15" />
-					<top offset="35" />
+					<top offset="55" />
 					<right offset="-20" />
 					<bottom offset="-20" />
 				</anchored>
-				<columns width="222" filldown="true" />
-				<newfocus>name</newfocus>
-				<datasource>.skillslist</datasource>
-				<class>char_skills</class>
 				<acceptdrop>
 					<class>referencetext</class>
 					<class>referencetextwide</class>
           <class>skills</class>
 					<field>*</field>
 				</acceptdrop>
-			</list_text>
+        <script>
+          function onInit()
+            onUpdate();
+          end
+          function onListChanged()
+            onUpdate();
+          end
+          function onUpdate()
+            local node = getDatabaseNode();
+            for _,w in ipairs(getWindows()) do
+              w.onUpdate();
+            end
+          end
+          function update()
+            local bEditMode = (window.skills_iedit.getValue() == 1);
+            for _,w in ipairs(getWindows()) do
+              w.idelete.setVisibility(bEditMode);
+            end
+          end
+          function addEntry(bFocus)
+            local w = createWindow();
+            if bFocus and w then
+              w.label.setFocus();
+            end
+            return w;
+          end
+        </script>
+      </list_charskill>
 			<scrollbar_list>
 				<anchored to="skills" />
 				<target>skills</target>
 			</scrollbar_list>
 
 			<button_iedit name="skills_iedit">
-				<anchored to="skills" position="aboveright" offset="5,5" />
+				<anchored to="skills" position="aboveright" offset="5,23" />
 				<target>skills</target>
 			</button_iedit>
 			<button_iadd name="skills_iadd">
@@ -51,36 +78,143 @@
 
 	<windowclass name="char_skills">
 		<margins control="0,0,0,2" />
+    <script>
+      function onStatUpdate()
+        stat.update(statname.getStringValue());
+      end
+      function onUpdate()
+        local nodeSkill = getDatabaseNode();
+        local skillName = DB.getValue(nodeSkill, "name");
+        DB.setValue(nodeSkill, "skill.name", "string", skillName); 
+        local nStat = stat.getValue();
+        local nRank = ranks.getValue();
+        local nTotal = 0;
+        if nStat > 0 then
+          if nRank > 0 then
+            nTotal = nStat + nRank;
+          else
+            nTotal = nStat;
+          end
+        end
+        if nRank > 0 then
+          if nStat > 0 then
+            nTotal = nStat + nRank;
+          else
+            nTotal = nRank;
+          end
+        end            
+        DB.setValue(nodeSkill, "skill.total", "number", nTotal);
+      end
+    </script>
 		<sheetdata>
+			<genericcontrol name="leftanchor">
+				<anchored height="0" width="0">
+					<top offset="2" />
+					<left />
+				</anchored>
+			</genericcontrol>
 			<genericcontrol name="rightanchor">
 				<anchored height="0" width="0">
 					<top offset="2" />
 					<right />
 				</anchored>
 			</genericcontrol>
+			<linkfield name="shortcut">
+				<anchored to="leftanchor" width="20" height="20">
+					<top />
+					<left anchor="left" relation="relative" offset="5" />
+				</anchored>
+				<class>skills</class>
+				<description field="name" />
+				<readonly />
+			</linkfield>
 			<button_idelete name="idelete">
 				<anchored to="rightanchor">
 					<top />
 					<right anchor="left" relation="relative" offset="-5" />
 				</anchored>
 			</button_idelete>
-			<linkfield name="shortcut">
-				<anchored to="rightanchor" width="20" height="20">
-					<top />
-					<right anchor="left" relation="relative" offset="-5" />
+      <number_charskillfield name="total" source="skill.total">
+				<anchored width="32" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
 				</anchored>
-				<class>skills</class>
-				<description field="name" />
-				<readonly />
-			</linkfield>
-			<string_textlistitem name="name">
-				<anchored to="rightanchor">
-					<top />
-					<left parent="" offset="5" />
-					<right anchor="left" relation="relative" offset="-5" />
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ActionManagerED4.dragRoll(draginfo, "Skill", getValue(), rActor);
+            return true;
+          end
+          function onDoubleClick()
+            local rType = "Skill";
+            local rStep = getValue();
+            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+            local bSecretRoll = false;
+            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+          end
+        </script>
+        <readonly />
+        <rollable />
+      </number_charskillfield>
+			<number_charskillfield_static name="stat">
+				<anchored width="32" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
 				</anchored>
-				<multilinespacing>20</multilinespacing>
-			</string_textlistitem>
+				<script>
+					function update(statname)
+						setValue(DB.getValue(window.getDatabaseNode(), "...abilities." .. statname .. ".step", 0));
+					end
+				</script>
+			</number_charskillfield_static>
+			<cycler_charskillability name="statname">
+				<anchored width="40" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<script>
+					function onValueChanged()
+						window.onStatUpdate();
+            window.onUpdate();
+					end
+				</script>
+			</cycler_charskillability>
+      <number_charskillranks name="ranks" source="skill.rank">
+				<anchored width="32" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
+				</anchored>
+				<tabtarget prev="name" />
+      </number_charskillranks>
+			<stringu name="name" source="skill.name">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<tabtarget next="subname" />
+				<script>
+					function onEnter()
+						window.windowlist.addEntry(true);
+						return true;
+					end
+				</script>
+			</stringu>
+			<stringu name="subname">
+				<anchored to="name" height="20">
+					<top anchor="bottom" />
+					<left />
+					<right />
+				</anchored>
+				<invisible />
+				<tabtarget prev="name" />
+				<script>
+					function onEnter()
+						window.windowlist.addNewInstance(window.label.getValue());
+						return true;
+					end
+				</script>
+			</stringu>
 		</sheetdata>
 	</windowclass>	
 </root>

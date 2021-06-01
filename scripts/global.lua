@@ -3,5 +3,5 @@
 
 function onInit()
   cmUpdating = false;
-  print("Global Variables Loaded.");
+  Debug.console("Global Variables Loaded.");
 end

@@ -3,20 +3,28 @@
 <root>
   <!-- Library -->  
 	<string name="library_recordtype_label_races">Races</string>
+	<string name="library_recordtype_label_racials">Racials</string>
 	<string name="library_recordtype_label_talents">Talents</string>
 	<string name="library_recordtype_label_disciplines">Disciplines</string>
 	<string name="library_recordtype_label_skills">Skills</string>
 	<string name="library_recordtype_label_spells">Spells</string>
   
   <string name="library_recordtype_empty_races">&#171; New Race &#187;</string>
+  <string name="library_recordtype_empty_racials">&#171; New Racial &#187;</string>
   <string name="library_recordtype_empty_talents">&#171; New Talent &#187;</string>
   <string name="library_recordtype_empty_disciplines">&#171; New Discipline &#187;</string>
   <string name="library_recordtype_empty_skills">&#171; New Skill &#187;</string>
   <string name="library_recordtype_empty_spells">&#171; New Spell &#187;</string>
   
   <!-- Charsheet -->
+  <string name="char_label_skillname">Name</string>
+  <string name="char_label_talentname">Name</string>
+  <string name="char_label_rank">Rank</string>
+  <string name="char_label_attribute">Attribute</string>
+  <string name="char_label_total">Total</string>
   <string name="char_label_attributes">Attributes</string>
-  <string name="char_label_defences">Defences</string>
+  <string name="char_label_defenses">Defenses</string>
+  <string name="char_label_senses">Senses</string>
   <string name="char_label_physical">Physical</string>
   <string name="char_label_mystic">Mystic</string>
   <string name="char_label_social">Social</string>
@@ -27,16 +35,24 @@
   <string name="char_label_threshold">Thresh.</string>
   <string name="char_label_value">Value</string>
   <string name="char_label_step">Step</string>
+  <string name="char_label_bonus">Bonus</string>
+  <string name="char_label_strain">Strain</string>
+  <string name="char_label_skilluse">Skill Use</string>
+  <string name="char_label_action">Action</string>
   <string name="char_label_dice">Dice</string>
   <string name="char_label_main">Main</string>
   <string name="char_label_talents">Talents</string>
   <string name="char_label_skills">Skills</string>
+  <string name="char_label_cost">Cost</string>
+  <string name="char_label_artisan">Artisan Skill?</string>
   <string name="char_label_initiative">Initiative</string>
   <string name="char_label_karma">Karma</string>
   <string name="char_label_recovery">Recovery</string>
   <string name="char_label_knockdown">Knockdown</string>
   <string name="char_label_movement">Movement</string>
   <string name="char_label_damage">Damage</string>
+  <string name="char_label_blood">Blood</string>
+  <string name="char_label_stun">Stun</string>
   <string name="char_label_current">Current</string>
   <string name="char_label_wounds">Wounds</string>
   <string name="char_label_race">Race</string>
@@ -55,6 +71,35 @@
   <string name="char_attr_cha">Charisma</string>
   <string name="char_attr_value">Value</string>
   <string name="char_attr_step">Step</string>
+    
+	<!-- Spells -->
+  <string name="char_label_circle">Circle</string>
+  <string name="char_label_threads">Threads</string>
+  <string name="char_label_weaving">Weaving Difficulty</string>
+  <string name="char_label_reattune">Reattune Difficulty</string>
+  <string name="char_label_casting">Casting</string>
+  <string name="char_label_range">Range</string>
+  <string name="char_label_duration">Duration</string>
+  <string name="char_label_effectStep">Effect / Step</string>
+  <string name="char_label_success">Success Levels</string>
+  <string name="char_label_extraThreads">Extra Threads</string>
+  <string name="char_label_source">Source</string>
+  <string name="char_label_spelltraits">Traits</string>
+  <string name="char_label_ctEffects">CT Effects</string>
+  
+  <!-- Other -->
+	<string name="dex">Dex</string>
+	<string name="str">Str</string>
+	<string name="tou">Tou</string>
+	<string name="per">Per</string>
+	<string name="wil">Wil</string>
+	<string name="cha">Cha</string>
+	<string name="dexterity">Dexterity</string>
+	<string name="strength">Strength</string>
+	<string name="constitution">Constitution</string>
+	<string name="perception">Perception</string>
+	<string name="willpower">Willpower</string>
+	<string name="charisma">Charisma</string>
   <string name="empty"> </string>
   
 </root>

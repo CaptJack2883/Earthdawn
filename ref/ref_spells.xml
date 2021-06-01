@@ -1,57 +1,300 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<root>
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
 
+<root>
 	<windowclass name="spells">
-		<frame>recordsheet</frame>    
+		<frame>recordsheet</frame>
 		<placement>
-			<size width="350" height="300" />
-		</placement>    
+			<size width="350" height="350" />
+		</placement>
 		<sizelimits>
-			<minimum width="350" height="300" />
+			<minimum width="350" height="350" />
 			<dynamic />
-		</sizelimits>    
+		</sizelimits>
+		<minimize>minimized_note</minimize>
+		<playercontrol />
+		<nodelete />
+		<sharable />
 		<tooltip field="name" />
-		<nodelete />    
-		<script file="ref/scripts/spells.lua" />    
+		<script>
+			function onLockChanged()
+				if header.subwindow then
+					header.subwindow.update();
+				end
+				
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				text.setReadOnly(bReadOnly);
+				circle.setReadOnly(bReadOnly);
+				threads.setReadOnly(bReadOnly);
+				weaving.setReadOnly(bReadOnly);
+				casting.setReadOnly(bReadOnly);
+				range.setReadOnly(bReadOnly);
+				duration.setReadOnly(bReadOnly);
+				effectStep.setReadOnly(bReadOnly);
+				success.setReadOnly(bReadOnly);
+				extraThreads.setReadOnly(bReadOnly);
+				source.setReadOnly(bReadOnly);
+				spelltraits.setReadOnly(bReadOnly);
+				ctEffects.setReadOnly(bReadOnly);
+			end
+		</script>
 		<sheetdata>
-			<sub_record_header name="header">
+			<sub_note_header name="header">
 				<class>spells_header</class>
-			</sub_record_header>
-			<frame_record_content name="main">
-				<class>spells_main</class>
-			</frame_record_content>
+			</sub_note_header>
+
+			<frame_note_content name="contentframe">
+        <margins control="15,15,15,15" />
+        <frame name="groupbox" offset="20,17,20,17" />
+        <anchored>
+          <top parent="header" anchor="bottom" offset="15" />
+          <left offset="35" />
+          <right offset="-35" />
+          <bottom offset="-32" />
+        </anchored>
+			</frame_note_content>
+			<anchor_column name="columnanchor">
+			<anchored>
+				<top parent="contentframe" />
+			</anchored>
+			</anchor_column>
       
-      <simpleft name="text">
-        <anchored to="main" position="over" />
-        <empty textres="ft_empty" hidereadonly="true" />
-      </simpleft>
-      <scrollbar>
-        <anchored to="text" />
-        <target>text</target>
-      </scrollbar>
+			<label_column name="circle_label">
+        <anchored parent="contentframe">
+          <left offset="40" />
+        </anchored>
+				<static textres="char_label_circle" />
+			</label_column>
+			<number_column name="circle">
+        <anchored parent="contentframe">
+          <left offset="160" />
+        </anchored>
+			</number_column>
       
-			<resize_recordsheet />
-			<close_recordsheet />
+			<label_column name="threads_label">
+        <anchored parent="contentframe">
+          <left offset="40" />
+        </anchored>
+				<static textres="char_label_threads" />
+			</label_column>
+			<number_column name="threads">
+        <anchored parent="contentframe">
+          <left offset="160" />
+        </anchored>
+			</number_column>
+      
+			<label_column name="weaving_label">
+        <anchored parent="contentframe">
+          <left offset="40" />
+        </anchored>
+				<static textres="char_label_weaving" />
+			</label_column>
+			<number_column name="weaving">
+        <anchored parent="contentframe">
+          <left offset="160" />
+        </anchored>
+			</number_column>
+      
+			<label_column name="reattune_label">
+        <anchored parent="contentframe">
+          <left offset="40" />
+        </anchored>
+				<static textres="char_label_reattune" />
+			</label_column>
+			<number_column name="reattune">
+        <anchored parent="contentframe">
+          <left offset="160" />
+        </anchored>
+			</number_column>
+      
+			<label_column name="casting_label">
+        <anchored parent="contentframe">
+          <left offset="40" />
+        </anchored>
+				<static textres="char_label_casting" />
+			</label_column>
+			<string_column name="casting">
+        <anchored parent="contentframe">
+          <left offset="160" />
+          <right offset="-50" />
+        </anchored>
+			</string_column>
+      
+			<label_column name="range_label">
+        <anchored parent="contentframe">
+          <left offset="40" />
+        </anchored>
+				<static textres="char_label_range" />
+			</label_column>
+			<string_column name="range">
+        <anchored parent="contentframe">
+          <left offset="160" />
+          <right offset="-50" />
+        </anchored>
+			</string_column>
+      
+			<label_column name="duration_label">
+        <anchored parent="contentframe">
+          <left offset="40" />
+        </anchored>
+				<static textres="char_label_duration" />
+			</label_column>
+			<string_column name="duration">
+        <anchored parent="contentframe">
+          <left offset="160" />
+          <right offset="-50" />
+        </anchored>
+			</string_column>
+      
+			<label_column name="effectStep_label">
+        <anchored parent="contentframe">
+          <left offset="40" />
+        </anchored>
+				<static textres="char_label_effectStep" />
+			</label_column>
+			<string_column name="effectStep">
+        <anchored parent="contentframe">
+          <left offset="160" />
+          <right offset="-50" />
+        </anchored>
+			</string_column>
+      
+			<label_column name="success_label">
+        <anchored parent="contentframe">
+          <left offset="40" />
+        </anchored>
+				<static textres="char_label_success" />
+			</label_column>
+			<string_column name="success">
+        <anchored parent="contentframe">
+          <left offset="160" />
+          <right offset="-50" />
+        </anchored>
+			</string_column>
+      
+			<label_column name="extraThreads_label">
+        <anchored parent="contentframe">
+          <left offset="40" />
+        </anchored>
+				<static textres="char_label_extraThreads" />
+			</label_column>
+			<string_column name="extraThreads">
+        <anchored parent="contentframe">
+          <left offset="160" />
+          <right offset="-50" />
+        </anchored>
+			</string_column>
+      
+			<label_column name="source_label">
+        <anchored parent="contentframe">
+          <left offset="40" />
+        </anchored>
+				<static textres="char_label_source" />
+			</label_column>
+			<string_column name="source">
+        <anchored parent="contentframe">
+          <left offset="160" />
+          <right offset="-50" />
+        </anchored>
+			</string_column>
+      
+			<label_column name="spelltraits_label">
+        <anchored parent="contentframe">
+          <left offset="40" />
+        </anchored>
+				<static textres="char_label_spelltraits" />
+			</label_column>
+			<string_column name="spelltraits">
+        <anchored parent="contentframe">
+          <left offset="160" />
+          <right offset="-50" />
+        </anchored>
+			</string_column>
+      
+			<label_column name="ctEffects_label">
+        <anchored parent="contentframe">
+          <left offset="40" />
+        </anchored>
+				<static textres="char_label_ctEffects" />
+			</label_column>
+			<string_column name="ctEffects">
+        <anchored parent="contentframe">
+          <left offset="160" />
+          <right offset="-50" />
+        </anchored>
+				<acceptdrop>
+					<type>string</type>
+				</acceptdrop>
+        <droptypes>
+					<type merge="add">string</type>
+					<type merge="add">shortcut</type>
+        </droptypes>
+				<nodragselect />
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            action(draginfo);
+            bClicked = false;
+            bDragging = true;            
+            return true;
+          end
+          function action(draginfo)
+            local sData = getValue();
+            draginfo.setType("effect");
+            draginfo.setStringData(sData);
+          end
+        </script>
+			</string_column>
+
+			<line_column name="divider">
+        <anchored parent="contentframe">
+          <left offset="30" />
+          <right offset="-40" />
+          <top offset="20" />
+        </anchored>
+			</line_column>
+			<simpleft name="text">
+				<anchored to="divider" position="below" offset="-10,10">
+        <bottom parent="contentframe" />
+        </anchored>
+				<empty textres="ft_empty" hidereadonly="true" />
+			</simpleft>
+			<scrollbar>
+				<anchored to="text" />
+				<target>text</target>
+			</scrollbar>
+
+			<resize_storybox />
+			<close_storybox />
 		</sheetdata>
 	</windowclass>
-  
-  <windowclass name="spells_header">
-      <script file="ref/scripts/spells_header.lua" />
-      <sheetdata>      
-			<link_record_header_id name="link">
+
+	<windowclass name="spells_header">
+		<margins control="0,0,0,7" />
+		<script>
+      function onInit()
+        update();
+      end
+      function update()
+        local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+        name.setReadOnly(bReadOnly);
+      end
+		</script>
+		<sheetdata>
+			<link_record_header>
 				<class>spells</class>
-			</link_record_header_id>			
+			</link_record_header>
+
 			<anchor_record_header_right name="rightanchor" />
-      <icon_record_locked />
-			<button_record_locked />      
+			<icon_record_locked />
+			<button_record_locked />
+
       <string_record_name name="name">
         <empty textres="library_recordtype_empty_spells" />
-      </string_record_name>      
-      </sheetdata>
-  </windowclass>
-  <windowclass name="spells_main">
-  <sheetdata>
-    </sheetdata>
-  </windowclass>
+      </string_record_name>
+		</sheetdata>
+	</windowclass>
 </root>

@@ -41,6 +41,7 @@
 				<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
 			</anchored>
 			<static textres="ct_label_name" />
+			<center />
 		</label_ct>
 	</template>
 	
@@ -357,28 +358,12 @@
 
 	<template name="number_ctentry_initresult">
 		<number_ct_crosslink name="initresult">
-			<anchored to="rightanchor" width="40" height="20">
+			<anchored to="rightanchor" width="30" height="20">
 				<top />
 				<right anchor="left" relation="relative" offset="-10" />
 			</anchored>
 			<hideonvalue>0</hideonvalue>
 			<tabtarget prev="nonid_name" />
-			<tabtarget next="damage" />
-			<script>
-				function update()
-					window.windowlist.applySort();
-				end
-			</script>
-		</number_ct_crosslink>
-	</template>	
-  
-  <template name="number_ctentry_deathrating">
-		<number_ct_crosslink name="deathrating">
-			<anchored to="rightanchor" width="40" height="20">
-				<top />
-				<right anchor="left" relation="relative" offset="-10" />
-			</anchored>
-			<hideonvalue>0</hideonvalue>
 			<script>
 				function update()
 					window.windowlist.applySort();
@@ -386,70 +371,6 @@
 			</script>
 		</number_ct_crosslink>
 	</template>
-  
-  <template name="number_ctentry_unconrating">
-		<number_ct_crosslink name="unconrating">
-			<anchored to="rightanchor" width="40" height="20">
-				<top />
-				<right anchor="left" relation="relative" offset="-10" />
-			</anchored>
-			<hideonvalue>0</hideonvalue>
-			<script>
-				function update()
-					window.windowlist.applySort();
-				end
-			</script>
-		</number_ct_crosslink>
-	</template>
-  
-  <template name="number_ctentry_threshold">
-		<number_ct_crosslink name="threshold">
-			<anchored to="rightanchor" width="40" height="20">
-				<top />
-				<right anchor="left" relation="relative" offset="-10" />
-			</anchored>
-			<hideonvalue>0</hideonvalue>
-			<script>
-				function update()
-					window.windowlist.applySort();
-				end
-			</script>
-		</number_ct_crosslink>
-	</template>
-  
-  <template name="number_ctentry_damage">
-		<number_ct_crosslink name="damage">
-			<anchored to="rightanchor" width="40" height="20">
-				<top />
-				<right anchor="left" relation="relative" offset="-10" />
-			</anchored>
-			<hideonvalue>0</hideonvalue>
-			<tabtarget prev="initresult" />
-			<tabtarget next="wounds" />
-			<script>
-				function update()
-					window.windowlist.applySort();
-				end
-			</script>
-		</number_ct_crosslink>
-	</template>
-  
-  <template name="number_ctentry_wounds">
-		<number_ct_crosslink name="wounds">
-			<anchored to="rightanchor" width="40" height="20">
-				<top />
-				<right anchor="left" relation="relative" offset="-10" />
-			</anchored>
-			<hideonvalue>0</hideonvalue>
-			<tabtarget prev="damage" />
-			<script>
-				function update()
-					window.windowlist.applySort();
-				end
-			</script>
-		</number_ct_crosslink>
-	</template>
-  
 	<template name="string_ctname">
 		<string_ct>
 			<anchored height="20">

@@ -4,11 +4,17 @@
   <!-- This logo is for the chat log on load. -->
   <icon name="earthdawn_logo" file="graphics/icons/Earthdawn_4th_logo.png" />
   
+  <!-- Checkbox Buttons -->
+  <icon name="button_checkon" file="graphics/icons/checkboxOn.png" />
+  <icon name="button_checkoff" file="graphics/icons/checkboxOff.png" />
+  
   <!-- Sidebar Buttons -->
   <icon name="button_disciplines" file="graphics/sidebar/button_disciplines.png" />
   <icon name="button_disciplines_down" file="graphics/sidebar/button_disciplines_down.png" />
   <icon name="button_races" file="graphics/sidebar/button_races.png" />
   <icon name="button_races_down" file="graphics/sidebar/button_races_down.png" />
+  <icon name="button_racials" file="graphics/sidebar/button_races.png" />
+  <icon name="button_racials_down" file="graphics/sidebar/button_races_down.png" />
   <icon name="button_skills" file="graphics/sidebar/button_skills.png" />
   <icon name="button_skills_down" file="graphics/sidebar/button_skills_down.png" />
   <icon name="button_talents" file="graphics/sidebar/button_talents.png" />
@@ -57,6 +63,15 @@
   <icon name="tab_tabtop_h" file="graphics/tabs/tabtop_h.png" />  
     
   <!-- Menu Icons -->
-  <icon name="rest" file="graphics/radial/icon_token_move_accept.png" />
+  <icon name="rest" file="graphics/radial/icon_campfire_white_small.png" />
+  <icon name="restShort" file="graphics/radial/icon_token_move_accept.png" />
+  <icon name="restOvernight" file="graphics/radial/icon_campfire_white_small.png" />
+  <icon name="rollAll" file="graphics/radial/icon_token_rotate_cw.png" />
+  <icon name="rollNPCs" file="graphics/radial/icon_image_layer_mask_on.png" />
+  <icon name="rollPCs" file="graphics/radial/icon_chat_hand.png" />  
+  
+  <!-- Action Icons -->
+  <icon name="iconHeal" file="graphics/icons/action_heal.png" />
+  
   
 </root>

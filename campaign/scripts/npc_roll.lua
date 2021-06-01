@@ -16,37 +16,38 @@ function parseComponents()
 	-- Get the comma-separated strings
 	local aClauses, aClauseStats = StringManager.split(getValue(), ",;\r", true);
 	
-	-- Check each comma-separated string for a potential skill roll or auto-complete opportunity
+	-- Check each comma-separated string for a potential skill roll or auto-complete opportunity.
 	for i = 1, #aClauses do
-		local nStarts, nEnds, sMod = string.find(aClauses[i], "([d%dF%+%-]+)%s*$");
-		if nStarts then
-			local sLabel = "";
-			if nStarts > 1 then
-				sLabel = StringManager.trim(aClauses[i]:sub(1, nStarts - 1));
-			end
-			local aDice, nMod = StringManager.convertStringToDice(sMod);
-			
-			-- Insert the possible skill into the skill list
-			table.insert(aComponents, {nStart = aClauseStats[i].startpos, nLabelEnd = aClauseStats[i].startpos + nEnds, nEnd = aClauseStats[i].endpos, sLabel = sLabel, aDice = aDice, nMod = nMod });
-		end
-	end
-  
-  --Need to update this to include checks for "Step #" for rolling.
-  --[[
-  for i = 1, #aClauses do
-		local nStarts, nEnds, sMod = string.find(aClauses[i], "([d%dF%+%-]+)%s*$"); --Update to check for "Step X"
-		if nStarts then
-			local sLabel = "";
-			if nStarts > 1 then
-				sLabel = StringManager.trim(aClauses[i]:sub(1, nStarts - 1));
-			end
-			local aDice, nMod = StringManager.convertStringToDice(sMod); --Update to use getStepDice
-			
-			-- Insert the possible skill into the skill list
-			table.insert(aComponents, {nStart = aClauseStats[i].startpos, nLabelEnd = aClauseStats[i].startpos + nEnds, nEnd = aClauseStats[i].endpos, sLabel = sLabel, aDice = aDice, nMod = nMod });
-		end
-	end
-  ]]--
+    --Look for Step # first.
+		local nStarts, nEnds, sMod = string.find(aClauses[i], "Step %d+");
+    --Debug.chat("Looking for Step # in NPC skills.");
+    local sStep, sDesc = StringManager.extractPattern(aClauses[i], "Step %d+");
+		if sStep then
+      local stepNum, sVerify = StringManager.extractPattern(sStep, "%d+");
+      if sVerify == "Step " then
+        --Debug.chat("Found Step #: ");
+        stepNum = tonumber(stepNum);
+        --Debug.chat(stepNum);
+        local stepDice, nMod, stepNum = StepLookup.getStepDice(stepNum);
+        local sLabel = sDesc .. " (Step " .. stepNum .. ")";
+        --Debug.chat(stepDice);
+        -- Insert the possible skill into the skill list
+        table.insert(aComponents, {nStart = aClauseStats[i].startpos, nLabelEnd = aClauseStats[i].startpos + nEnds, nEnd = aClauseStats[i].endpos, sLabel = sLabel, aDice = stepDice, nMod = nMod, rStep = rStep });
+      else --look for "2d6+5" type dice.
+        local nStarts, nEnds, sMod = string.find(aClauses[i], "([d%dF%+%-]+)%s*$");
+        if nStarts then
+          local sLabel = "";
+          if nStarts > 1 then
+            sLabel = StringManager.trim(aClauses[i]:sub(1, nStarts - 1));
+          end
+          local aDice, nMod = StringManager.convertStringToDice(sMod);
+          -- Insert the possible skill into the skill list
+          table.insert(aComponents, {nStart = aClauseStats[i].startpos, nLabelEnd = aClauseStats[i].startpos + nEnds, nEnd = aClauseStats[i].endpos, sLabel = sLabel, aDice = aDice, nMod = nMod });
+        end
+      end
+    end
+    
+  end
 	
 	bParsed = true;
 end

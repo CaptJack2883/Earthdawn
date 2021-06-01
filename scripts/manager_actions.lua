@@ -287,16 +287,29 @@ function encodeActors(draginfo, rSource, aTargets)
 	end
 	if sSourceNode then
 		draginfo.addShortcut(ActorManager.getRecordType(rSource), sSourceNode);
+		ActionsManager.encodeActorActiveEffectNodes(draginfo, rSource, 1);
 	else
 		draginfo.addShortcut();
 	end
 	
 	if aTargets then
-		for _,v in ipairs(aTargets) do
-			local sTargetNode = ActorManager.getCreatureNodeName(v);
+		for kTarget,vTarget in ipairs(aTargets) do
+			local sTargetNode = ActorManager.getCreatureNodeName(vTarget);
 			if sTargetNode then
-				draginfo.addShortcut(ActorManager.getRecordType(v), sTargetNode);
+				draginfo.addShortcut(ActorManager.getRecordType(vTarget), sTargetNode);
+				ActionsManager.encodeActorActiveEffectNodes(draginfo, vTarget, kTarget + 1);
 			end
+		end
+	end
+end
+function encodeActorActiveEffectNodes(draginfo, rActor, nActorIndex)
+	local tActive = ActorManager.getActiveEffectNodes(rActor);
+	local sMetaKey = "__actor" .. nActorIndex .. "_active";
+	for kActive,vActive in ipairs(tActive) do
+		if type(vActive) == "databasenode" then
+			draginfo.setMetaData(sMetaKey .. kActive, vActive.getPath());
+		else
+			draginfo.setMetaData(sMetaKey .. kActive, tostring(vActive) or "");
 		end
 	end
 end
@@ -304,27 +317,33 @@ end
 function decodeActors(draginfo)
 	local rSource = nil;
 	local aTargets = {};
-  
-	print("Testing decodeActors(draginfo) from ActionsManager");
+	
 	for k,v in ipairs(draginfo.getShortcutList()) do
+		local rActor = ActorManager.resolveActor(v.recordname);
+		ActionsManager.decodeActorActiveEffectNodes(draginfo, rActor, k);
 		if k == 1 then
-			rSource = ActorManager.resolveActor(v.recordname);
-      if rSource then
-        print("Printing rSource.sName");
-        print(rSource.sName);
-      end
+			rSource = rActor;
 		else
-			local rTarget = ActorManager.resolveActor(v.recordname);
-			if rTarget then
-        print("Printing rTarget.sName");
-        print(rTarget.sName);
-				table.insert(aTargets, rTarget);
+			if rActor then
+				table.insert(aTargets, rActor);
 			end
-		end	
-	print("End of Testing decodeActors(draginfo) from ActionsManager");
-  end
+		end
+	end
 	
 	return rSource, aTargets;
+end
+function decodeActorActiveEffectNodes(draginfo, rActor, nActorIndex)
+	if not rActor then
+		return;
+	end
+
+	local sMetaKey = "__actor" .. nActorIndex .. "_active";
+	local tMetaData = draginfo.getMetaDataList();
+	local kActive = 1;
+	while tMetaData[sMetaKey .. kActive] do
+		ActorManager.addActiveEffectNode(rActor, tMetaData[sMetaKey .. kActive]);
+		kActive = kActive + 1;
+	end
 end
 
 function encodeRollForDrag(draginfo, i, vRoll)
@@ -505,7 +524,7 @@ function unlockModifiers(bReset)
 	EffectManager.unlock();
 end
 
-function applyModifiers(rSource, rTarget, rRoll, bSkipModStack)	
+function applyModifiers(rSource, rTarget, rRoll, bSkipModStack)
 	local bAddModStack = ActionsManager.doesRollHaveDice(rRoll);
 	if bSkipModStack then
 		bAddModStack = false;
@@ -532,9 +551,7 @@ function applyModifiers(rSource, rTarget, rRoll, bSkipModStack)
 				rRoll.sDesc = sStackDesc;
 			end
 		end
-    -- This is for adding a numerical bonus to the roll. 
-    -- Earthdawn Rules do not use a static modifier, instead the step number is modified before calculating the roll in StepLookup.getStepDice(stepNum)
-		--rRoll.nMod = rRoll.nMod + nStackMod;
+		rRoll.nMod = rRoll.nMod + nStackMod;
 	end
 	
 	return bAddModStack;
@@ -634,8 +651,9 @@ function handleResolution(vRoll, rSource, aTargets)
 		ActionsManager.resolveAction(rSource, aTargets[1], vRoll);
 	else
 		for kTarget,rTarget in ipairs(aTargets) do
+			local rRollTarget = UtilityManager.copyDeep(vRoll);
 			rTarget.nOrder = kTarget;
-			ActionsManager.resolveAction(rSource, rTarget, vRoll);
+			ActionsManager.resolveAction(rSource, rTarget, rRollTarget);
 		end
 	end
 end

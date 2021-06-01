@@ -9,10 +9,10 @@
 	<windowclass name="combattracker_host">
 		<frame>ctbox</frame>
 		<placement>
-			<size width="400" height="500" />
+			<size width="600" height="400" />
 		</placement>
 		<sizelimits>
-			<minimum width="400" height="400" />
+			<minimum width="600" height="300" />
 			<dynamic />
 		</sizelimits>
 		<softclose />
@@ -71,7 +71,12 @@
 				<static textres="ct_label_wounds" />
 				<center />
 			</label_ct>
-			<frame_ctbox_host_header_toggles />
+			<frame_ctbox_host_header_toggles>
+        <anchored to="headeranchor" height="35" width="100">
+          <top offset="-9" />
+          <right offset="-10" />
+        </anchored>
+      </frame_ctbox_host_header_toggles>
 			<buttoncontrol name="button_global_targeting">
 				<anchored to="header_toggles" position="insidetopleft" offset="10,8" width="20" height="20" />
 				<state icon="button_section_targeting" />
@@ -82,8 +87,18 @@
 					end
 				</script>
 			</buttoncontrol>
-			<buttoncontrol name="button_global_spacing">
+			<buttoncontrol name="button_global_defensive">
 				<anchored to="header_toggles" position="insidetopleft" offset="30,8" width="20" height="20" />
+				<state icon="button_shield" />
+				<state icon="button_shield_down" />
+				<script>
+					function onValueChanged()
+						window.list.toggleDefensive();
+					end
+				</script>
+			</buttoncontrol>
+			<buttoncontrol name="button_global_spacing">
+				<anchored to="header_toggles" position="insidetopleft" offset="50,8" width="20" height="20" />
 				<state icon="button_space" />
 				<state icon="button_space_down" />
 				<script>
@@ -93,7 +108,7 @@
 				</script>
 			</buttoncontrol>
 			<buttoncontrol name="button_global_effects">
-				<anchored to="header_toggles" position="insidetopleft" offset="50,8" width="20" height="20" />
+				<anchored to="header_toggles" position="insidetopleft" offset="70,8" width="20" height="20" />
 				<state icon="button_effect" />
 				<state icon="button_effect_down" />
 				<script>
@@ -150,6 +165,7 @@
 			<link_ctentry name="link" />
 			<button_ctentry_activateeffects name="activateeffects" />
 			<button_ctentry_activatespacing name="activatespacing" />
+			<button_ctentry_activatedefensive name="activatedefensive" />
 			<button_ctentry_activatetargeting name="activatetargeting" />
 			<button_ctentry_friendfoe name="friendfoe" />
 
@@ -168,6 +184,55 @@
 			<sub_ctsection_targeting name="sub_targeting" />
 			<frame_ctsection_targeting name="frame_targeting" />
 
+			<!-- Defensive subsection -->
+			<icon_ctsection name="defensiveicon">
+				<icon>button_shield_down</icon>
+			</icon_ctsection>
+      
+			<number_ct name="phys_def">
+				<anchored to="defensiveicon" position="righthigh" offset="70,0" />
+				<description textres="char_label_physical" />
+			</number_ct>
+			<label name="phys_def_label">
+				<anchored to="phys_def" position="lefthigh" offset="10,0"/>
+				<static textres="char_label_physical" />
+			</label>
+			<number_ct name="myst_def">
+				<anchored to="phys_def" position="righthigh" offset="60,0" />
+				<description textres="char_label_mystic" />
+			</number_ct>
+			<label name="myst_def_label">
+				<anchored to="myst_def" position="lefthigh" offset="10,0"/>
+				<static textres="char_label_mystic" />
+			</label>
+			<number_ct name="social_def">
+				<anchored to="myst_def" position="righthigh" offset="60,0" />
+				<description textres="char_label_social" />
+			</number_ct>
+			<label name="social_def_label">
+				<anchored to="social_def" position="lefthigh" offset="10,0"/>
+				<static textres="char_label_social" />
+			</label>
+      
+			<string_ct name="specialqualities">
+				<anchored>
+					<top parent="active_spacer_top" anchor="bottom" relation="relative" offset="35" />
+					<left parent="defensiveicon" anchor="right" offset="61" />
+					<right offset="-12" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+			</string_ct>
+			<label name="specialqualitieslabel">
+				<anchored to="specialqualities" position="lefthigh" offset="5,0"/>
+				<static textres="ct_label_specialqualities" />
+			</label>
+			<frame_ctsub name="frame_defensive">
+				<anchored>
+					<top parent="defensiveicon" />
+					<bottom parent="specialqualities" offset="8" />
+				</anchored>
+			</frame_ctsub>
+      
 			<!-- Spacing subsection -->
 			<icon_ctsection_spacing name="spacingicon" />
 			<number_ctentry_space name="space" />

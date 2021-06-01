@@ -1,60 +1,79 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<root>
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
 
+<root>
 	<windowclass name="disciplines">
-		<frame>recordsheet</frame>    
+		<frame>recordsheet</frame>
 		<placement>
-			<size width="300" height="300" />
-		</placement>    
+			<size width="350" height="350" />
+		</placement>
 		<sizelimits>
-			<minimum width="300" height="300" />
+			<minimum width="350" height="350" />
 			<dynamic />
-		</sizelimits>    
+		</sizelimits>
+		<minimize>minimized_note</minimize>
+		<playercontrol />
+		<nodelete />
+		<sharable />
 		<tooltip field="name" />
-		<nodelete />    
-		<script file="ref/scripts/disciplines.lua" />    
+		<script>
+			function onLockChanged()
+				if header.subwindow then
+					header.subwindow.update();
+				end
+				
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				text.setReadOnly(bReadOnly);
+			end
+		</script>
 		<sheetdata>
-			<sub_record_header name="header">
+			<sub_note_header name="header">
 				<class>disciplines_header</class>
-			</sub_record_header>
-            
-			<frame_record_content name="main">
-				<class>disciplines_main</class>
-			</frame_record_content>
-      
-      <simpleft name="text">
-        <anchored to="main" position="over" />
-        <empty textres="ft_empty" hidereadonly="true" />
-      </simpleft>
-      <scrollbar>
-        <anchored to="text" />
-        <target>text</target>
-      </scrollbar>
-      
-			<resize_recordsheet />
-			<close_recordsheet />
+			</sub_note_header>
+
+			<frame_record_content name="contentframe" />
+
+			<simpleft name="text">
+				<anchored to="contentframe" position="over" />
+				<empty textres="ft_empty" hidereadonly="true" />
+			</simpleft>
+			<scrollbar>
+				<anchored to="text" />
+				<target>text</target>
+			</scrollbar>
+
+			<resize_storybox />
+			<close_storybox />
 		</sheetdata>
 	</windowclass>
-  
-  <windowclass name="disciplines_header">
-      <script file="ref/scripts/disciplines_header.lua" />
-      <sheetdata>      
-			<link_record_header_id name="link">
+
+	<windowclass name="disciplines_header">
+		<margins control="0,0,0,7" />
+		<script>
+      function onInit()
+        update();
+      end
+      function update()
+        local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+        name.setReadOnly(bReadOnly);
+      end
+		</script>
+		<sheetdata>
+			<link_record_header>
 				<class>disciplines</class>
-			</link_record_header_id>			
+			</link_record_header>
+
 			<anchor_record_header_right name="rightanchor" />
-      <icon_record_locked />
-			<button_record_locked />      
+			<icon_record_locked />
+			<button_record_locked />
+
       <string_record_name name="name">
         <empty textres="library_recordtype_empty_disciplines" />
-      </string_record_name>      
-      </sheetdata>
-  </windowclass>  
-  
-  <windowclass name="disciplines_main">
-  <sheetdata>
-    </sheetdata>
-  </windowclass>
-  
+      </string_record_name>
+		</sheetdata>
+	</windowclass>
 </root>

@@ -13,6 +13,16 @@ aRecordOverrides = {
     sEmptyNameText = "New Race",
     sListDisplayClass = "masterindexitem_id",
 	},
+	["racials"] = {
+		bExport = true, 
+		aDataMap = { "racials", "reference.racialdata" }, 
+		aDisplayIcon = { "button_racials", "button_racials_down" },
+		--sRecordDisplayClass = "reference_racial", 
+    sEditMode = "play",
+    sDisplayText = "Racials",
+    sEmptyNameText = "New Racial",
+    sListDisplayClass = "masterindexitem_id",
+	},
   ["talents"] = {
     bExport = true,
     aDataMap = { "talents", "reference.talentdata" },

@@ -117,21 +117,21 @@
 				<static textres="npc_label_attributes" />
 			</label_column>
       
-			<label_column name="strength_label">
-				<static textres="npc_label_strength" />
+			<label_column name="dexterity_label">
+				<static textres="npc_label_dexterity" />
 				<anchored to="attributes_label" position="topright" relation="absolute">
         <left offset="100" />
         </anchored>
 			</label_column>
-			<label_column name="dexterity_label">
-				<static textres="npc_label_dexterity" />
-				<anchored to="strength_label" position="topright" relation="absolute">
+			<label_column name="strength_label">
+				<static textres="npc_label_strength" />
+				<anchored to="dexterity_label" position="topright" relation="absolute">
         <left offset="60" />
         </anchored>
 			</label_column>
 			<label_column name="toughness_label">
 				<static textres="npc_label_toughness" />
-				<anchored to="dexterity_label" position="topright" relation="absolute">
+				<anchored to="strength_label" position="topright" relation="absolute">
         <left offset="60" />
         </anchored>
 			</label_column>
@@ -153,16 +153,23 @@
         <left offset="60" />
         </anchored>
 			</label_column>
-			<number_column name="npc_strength">
-				<anchored to="strength_label" position="bottomleft" parent="strength_label" width="30">
+			<number_column name="npc_dexterity">
+				<anchored to="dexterity_label" position="bottomleft" parent="dexterity_label" width="30">
         <left offset="-3" />
         <top offset="30" />
         </anchored>
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ManagerED4.performRoll(draginfo, "Strength", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "Dexterity", getValue(), rActor);
             return true;
+          end
+          function onDoubleClick()
+            local rType = "Dexterity";
+            local rStep = getValue();
+            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+            local bSecretRoll = false;
+            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
           end
           function onValueChanged()
             window.onStatUpdate();
@@ -171,16 +178,23 @@
         <rollable />
 				<default>5</default>
 			</number_column>
-			<number_column name="npc_dexterity">
-				<anchored to="dexterity_label" position="bottomleft" parent="dexterity_label" width="30">
+			<number_column name="npc_strength">
+				<anchored to="strength_label" position="bottomleft" parent="strength_label" width="30">
         <left offset="-3" />
         <top offset="-20" />
         </anchored>
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ManagerED4.performRoll(draginfo, "Dexterity", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "Strength", getValue(), rActor);
             return true;
+          end
+          function onDoubleClick()
+            local rType = "Strength";
+            local rStep = getValue();
+            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+            local bSecretRoll = false;
+            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
           end
           function onValueChanged()
             window.onStatUpdate();
@@ -197,8 +211,15 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ManagerED4.performRoll(draginfo, "Toughness", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "Toughness", getValue(), rActor);
             return true;
+          end
+          function onDoubleClick()
+            local rType = "Toughness";
+            local rStep = getValue();
+            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+            local bSecretRoll = false;
+            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
           end
           function onValueChanged()
             window.onStatUpdate();
@@ -215,8 +236,15 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ManagerED4.performRoll(draginfo, "Perception", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "Perception", getValue(), rActor);
             return true;
+          end
+          function onDoubleClick()
+            local rType = "Perception";
+            local rStep = getValue();
+            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+            local bSecretRoll = false;
+            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
           end
           function onValueChanged()
             window.onStatUpdate();
@@ -233,8 +261,15 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ManagerED4.performRoll(draginfo, "Willpower", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "Willpower", getValue(), rActor);
             return true;
+          end
+          function onDoubleClick()
+            local rType = "Willpower";
+            local rStep = getValue();
+            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+            local bSecretRoll = false;
+            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
           end
           function onValueChanged()
             window.onStatUpdate();
@@ -251,8 +286,15 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ManagerED4.performRoll(draginfo, "Charisma", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "Charisma", getValue(), rActor);
             return true;
+          end
+          function onDoubleClick()
+            local rType = "Charisma";
+            local rStep = getValue();
+            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+            local bSecretRoll = false;
+            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
           end
           function onValueChanged()
             window.onStatUpdate();
@@ -272,8 +314,15 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ManagerED4.performRoll(draginfo, "InitRoll", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "InitRoll", getValue(), rActor);
             return true;
+          end
+          function onDoubleClick()
+            local rType = "InitRoll";
+            local rStep = getValue();
+            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+            local bSecretRoll = false;
+            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <rollable />
@@ -302,6 +351,21 @@
       
 			<number_column name="currentDamage" source="health.damage.value">
 				<default>0</default>
+        <min>0</min>
+        <script>
+          function onDrop(x, y, draginfo)
+            if draginfo.isType("Recovery") then
+              setValue(getValue() - draginfo.getNumberData());
+              return true;
+            elseif draginfo.isType("Heal") then
+              setValue(getValue() - draginfo.getNumberData());
+              return true;
+            elseif draginfo.isType("Damage") then
+              setValue(getValue() + draginfo.getNumberData());
+              return true;
+            end
+          end
+        </script>
 			</number_column>
       
 			<label_column_right name="npc_currentWounds_label">
@@ -314,6 +378,7 @@
 			<number_column_right name="npc_currentWounds" source="health.wounds.value">
 				<anchored to="currentDamage_label" />
 				<default>0</default>
+        <min>0</min>
 			</number_column_right>
       
 			<line_column name="divider" />
@@ -321,7 +386,7 @@
 			<label_column name="phys_def_label">
 				<static textres="npc_label_defensePhysical" />
 			</label_column>      
-			<number_column name="defensePhysical">
+			<number_column name="defensePhysical" source="defenses.physical.value">
 				<default>5</default>
 			</number_column>
       
@@ -337,7 +402,7 @@
 			<label_column name="mystic_def_label">
 				<static textres="npc_label_defenseMystic" />
 			</label_column>      
-			<number_column name="defenseMystic">
+			<number_column name="defenseMystic" source="defenses.mystic.value">
 				<default>5</default>
 			</number_column>
       
@@ -353,7 +418,7 @@
 			<label_column name="social_def_label">
 				<static textres="npc_label_defenseSocial" />
 			</label_column>      
-			<number_column name="defenseSocial">
+			<number_column name="defenseSocial" source="defenses.social.value">
 				<default>5</default>
 			</number_column>
       
@@ -369,7 +434,7 @@
 			<label_column name="physical_armor_label">
 				<static textres="npc_label_armorPhysical" />
 			</label_column>      
-			<number_column name="armorPhysical">
+			<number_column name="armorPhysical" source="armor.physical.value">
 				<default>0</default>
 			</number_column>
       
@@ -385,7 +450,7 @@
 			<label_column name="mystic_armor_label">
 				<static textres="npc_label_armorMystic" />
 			</label_column>
-			<number_column name="armorMystic">
+			<number_column name="armorMystic" source="armor.mystic.value">
 				<default>0</default>
 			</number_column>
       
@@ -393,7 +458,7 @@
 				<anchored to="armorMystic" />
 				<static textres="npc_label_recovery" />
 			</label_column_right>
-			<number_column_right name="npc_recovery">
+			<number_column_right name="npc_recovery" source="health.recovery.step">
 				<anchored to="armorMystic" />
 				<default>0</default>
 			</number_column_right>
