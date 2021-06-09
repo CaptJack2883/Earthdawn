@@ -30,6 +30,7 @@
 				text.setReadOnly(bReadOnly);
 				step.setReadOnly(bReadOnly);
 				strain.setReadOnly(bReadOnly);
+				karmaUse.setReadOnly(bReadOnly);
 				skilluse.setComboBoxReadOnly(bReadOnly);
 				action.setComboBoxReadOnly(bReadOnly);
 			end
@@ -85,7 +86,6 @@
 			<label_column name="action_label">
         <anchored parent="contentframe" relation="relative" >
           <left offset="40" />
-          <top offset="35" />
         </anchored>
 				<static textres="char_label_action" />
 			</label_column>
@@ -112,6 +112,7 @@
 			<label_column name="skilluse_label">
         <anchored parent="contentframe" relation="relative" >
           <left offset="40" />
+          <top offset="35" />
         </anchored>
 				<static textres="char_label_skilluse" />
 			</label_column>
@@ -139,7 +140,7 @@
         <anchored parent="contentframe">
           <left offset="30" />
           <right offset="-40" />
-          <top offset="70" />
+          <top offset="20" />
         </anchored>
 			</line_column>
 

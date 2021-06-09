@@ -16,10 +16,10 @@
 	<windowclass name="charsheet">
 		<frame>charsheet</frame>
 		<placement>
-			<size width="530" height="600" />
+			<size width="540" height="600" />
 		</placement>
 		<sizelimits>
-      <minimum width="530" height="600" />
+      <minimum width="540" height="600" />
 			<dynamic />
     </sizelimits>
 		<minimize>minimized_npc</minimize>

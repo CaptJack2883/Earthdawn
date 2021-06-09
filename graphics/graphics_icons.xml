@@ -72,6 +72,8 @@
   
   <!-- Action Icons -->
   <icon name="iconHeal" file="graphics/icons/action_heal.png" />
+  <icon name="iconDamage" file="graphics/icons/action_damage.png" />
+  <icon name="iconAttack" file="graphics/icons/action_attack.png" />
   
   
 </root>

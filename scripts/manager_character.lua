@@ -56,10 +56,17 @@ function rollInit(nodeChar, bSecretRoll)
 end
 
 function getKarmaStep(nodeChar)
+  Debug.printstack();
   local rActor = ActorManager.resolveActor(nodeChar);
-  --Invalid Parameter for client.
-  local karmaStep = DB.getValue(rActor, "karma.step", 4);
+  --Invalid Parameter for client? but only sometimes??
+  local karmaStep = DB.getValue(actorPath, "karma.step", 4);
   return karmaStep;
+end
+
+function setKarmaStep(nodeChar, kStep)
+  local rActor = ActorManager.resolveActor(nodeChar);
+  kStep = tonumber(kStep);
+  DB.setValue(rActor, "karma.step", "number", kStep);
 end
 
 function updateMaxCarry(nodeChar)

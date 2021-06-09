@@ -1,0 +1,43 @@
+<spelldata>
+			<category name="" baseicon="0" decalicon="0">
+				<id-00001>
+					<casting type="string">TMD</casting>
+					<circle type="number">1</circle>
+					<ctEffects type="string">+3 Physical Armor</ctEffects>
+					<duration type="string">Rank+5 rounds</duration>
+					<effectStep type="string">+3 Physical Armor</effectStep>
+					<extraThreads type="string">Increase Duration (minutes); Increase Effect (+1 Physical Armor); Additional Target (+Rank)</extraThreads>
+					<locked type="number">1</locked>
+					<name type="string">Air Armor</name>
+					<range type="string">Touch</range>
+					<reattune type="number">10</reattune>
+					<source type="string">Elementalist</source>
+					<spelltraits type="string">air</spelltraits>
+					<success type="string">Increase Duration (+2 rounds)</success>
+					<text type="formattedtext">
+						<p>This spell creates a protective cushion of air. The magician exhales slowly and makes a Spellcasting test against the target's Mystic Defense. If successful, air rushes in under the target's clothing, pushing outward to create a cushion and providing padding as well as ventilation. The target adds +3 Physical Armor and the effects of fatigue are reduced (GM's discretion). If the target is not wearing clothing or armor he receives no benefit - there is nothing to constrain the air cushion, so it disperses. This spell is popular with elemental fire mining crews working near Death's Sea.</p>
+					</text>
+					<threads type="number">0</threads>
+					<weaving type="number">5</weaving>
+				</id-00001>
+				<id-00002>
+					<casting type="string">TMD</casting>
+					<circle type="number">1</circle>
+					<duration type="string">Rank+5 minutes</duration>
+					<effectStep type="string">+3 Climbing test bonus</effectStep>
+					<extraThreads type="string">Increase Duration (+2 minutes); Increase Effect (+2 bonus); Additional Target (+Rank)</extraThreads>
+					<locked type="number">1</locked>
+					<name type="string">Crunch Climb</name>
+					<range type="string">Touch</range>
+					<reattune type="number">10</reattune>
+					<source type="string">Elementalist</source>
+					<spelltraits type="string">earth</spelltraits>
+					<success type="string">Increase Duration (+2 minutes)</success>
+					<text type="formattedtext">
+						<p>This spell enhances climbing ability. The magician crouches down on all fours and then touches the target as he begins to climb and makes a Spellcasting test against the target's Mystic Defense. If successful, the target gains a +3 Climbing test bonus.</p>
+					</text>
+					<threads type="number">1</threads>
+					<weaving type="number">5</weaving>
+				</id-00002>
+			</category>
+		</spelldata>

@@ -524,7 +524,7 @@ function unlockModifiers(bReset)
 	EffectManager.unlock();
 end
 
-function applyModifiers(rSource, rTarget, rRoll, bSkipModStack)
+function applyModifiers(rSource, rTarget, rRoll, bSkipModStack)	
 	local bAddModStack = ActionsManager.doesRollHaveDice(rRoll);
 	if bSkipModStack then
 		bAddModStack = false;
@@ -711,16 +711,20 @@ function createActionMessage(rSource, rRoll)
 end
 
 function total(rRoll)
+  Debug.printstack();
 	local nTotal = 0;
 
 	for _,v in ipairs(rRoll.aDice) do
 		if bUseFGUDiceValues and v.value then
+      Debug.chat("Using v.value.");
 			nTotal = nTotal + v.value;
 		else
+      Debug.chat("Using v.result.");
 			nTotal = nTotal + v.result;
 		end
 	end
 	nTotal = nTotal + rRoll.nMod;
+      Debug.chat("nTotal is: "..nTotal);
 	
 	return nTotal;
 end

@@ -80,7 +80,7 @@
 			</string_labeled>
       
       <frame_char name="AttrFrame">
-				<bounds>1,45,260,240</bounds>
+				<bounds>1,45,230,240</bounds>
       </frame_char>
       <label_frametop name="AttrLabel">
 				<anchored to="AttrFrame" />
@@ -89,21 +89,21 @@
       <label_column name="ValueLabel">
 				<anchored>
           <top offset="60" />
-          <left offset="95" />
+          <left offset="90" />
 				</anchored>
         <static textres="char_label_value" />
       </label_column>
       <label_column name="BonusLabel">
 				<anchored>
           <top offset="60" />
-          <left offset="152" />
+          <left offset="130" />
 				</anchored>
         <static textres="char_label_bonus" />
       </label_column>
       <label_column name="StepLabel">
 				<anchored>
           <top offset="60" />
-          <left offset="202" />
+          <left offset="180" />
 				</anchored>
         <static textres="char_label_step" />
       </label_column>
@@ -116,7 +116,7 @@
         <static textres="char_attr_dex" />
       </label_column>
       <number_column name="Dex_Value" source="abilities.dexterity.value">
-				<anchored>
+				<anchored width="30">
           <top offset="80" />
           <left offset="90" />
 				</anchored>
@@ -129,12 +129,13 @@
             end
           end
         </script>
+        <description text="Dexterity Value" />
         <default>10</default>
       </number_column>
       <number_column name="Dex_Bonus" source="abilities.dexterity.bonus">
-				<anchored>
+				<anchored width="30">
           <top offset="-20" />
-          <left offset="145" />
+          <left offset="135" />
 				</anchored>
         <script>
           function onValueChanged()
@@ -145,12 +146,13 @@
             end
           end
         </script>
+        <description text="Dexterity Bonus" />
         <default>0</default>
       </number_column>
       <number_column name="Dex_Step" source="abilities.dexterity.step">
-				<anchored>
+				<anchored width="30">
           <top offset="-20" />
-          <left offset="200" />
+          <left offset="180" />
 				</anchored>
         <script>
           function onValueChanged()
@@ -185,10 +187,11 @@
         <static textres="char_attr_str" />
       </label_column>      
       <number_column name="Str_Value" source="abilities.strength.value">
-				<anchored>
+				<anchored width="30">
           <top offset="10" />
           <left offset="90" />
 				</anchored>
+        <description text="Strength Value" />
         <default>10</default>
         <script>
           function onValueChanged()
@@ -201,9 +204,9 @@
         </script>
       </number_column>
       <number_column name="Str_Bonus" source="abilities.strength.bonus">
-				<anchored>
+				<anchored width="30">
           <top offset="-20" />
-          <left offset="145" />
+          <left offset="135" />
 				</anchored>
         <script>
           function onValueChanged()
@@ -214,12 +217,13 @@
             end
           end
         </script>
+        <description text="Strength Bonus" />
         <default>0</default>
       </number_column>
       <number_column name="Str_Step" source="abilities.strength.step">
-				<anchored>
+				<anchored width="30">
           <top offset="-20" />
-          <left offset="200" />
+          <left offset="180" />
 				</anchored>
         <script>
           function onValueChanged()
@@ -254,7 +258,7 @@
         <static textres="char_attr_tou" />
       </label_column>
       <number_column name="Tou_Value" source="abilities.toughness.value">
-				<anchored>
+				<anchored width="30">
           <top offset="10" />
           <left offset="90" />
 				</anchored>
@@ -267,12 +271,13 @@
             end
           end
         </script>
+        <description text="Toughness Value" />
         <default>10</default>
       </number_column>
       <number_column name="Tou_Bonus" source="abilities.toughness.bonus">
-				<anchored>
+				<anchored width="30">
           <top offset="-20" />
-          <left offset="145" />
+          <left offset="135" />
 				</anchored>
         <script>
           function onValueChanged()
@@ -283,12 +288,13 @@
             end
           end
         </script>
+        <description text="Toughness Bonus" />
         <default>0</default>
       </number_column>
       <number_column name="Tou_Step" source="abilities.toughness.step">
-				<anchored>
+				<anchored width="30">
           <top offset="-20" />
-          <left offset="200" />
+          <left offset="180" />
 				</anchored>
         <script>
           function onValueChanged()
@@ -323,7 +329,7 @@
         <static textres="char_attr_per" />
       </label_column>
       <number_column name="Per_Value" source="abilities.perception.value">
-				<anchored>
+				<anchored width="30">
           <top offset="10" />
           <left offset="90" />
 				</anchored>
@@ -336,12 +342,13 @@
             end
           end
         </script>
+        <description text="Perception Value" />
         <default>10</default>
       </number_column>
       <number_column name="Per_Bonus" source="abilities.perception.bonus">
-				<anchored>
+				<anchored width="30">
           <top offset="-20" />
-          <left offset="145" />
+          <left offset="135" />
 				</anchored>
         <script>
           function onValueChanged()
@@ -352,12 +359,13 @@
             end
           end
         </script>
+        <description text="Perception Bonus" />
         <default>0</default>
       </number_column>
       <number_column name="Per_Step" source="abilities.perception.step">
-				<anchored>
+				<anchored width="30">
           <top offset="-20" />
-          <left offset="200" />
+          <left offset="180" />
 				</anchored>
         <script>
           function onValueChanged()
@@ -392,7 +400,7 @@
         <static textres="char_attr_wil" />
       </label_column>
       <number_column name="Wil_Value" source="abilities.willpower.value">
-				<anchored>
+				<anchored width="30">
           <top offset="10" />
           <left offset="90" />
 				</anchored>
@@ -405,12 +413,13 @@
             end
           end
         </script>
+        <description text="Willpower Value" />
         <default>10</default>
       </number_column>
       <number_column name="Wil_Bonus" source="abilities.willpower.bonus">
-				<anchored>
+				<anchored width="30">
           <top offset="-20" />
-          <left offset="145" />
+          <left offset="135" />
 				</anchored>
         <script>
           function onValueChanged()
@@ -421,12 +430,13 @@
             end
           end
         </script>
+        <description text="Willpower Bonus" />
         <default>0</default>
       </number_column>
       <number_column name="Wil_Step" source="abilities.willpower.step">
-				<anchored>
+				<anchored width="30">
           <top offset="-20" />
-          <left offset="200" />
+          <left offset="180" />
 				</anchored>
         <script>
           function onValueChanged()
@@ -461,7 +471,7 @@
         <static textres="char_attr_cha" />
       </label_column>
       <number_column name="Cha_Value" source="abilities.charisma.value">
-				<anchored>
+				<anchored width="30">
           <top offset="10" />
           <left offset="90" />
 				</anchored>
@@ -474,12 +484,13 @@
             end
           end
         </script>
+        <description text="Charisma Value" />
         <default>10</default>
       </number_column>
       <number_column name="Cha_Bonus" source="abilities.charisma.bonus">
-				<anchored>
+				<anchored width="30">
           <top offset="-20" />
-          <left offset="145" />
+          <left offset="135" />
 				</anchored>
         <script>
           function onValueChanged()
@@ -490,12 +501,13 @@
             end
           end
         </script>
+        <description text="Charisma Bonus" />
         <default>0</default>
       </number_column>
       <number_column name="Cha_Step" source="abilities.charisma.step">
-				<anchored>
+				<anchored width="30">
           <top offset="-20" />
-          <left offset="200" />
+          <left offset="180" />
 				</anchored>
         <script>
           function onValueChanged()
@@ -522,41 +534,196 @@
         <default>5</default>
       </number_column>
 
-      <frame_char name="DefFrame">
-				<bounds>330,56,160,75</bounds>
+      <frame_char name="CurrentHealthFrame">
+				<bounds>225,45,125,160</bounds>
       </frame_char>
-      <label_column name="DefLabel">
-				<anchored>
-          <top offset="-199" />
-          <left offset="385" />
+      <label_frametop name="CurrentLabel">
+				<anchored to="CurrentHealthFrame">
+				</anchored>
+        <static textres="char_label_currentDmg" />
+      </label_frametop>
+      <label name="TotalDamageLabel">
+				<anchored to="CurrentHealthFrame">
+          <top offset="25" />
+          <left offset="50" />
+				</anchored>
+        <static textres="char_label_total" />
+      </label>
+      <label name="CurrentDamageLabel">
+				<anchored to="CurrentHealthFrame">
+          <top offset="65" />
+          <left offset="15" />
+				</anchored>
+        <static textres="char_label_damage" />
+      </label>
+      <label name="CurrentWoundsLabel">
+				<anchored to="CurrentHealthFrame">
+          <top offset="65" />
+          <left offset="65" />
+				</anchored>
+        <static textres="char_label_wounds" />
+      </label>
+      <number_ED4 name="Total_Damage" source="health.damage.total">
+        <anchored to="CurrentHealthFrame" width="60" height="20">
+          <top offset="75" />
+          <left offset="30" />
+				</anchored>
+        <min>0</min>
+        <script>
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <readonly />
+        <default>0</default>
+      </number_ED4>
+      <number_ED4 name="Current_Damage" source="health.damage.value">
+        <anchored to="CurrentHealthFrame" width="35" height="20">
+          <top offset="115" />
+          <left offset="20" />
+				</anchored>
+        <min>0</min>
+        <script>
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+          function onDrop(x, y, draginfo)
+            if draginfo.isType("Recovery") then
+              setValue(getValue() - draginfo.getNumberData());
+              return true;
+            elseif draginfo.isType("Heal") then
+              setValue(getValue() - draginfo.getNumberData());
+              return true;
+            elseif draginfo.isType("Damage") then
+              setValue(getValue() + draginfo.getNumberData());
+              return true;
+            end
+          end
+        </script>
+        <default>0</default>
+      </number_ED4>
+      <number_ED4 name="Current_Wounds" source="health.wounds.value">
+        <anchored to="CurrentHealthFrame" width="35" height="20">
+          <top offset="115" />
+          <left offset="70" />
+				</anchored>
+        <min>0</min>
+        <script>
+          function onDrop(x, y, draginfo)
+            if draginfo.isType("Wound") then
+              setValue(getValue() + draginfo.getNumberData());
+              return true;
+            elseif draginfo.isType("WoundHeal") then
+              setValue(getValue() - draginfo.getNumberData());
+              return true;
+            end
+          end
+        </script>
+        <default>0</default>
+      </number_ED4>
+      
+      <label name="StunDamageLabel">
+				<anchored to="CurrentHealthFrame">
+          <top offset="105" />
+          <left offset="23" />
+				</anchored>
+        <static textres="char_label_stun" />
+      </label>
+      <label name="BloodDamageLabel">
+				<anchored to="CurrentHealthFrame">
+          <top offset="105" />
+          <left offset="70" />
+				</anchored>
+        <static textres="char_label_blood" />
+      </label>
+      <number_ED4 name="Stun_Damage" source="health.stun.value">
+        <anchored to="CurrentHealthFrame" width="35" height="20">
+          <top offset="155" />
+          <left offset="20" />
+				</anchored>
+        <min>0</min>
+        <script>
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+          function onDrop(x, y, draginfo)
+            if draginfo.isType("Recovery") then
+              setValue(getValue() - draginfo.getNumberData());
+              return true;
+            elseif draginfo.isType("Heal") then
+              setValue(getValue() - draginfo.getNumberData());
+              return true;
+            elseif draginfo.isType("Damage") then
+              setValue(getValue() + draginfo.getNumberData());
+              return true;
+            end
+          end
+        </script>
+        <default>0</default>
+      </number_ED4>
+      <number_ED4 name="Blood_Damage" source="health.blood.value">
+        <anchored to="CurrentHealthFrame" width="35" height="20">
+          <top offset="155" />
+          <left offset="70" />
+				</anchored>
+        <min>0</min>
+        <script>
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>0</default>
+      </number_ED4>
+      
+      <frame_char name="DefFrame">
+				<bounds>345,45,160,80</bounds>
+      </frame_char>
+      <label_frametop name="DefLabel">
+				<anchored to="DefFrame">
 				</anchored>
         <static textres="char_label_defenses" />
-      </label_column>
-      <label_column name="PhysicalDefLabel">
-				<anchored>
-          <top offset="-186" />
-          <left offset="342" />
+      </label_frametop>
+      <label name="PhysicalDefLabel">
+				<anchored to="DefFrame">
+          <top offset="25" />
+          <left offset="12" />
 				</anchored>
         <static textres="char_label_physical" />
-      </label_column>
-      <label_column name="MysticDefLabel">
-				<anchored>
-          <top offset="-186" />
-          <left offset="394" />
+      </label>
+      <label name="MysticDefLabel">
+				<anchored to="DefFrame">
+          <top offset="25" />
+          <left offset="62" />
 				</anchored>
         <static textres="char_label_mystic" />
-      </label_column>
-      <label_column name="SocialDefLabel">
-				<anchored>
-          <top offset="-186" />
-          <left offset="438" />
+      </label>
+      <label name="SocialDefLabel">
+				<anchored to="DefFrame">
+          <top offset="25" />
+          <left offset="105" />
 				</anchored>
         <static textres="char_label_social" />
-      </label_column>
-      <number_column name="Physical_Def" source="defenses.physical.value">
-        <anchored width="35" height="20">
-          <top offset="-165" />
-          <left offset="346" />
+      </label>
+      <number_ED4 name="Physical_Def" source="defenses.physical.value">
+        <anchored to="DefFrame" width="35" height="20">
+          <top offset="75" />
+          <left offset="15" />
 				</anchored>
         <script>
           function onValueChanged()
@@ -567,12 +734,13 @@
             end
           end
         </script>
+        <description text="Physical Defense" />
         <default>5</default>
-      </number_column>
-      <number_column name="Mystic_Def" source="defenses.mystic.value">
-        <anchored width="35" height="20">
-          <top offset="-165" />
-          <left offset="394" />
+      </number_ED4>
+      <number_ED4 name="Mystic_Def" source="defenses.mystic.value">
+        <anchored to="DefFrame" width="35" height="20">
+          <top offset="75" />
+          <left offset="60" />
 				</anchored>
         <script>
           function onValueChanged()
@@ -583,12 +751,13 @@
             end
           end
         </script>
+        <description text="Mystic Defense" />
         <default>5</default>
-      </number_column>
-      <number_column name="Social_Def" source="defenses.social.value">
-        <anchored width="35" height="20">
-          <top offset="-165" />
-          <left offset="440" />
+      </number_ED4>
+      <number_ED4 name="Social_Def" source="defenses.social.value">
+        <anchored to="DefFrame" width="35" height="20">
+          <top offset="75" />
+          <left offset="105" />
 				</anchored>
         <script>
           function onValueChanged()
@@ -599,101 +768,50 @@
             end
           end
         </script>
+        <description text="Social Defense" />
         <default>5</default>
-      </number_column>
+      </number_ED4>
       
       <frame_char name="ArmorFrame">
-				<bounds>330,132,160,75</bounds>
+				<bounds>345,122,160,83</bounds>
       </frame_char>
-      <label_column name="ArmorLabel">
-				<anchored>
-          <top offset="-124" />
-          <left offset="392" />
+      <label_frametop name="ArmorLabel">
+				<anchored to="ArmorFrame">
+          <left offset="-45" />
 				</anchored>
         <static textres="char_label_armor" />
-      </label_column>
-      <label_column name="PhysicalArmorLabel">
-				<anchored>
-          <top offset="-113" />
-          <left offset="358" />
+      </label_frametop>
+      <label_frametop name="WoundLabel">
+				<anchored to="ArmorFrame">
+          <left offset="85" />
+				</anchored>
+        <static textres="char_label_wounds" />
+      </label_frametop>
+      <label name="PhysicalArmorLabel">
+				<anchored to="ArmorFrame">
+          <top offset="25" />
+          <left offset="10" />
 				</anchored>
         <static textres="char_label_physical" />
-      </label_column>
-      <label_column name="MysticArmorLabel">
-				<anchored>
-          <top offset="-113" />
-          <left offset="418" />
+      </label>
+      <label name="MysticArmorLabel">
+				<anchored to="ArmorFrame">
+          <top offset="25" />
+          <left offset="60" />
 				</anchored>
         <static textres="char_label_mystic" />
-      </label_column>
-      <number_column name="Physical_Armor" source="armor.physical.value">
-        <anchored width="35" height="20">
-          <top offset="-92" />
-          <left offset="360" />
-				</anchored>
-        <script>
-          function onValueChanged()
-            if not Global.cmUpdating then
-              Global.cmUpdating = true;
-              window.onUpdate();
-              Global.cmUpdating = false;
-            end
-          end
-        </script>
-        <default>0</default>
-      </number_column>
-      <number_column name="Mystic_Armor" source="armor.mystic.value">
-        <anchored width="35" height="20">
-          <top offset="-92" />
-          <left offset="418" />
-				</anchored>
-        <script>
-          function onValueChanged()
-            if not Global.cmUpdating then
-              Global.cmUpdating = true;
-              window.onUpdate();
-              Global.cmUpdating = false;
-            end
-          end
-        </script>
-        <default>0</default>
-      </number_column>
-            
-      <frame_char name="HealthFrame">
-				<bounds>330,210,160,75</bounds>
-      </frame_char>
-      <label_column name="HealthLabel">
-				<anchored>
-          <top offset="-45" />
-          <left offset="391" />
-				</anchored>
-        <static textres="char_label_health" />
-      </label_column>
-      <label_column name="UnconciousLabel">
-				<anchored>
-          <top offset="-32" />
-          <left offset="345" />
-				</anchored>
-        <static textres="char_label_uncon" />
-      </label_column>
-      <label_column name="DeathLabel">
-				<anchored>
-          <top offset="-32" />
-          <left offset="393" />
-				</anchored>
-        <static textres="char_label_death" />
-      </label_column>
-      <label_column name="ThresholdLabel">
-				<anchored>
-          <top offset="-32" />
-          <left offset="437" />
+      </label>
+      <label name="ThresholdLabel">
+				<anchored to="ArmorFrame">
+          <top offset="25" />
+          <left offset="105" />
 				</anchored>
         <static textres="char_label_threshold" />
-      </label_column>
-      <number_column name="Uncon_Rating" source="health.uncon.value">
-        <anchored width="35" height="20">
-          <top offset="-11" />
-          <left offset="345" />
+      </label>
+      <number_ED4 name="Physical_Armor" source="armor.physical.value">
+        <anchored to="ArmorFrame" width="35" height="20">
+          <top offset="155" />
+          <left offset="15" />
 				</anchored>
         <script>
           function onValueChanged()
@@ -704,12 +822,13 @@
             end
           end
         </script>
-        <default>30</default>
-      </number_column>
-      <number_column name="Death_Rating" source="health.death.value">
-        <anchored width="35" height="20">
-          <top offset="-20" />
-          <left offset="392" />
+        <description text="Physical Armor" />
+        <default>0</default>
+      </number_ED4>
+      <number_ED4 name="Mystic_Armor" source="armor.mystic.value">
+        <anchored to="ArmorFrame" width="35" height="20">
+          <top offset="155" />
+          <left offset="62" />
 				</anchored>
         <script>
           function onValueChanged()
@@ -720,13 +839,15 @@
             end
           end
         </script>
-        <default>30</default>
-      </number_column>
-      <number_column name="Wound_Threshold" source="health.wound.threshold">
-        <anchored width="35" height="20">
-          <top offset="-20" />
-          <left offset="439" />
+        <description text="Mystic Armor" />
+        <default>0</default>
+      </number_ED4>
+      <number_ED4 name="Wound_Threshold" source="health.wound.threshold">
+        <anchored to="ArmorFrame" width="35" height="20">
+          <top offset="155" />
+          <left offset="110" />
 				</anchored>
+        <description text="Wound Threshold" />
         <script>
           function onValueChanged()
             if not Global.cmUpdating then
@@ -737,37 +858,36 @@
           end
         </script>
         <default>5</default>
-      </number_column>
+      </number_ED4>
       
-      <frame_char name="InitFrame">
-				<bounds>1,285,260,75</bounds>
+      <frame_char name="HealthFrame">
+				<bounds>225,200,125,85</bounds>
       </frame_char>
-      <label_column name="InitiativeLabel">
-				<anchored>
-          <top offset="25" />
-          <left offset="17" />
+      <label_frametop name="HealthLabel">
+				<anchored to="HealthFrame">
 				</anchored>
-        <static textres="char_label_initiative" />
-      </label_column>
-      <label_column name="KarmaLabel">
-				<anchored>
+        <static textres="char_label_health" />
+      </label_frametop>
+      <label name="UnconciousLabel">
+				<anchored to="HealthFrame">
           <top offset="25" />
-          <left offset="72" />
+          <left offset="15" />
 				</anchored>
-        <static textres="char_label_karma" />
-      </label_column>
-      <label_column name="RecoveryLabel">
-				<anchored>
+        <static textres="char_label_uncon" />
+      </label>
+      <label name="DeathLabel">
+				<anchored to="HealthFrame">
           <top offset="25" />
-          <left offset="116" />
+          <left offset="70" />
 				</anchored>
-        <static textres="char_label_recovery" />
-      </label_column>
-      <label_column name="KnockdownLabel">
-				<anchored>
-          <top offset="25" />
-          <left offset="174" />
+        <static textres="char_label_death" />
+      </label>
+      <number_ED4 name="Uncon_Rating" source="health.uncon.value">
+        <anchored to="HealthFrame" width="35" height="20">
+          <top offset="230" />
+          <left offset="15" />
 				</anchored>
+        <description text="Unconciousness Rating" />
         <script>
           function onValueChanged()
             if not Global.cmUpdating then
@@ -777,12 +897,45 @@
             end
           end
         </script>
+        <default>0</default>
+      </number_ED4>
+      <number_ED4 name="Death_Rating" source="health.death.value">
+        <anchored to="HealthFrame" width="35" height="20">
+          <top offset="230" />
+          <left offset="70" />
+				</anchored>
+        <description text="Death Rating" />
+        <script>
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <default>0</default>
+      </number_ED4>
+      
+      <frame_char name="InitFrame">
+				<bounds>345,200,160,85</bounds>
+      </frame_char>
+      <label_frametop name="InitiativeLabel">
+				<anchored to="InitFrame">
+          <left offset="-70" />
+				</anchored>
+        <static textres="char_label_initiative" />
+      </label_frametop>      
+      <label_frametop name="KnockdownLabel">
+				<anchored to="InitFrame">
+          <left offset="60" />
+				</anchored>
         <static textres="char_label_knockdown" />
-      </label_column>
-      <number_column name="Initiative_Step" source="initiative.step">
-        <anchored width="35" height="20">
-          <top offset="50" />
-          <left offset="24" />
+      </label_frametop>
+      <number_ED4 name="Initiative_Step" source="initiative.step">
+        <anchored to="InitFrame" width="35" height="20">
+          <top offset="225" />
+          <left offset="25" />
 				</anchored>
         <script>
           function onDragStart(button, x, y, draginfo)
@@ -800,8 +953,54 @@
         </script>
         <default>5</default>
         <rollable />
-      </number_column>
-      <number_column name="KarmaStep" source="karma.step">
+      </number_ED4>
+      <number_ED4 name="Knockdown_Step" source="defenses.knockdown.step">
+        <anchored to="InitFrame" width="35" height="20">
+          <top offset="225" />
+          <left offset="90" />
+				</anchored>
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ActionManagerED4.dragRoll(draginfo, "Knockdown", getValue(), rActor);
+            return true;
+          end
+          function onDoubleClick()
+            local rType = "Knockdown";
+            local rStep = getValue();
+            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
+            local bSecretRoll = false;
+            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+          end
+        </script>
+        <rollable />
+        <default>5</default>
+      </number_ED4>
+      
+      <frame_char name="KarmaFrame">
+				<bounds>345,280,160,75</bounds>
+      </frame_char>
+      <label_frametop name="KarmaLabel">
+				<anchored to="KarmaFrame">
+          <left offset="-100" />
+				</anchored>
+        <static textres="char_label_karma" />
+      </label_frametop>
+      <label_frametop name="RecoveryLabel">
+				<anchored to="KarmaFrame">
+          <left offset="5" />
+				</anchored>
+        <static textres="char_label_recovery" />
+      </label_frametop>
+      <label_frametop name="RecoveryTestsLabel">
+				<anchored to="KarmaFrame">
+          <left offset="100" />
+				</anchored>
+        <static textres="char_label_tests" />
+      </label_frametop>
+      <number_ED4 name="KarmaStep" source="karma.step">
+        <anchored to="KarmaFrame" position="insidetopleft" width="35" height="20">
+				</anchored>
         <script>
           function onInit()
             window.updateKarma();
@@ -817,8 +1016,10 @@
         </script>
         <default>4</default>
         <invisible />
-      </number_column>
-      <number_column name="MaxKarma" source="karma.max">
+      </number_ED4>
+      <number_ED4 name="MaxKarma" source="karma.max">
+        <anchored to="KarmaFrame" position="insidetopleft" width="35" height="20">
+				</anchored>
         <script>
           function onInit()
             window.updateKarma();
@@ -832,11 +1033,11 @@
           end
         </script>
         <invisible />
-      </number_column>
-      <number_column name="Karma_Value" source="karma.value">
-        <anchored width="30" height="20">
-          <top offset="-20" />
-          <left offset="75" />
+      </number_ED4>
+      <number_ED4 name="Karma_Value" source="karma.value">
+        <anchored to="KarmaFrame" width="35" height="20">
+          <top offset="300" />
+          <left offset="15" />
 				</anchored>
         <min>0</min>
         <script>
@@ -863,11 +1064,11 @@
           end
         </script>
         <rollable />
-      </number_column>
-      <number_column name="Recovery_Step" source="health.recovery.step">
-        <anchored width="35" height="20">
-          <top offset="-20" />
-          <left offset="125" />
+      </number_ED4>
+      <number_ED4 name="Recovery_Step" source="health.recovery.step">
+        <anchored to="KarmaFrame" width="35" height="20">
+          <top offset="300" />
+          <left offset="64" />
 				</anchored>
         <script>
           function onDragStart(button, x, y, draginfo)
@@ -885,40 +1086,51 @@
         </script>
         <rollable />
         <default>5</default>
-      </number_column>
-      <number_column name="Knockdown_Step" source="defenses.knockdown.step">
-        <anchored width="45" height="20">
-          <top offset="-20" />
-          <left offset="185" />
+      </number_ED4>
+      <number_ED4 name="Recovery_tests" source="health.recovery.tests">
+        <anchored to="KarmaFrame" width="30" height="20">
+          <top offset="300" />
+          <left offset="112" />
 				</anchored>
         <script>
-          function onDragStart(button, x, y, draginfo)
-            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "Knockdown", getValue(), rActor);
-            return true;
-          end
-          function onDoubleClick()
-            local rType = "Knockdown";
-            local rStep = getValue();
-            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-            local bSecretRoll = false;
-            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
           end
         </script>
-        <rollable />
-        <default>5</default>
-      </number_column>
-            
+      </number_ED4>
+      <number_ED4 name="Recovery_max" source="health.recovery.max">
+        <anchored to="KarmaFrame" width="30" height="20">
+          <top offset="300" />
+          <left offset="112" />
+				</anchored>
+        <script>
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <readonly />
+        <invisible />
+      </number_ED4>
+      
       <frame_char name="movementFrame">
-				<bounds>1,360,260,75</bounds>
+				<bounds>225,280,125,75</bounds>
       </frame_char>
       <label_frametop name="movementLabel">
 				<anchored to="movementFrame" />
         <static textres="char_label_movement" />
       </label_frametop>
 			<string_labeled name="movement" source="movement.value">
-				<anchored to="movementFrame" position="insidetopleft" offset="20,30" width="200" height="20" />
+				<anchored to="movementFrame" position="insidetopleft" offset="20,30" width="85" height="20" />
 				<labelres>char_label_movement</labelres>
+        <description text="Movement" />
 				<acceptdrop>
           <class>movement</class>
           <type>string</type>
@@ -937,19 +1149,27 @@
               end
             end
           end
+          function onDragStart(button, x, y, draginfo)
+            local nodeChar = window.getDatabaseNode();
+            local nodeSrc = getDatabaseNode();
+            local sName = DB.getValue(nodeChar, "name");
+            local sDesc = DB.getText(nodeSrc, "description");
+            draginfo.setDescription(tostring(sDesc));
+          end
         </script>
 			</string_labeled>      
             
       <frame_char name="sensesFrame">
-				<bounds>1,435,260,75</bounds>
+				<bounds>1,280,230,75</bounds>
       </frame_char>
       <label_frametop name="sensesLabel">
 				<anchored to="sensesFrame" />
         <static textres="char_label_senses" />
       </label_frametop>
 			<string_labeled name="senses">
-				<anchored to="sensesFrame" position="insidetopleft" offset="20,30" width="200" height="20" />
+				<anchored to="sensesFrame" position="insidetopleft" offset="20,30" width="190" height="20" />
 				<labelres>char_label_senses</labelres>
+        <description text="Senses" />
 				<acceptdrop>
           <class>senses</class>
           <type>string</type>
@@ -968,119 +1188,15 @@
               end
             end
           end
+          function onDragStart(button, x, y, draginfo)
+            local nodeChar = window.getDatabaseNode();
+            local nodeSrc = getDatabaseNode();
+            local sName = DB.getValue(nodeChar, "name");
+            local sDesc = DB.getText(nodeSrc, "description");
+            draginfo.setDescription(tostring(sDesc));
+          end
         </script>
 			</string_labeled>
-      
-      <frame_char name="CurrentHealthFrame">
-				<bounds>330,285,160,150</bounds>
-      </frame_char>
-      <label_column name="CurrentLabel">
-				<anchored>
-          <top offset="-48" />
-          <left offset="387" />
-				</anchored>
-        <static textres="char_label_current" />
-      </label_column>
-      <label_column name="CurrentDamageLabel">
-				<anchored>
-          <top offset="-30" />
-          <left offset="350" />
-				</anchored>
-        <static textres="char_label_damage" />
-      </label_column>
-      <label_column name="CurrentWoundsLabel">
-				<anchored>
-          <top offset="-30" />
-          <left offset="420" />
-				</anchored>
-        <static textres="char_label_wounds" />
-      </label_column>
-      <number_column name="Current_Damage" source="health.damage.value">
-        <anchored width="45" height="20">
-          <top offset="-5" />
-          <left offset="350" />
-				</anchored>
-        <min>0</min>
-        <script>
-          function onDrop(x, y, draginfo)
-            if draginfo.isType("Recovery") then
-              setValue(getValue() - draginfo.getNumberData());
-              return true;
-            elseif draginfo.isType("Heal") then
-              setValue(getValue() - draginfo.getNumberData());
-              return true;
-            elseif draginfo.isType("Damage") then
-              setValue(getValue() + draginfo.getNumberData());
-              return true;
-            end
-          end
-        </script>
-        <default>0</default>
-      </number_column>
-      <number_column name="Current_Wounds" source="health.wounds.value">
-        <anchored width="40" height="20">
-          <top offset="-20" />
-          <left offset="425" />
-				</anchored>
-        <min>0</min>
-        <script>
-          function onDrop(x, y, draginfo)
-            if draginfo.isType("Wound") then
-              setValue(getValue() + draginfo.getNumberData());
-              return true;
-            elseif draginfo.isType("WoundHeal") then
-              setValue(getValue() - draginfo.getNumberData());
-              return true;
-            end
-          end
-        </script>
-        <default>0</default>
-      </number_column>
-      
-      <label_column name="StunDamageLabel">
-				<anchored>
-          <top offset="5" />
-          <left offset="350" />
-				</anchored>
-        <static textres="char_label_stun" />
-      </label_column>
-      <label_column name="BloodDamageLabel">
-				<anchored>
-          <top offset="5" />
-          <left offset="420" />
-				</anchored>
-        <static textres="char_label_blood" />
-      </label_column>
-      <number_column name="Stun_Damage" source="health.stun.value">
-        <anchored width="45" height="20">
-          <top offset="30" />
-          <left offset="350" />
-				</anchored>
-        <min>0</min>
-        <script>
-          function onDrop(x, y, draginfo)
-            if draginfo.isType("Recovery") then
-              setValue(getValue() - draginfo.getNumberData());
-              return true;
-            elseif draginfo.isType("Heal") then
-              setValue(getValue() - draginfo.getNumberData());
-              return true;
-            elseif draginfo.isType("Damage") then
-              setValue(getValue() + draginfo.getNumberData());
-              return true;
-            end
-          end
-        </script>
-        <default>0</default>
-      </number_column>
-      <number_column name="Blood_Damage" source="health.blood.value">
-        <anchored width="40" height="20">
-          <top offset="-20" />
-          <left offset="425" />
-				</anchored>
-        <min>0</min>
-        <default>0</default>
-      </number_column>
       
     </sheetdata>
 	</windowclass>

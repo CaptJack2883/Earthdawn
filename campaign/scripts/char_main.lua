@@ -13,7 +13,7 @@ function onUpdate()
   Wil_Step.setValue(StepLookup.getStep(Wil_Value.getValue()));
   Cha_Step.setValue(StepLookup.getStep(Cha_Value.getValue()));
     
-  --Update Defense Ratings
+  --Update Characteristics (Table (EDPG pg63))
   Physical_Def.setValue(math.ceil(Dex_Value.getValue()/2)+1);
   Mystic_Def.setValue(math.ceil(Per_Value.getValue()/2)+1);
   Social_Def.setValue(math.ceil(Cha_Value.getValue()/2)+1);
@@ -23,10 +23,12 @@ function onUpdate()
   Mystic_Armor.setValue(math.floor(Wil_Value.getValue()/5));
   Initiative_Step.setValue(Dex_Step.getValue());
   Knockdown_Step.setValue(Str_Step.getValue());
+  Recovery_max.setValue(math.ceil(Tou_Value.getValue()/6));
   
   --Other updating functions.
   updateKarma();
   udpateCarry();
+  updateDamage();
   
 end
 
@@ -61,10 +63,21 @@ function updateKarma()
 end
 
 function udpateCarry()
-  nodeChar = getDatabaseNode();
+  local nodeChar = getDatabaseNode();
   CharacterManager.updateMaxCarry(nodeChar);
 end
 
+function updateDamage()
+  local dmgTotal = 0;
+  local dmgCurrent = 0;
+  local dmgStun = 0;
+  local dmgBlood = 0;
+  dmgBlood = Blood_Damage.getValue();
+  dmgCurrent = Current_Damage.getValue();
+  dmgStun = Stun_Damage.getValue();
+  dmgTotal = dmgCurrent + dmgStun + dmgBlood;
+  Total_Damage.setValue(dmgTotal);  
+end
 
 
 

@@ -34,6 +34,7 @@
 				casting.setReadOnly(bReadOnly);
 				range.setReadOnly(bReadOnly);
 				duration.setReadOnly(bReadOnly);
+				area.setReadOnly(bReadOnly);
 				effectStep.setReadOnly(bReadOnly);
 				success.setReadOnly(bReadOnly);
 				extraThreads.setReadOnly(bReadOnly);
@@ -144,6 +145,19 @@
 				<static textres="char_label_duration" />
 			</label_column>
 			<string_column name="duration">
+        <anchored parent="contentframe">
+          <left offset="160" />
+          <right offset="-50" />
+        </anchored>
+			</string_column>
+      
+			<label_column name="area_label">
+        <anchored parent="contentframe">
+          <left offset="40" />
+        </anchored>
+				<static textres="char_label_area" />
+			</label_column>
+			<string_column name="area">
         <anchored parent="contentframe">
           <left offset="160" />
           <right offset="-50" />
