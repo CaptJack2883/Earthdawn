@@ -30,7 +30,6 @@
 				text.setReadOnly(bReadOnly);
 				step.setReadOnly(bReadOnly);
 				strain.setReadOnly(bReadOnly);
-				karmaUse.setReadOnly(bReadOnly);
 				skilluse.setComboBoxReadOnly(bReadOnly);
 				action.setComboBoxReadOnly(bReadOnly);
 			end
@@ -140,7 +139,7 @@
         <anchored parent="contentframe">
           <left offset="30" />
           <right offset="-40" />
-          <top offset="20" />
+          <top offset="70" />
         </anchored>
 			</line_column>
 

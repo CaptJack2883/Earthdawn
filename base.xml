@@ -8,6 +8,9 @@ CRITICALLY IMPORTANT
 
 FG Dark theme removes iedit buttons on client?
 
+TODO: Fill empty space on charsheet_main. (Blood Magic items, Half-Magic tests?)
+TODO: Need to create a place for Talent Knacks.
+TODO: Need to update CT to show Total Damage instead of Current. In progress. How to make it input to the correct field? (damage, stun)
 TODO: In Progress: Fix layout of main charsheet tab. Use correct label templates (<label> and <label_frametop> but not <label_column>)
 TODO: Possibly add Circle/Novice/Journeyman to skills/talents view.
 TODO: Add Karma Use to rolls. Talents, and based on a checkbox in/near modifier box?
@@ -26,7 +29,6 @@ TODO: Add tracker for current number of recovery tests?
 TODO: Add support for new lighting features. Default visions work without modification. Possibly need to add new visions?
 TODO: Update Talents/Skills to use dropdown for actions? Number instead of string for Strain?
 TODO: Fix NPCs so that manually entered numbers don't get overwritten by onUpdate(); (Add "Custom?" checkbox?)
-TODO: Find out why Exploding Dice aren't reporting correct total in FGU. They now show correct total, but not individual rolls... (caused by v.value resetting to v.max)
 
 
 CONTENT
@@ -41,7 +43,6 @@ TODO: Add Base Spells - In Progress: Sent Kayla spell data, will receive formatt
 
 QUALITY OF LIFE
 
-TODO: Update Exploding dice to actually throwDice. This is probably very complicated? Even with new pushRoll and Comm.throwDice.
 TODO: Figure out LibraryDataED4 (data_library_ED4.lua) I think this is related to exporting races,disciplines, etc.
 TODO: Allow spells to be displayed by class, level, etc. (Data Library, aPlayerListButtons, aGMListButtons)
 TODO: Maybe we need a getStepFromDice function in Step_Action_Lookup? (reverse of getStepDice)
@@ -51,6 +52,8 @@ TODO: Do I need a legend worksheet?
 
 FINISHED
 
+DONE: Updated explosion function to roll new dice. 
+DONE: Updated Recovery Tests and Overnight Rests to account for stun damage.
 DONE: Updated Total Damage script to include Current, Stun, and BloodMagic.
 DONE: Fixed Spell Descriptions to include Area of Effect.
 DONE: Fixed additional parent info for Talent/Skill rolls.
@@ -124,6 +127,7 @@ FIXED: Spelling of Obsidimen vs Obsidiman in race descriptions. (Obsidiman is si
 Unused Files:
 	<includefile source="ct/template_ct.xml" />
   <script name="CombatManager" file="scripts/manager_combat.lua" />
+  <script name="ActionsManager" file="scripts/manager_actions.lua" />
 -->
 
 <!-- This logo is for the ruleset selection screen. -->
@@ -172,7 +176,6 @@ Unused Files:
   <script name="LibraryDataED4" file="scripts/data_library_ED4.lua" />
   <script name="StepLookup" file="scripts/step_action_lookup.lua" />
   <script name="ActionManagerED4" file="scripts/manager_actions_ED4.lua" />
-  <script name="ActionsManager" file="scripts/manager_actions.lua" />
   <script name="CharacterManager" file="scripts/manager_character.lua" />
   <script name="CombatManagerED4" file="scripts/manager_combat_ED4.lua" />
 	<script name="GameSystem" file="scripts/manager_gamesystem.lua" />  
