@@ -14,18 +14,23 @@ targetactions = {
 	"effect",
 };
 
-function onInit()
-	ActionsManager.useFGUDiceValues(true);
-  languages = { ["Throalic"] = "Throalic", ["Sperethiel"] = "Sperethiel", ["Human"] = "Human", ["Obsidiman"] = "Obsidiman", ["Or'zet"] = "Or'zet", ["Troll"] = "Troll", ["T'skrang"] = "T'skrang", ["Windling"] = "Windling" };
-  languagefonts = { "Throalic", "Sperethiel", "Human", "Obsidiman", "Or'zet", "Troll", "T'skrang", "Windling" };    
-end
-
-
 currencies = { "Gold", "Silver", "Copper" };
 currencyDefault = "Silver";
 
+
 function onInit()
 	ActionsManager.useFGUDiceValues(true);
+  languages = { 
+    [Interface.getString("language_value_throalic")] = "Throalic",
+    [Interface.getString("language_value_sperethiel")] = "Sperethiel",
+    [Interface.getString("language_value_human")] = "Human",
+    [Interface.getString("language_value_obsidiman")] = "Obsidiman",
+    [Interface.getString("language_value_orzet")] = "Or'zet",
+    [Interface.getString("language_value_troll")] = "Troll",
+    [Interface.getString("language_value_tskrang")] = "T'skrang",
+    [Interface.getString("language_value_windling")] = "Windling",
+    };
+  languagefonts = { "Throalic", "Sperethiel", "Human", "Obsidiman", "Or'zet", "Troll", "T'skrang", "Windling" };
 end
 
 function getCharSelectDetailHost(nodeChar)

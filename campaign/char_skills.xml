@@ -16,8 +16,20 @@
 				<static textres="char_label_skills" />
 			</label_frametop>
 			<label>
-				<anchored to="skillframe" position="insidetopleft" offset="85,30" />
+				<anchored to="skillframe" position="insidetopleft" offset="50,30" />
 				<static textres="char_label_skillname" />
+			</label>
+			<label>
+				<anchored to="skillframe" position="insidetopright" offset="165,30" />
+				<static textres="char_label_rank" />
+			</label>
+			<label>
+				<anchored to="skillframe" position="insidetopright" offset="85,30" />
+				<static textres="char_label_attribute" />
+			</label>
+			<label>
+				<anchored to="skillframe" position="insidetopright" offset="40,30" />
+				<static textres="char_label_total" />
 			</label>
       <list_charskill name="skills">
 				<anchored to="skillframe">
@@ -84,8 +96,11 @@
       end
       function onUpdate()
         local nodeSkill = getDatabaseNode();
-        local skillName = DB.getValue(nodeSkill, "name");
-        DB.setValue(nodeSkill, "skill.name", "string", skillName); 
+        local chkSkillName = DB.getValue(nodeSkill, "skill.name");
+        if chkSkillName == "" then
+          local skillName = DB.getValue(nodeSkill, "name");
+          DB.setValue(nodeSkill, "skill.name", "string", skillName); 
+        end
         local nStat = stat.getValue();
         local nRank = ranks.getValue();
         local nTotal = 0;

@@ -8,29 +8,26 @@ CRITICALLY IMPORTANT
 
 FG Dark theme removes iedit buttons on client?
 
-TODO: Fix languages on FGU.
-TODO: Find out why recovery checks aren't reporting correct total.
-TODO: Add Description info for Stats onDragStart
-TODO: Add if statement to Talent/Skill onUpdate to make sure the shortcut exists before overwriting the name.
-TODO: Need to get additional parent info for Talent/Skill rolls. Possibly add Circle/Novice/Journeyman to skills/talents view.
+TODO: In Progress: Fix layout of main charsheet tab. Use correct label templates (<label> and <label_frametop> but not <label_column>)
+TODO: Possibly add Circle/Novice/Journeyman to skills/talents view.
+TODO: Add Karma Use to rolls. Talents, and based on a checkbox in/near modifier box?
 TODO: Get Combat Tracker working. In progress, Initiative Rolls, Defenses, Health, and Current Wounds are working so far. (Need to add Attacks, etc)
-TODO: Add name to Target Tracker in CT Entry.
 TODO: Add Racial Stats to Race records, so they can be added to character sheet by dragging. (Create New Tab?)
 TODO: Get Races reference to match definitions in book.
 TODO: Get Disciplines reference to match definitions in book.
 TODO: In Progress: Allow Drag/Drop Character Creation. Race/Discipline/Talents/Skills are now working.
-TODO: Add Actions/Spells/Thread Items Tab(s) to charsheet.
+TODO: Add Combat/Actions/Spells/Thread Items Tab(s) to charsheet.
 TODO: Get rolls to check for targets, and their Defenses. 
 TODO: Create "Roll Step #" widget, (similar to the Mod window or the Dice Tower) that allows you to enter a step number and roll it.
 TODO: Add Custom Ability Modifier Fields to NPC and Charsheet, to allow custom bonuses/flaws. (Other computations, such as Race, Attribute Points, Half-Magic, etc.)
 TODO: Fix layout of main charsheet tab. Use correct label templates (not label_column?)
 TODO: In Progress: Get CT Menu working (rest, etc.) Menu is working, any new nodes to add?
 TODO: Add tracker for current number of recovery tests?
-TODO: Allow Minimize on ref sheets?
 TODO: Add support for new lighting features. Default visions work without modification. Possibly need to add new visions?
 TODO: Update Talents/Skills to use dropdown for actions? Number instead of string for Strain?
 TODO: Fix NPCs so that manually entered numbers don't get overwritten by onUpdate(); (Add "Custom?" checkbox?)
-TODO: Update Total Damage script to include Stun and BloodMagic.
+TODO: Find out why Exploding Dice aren't reporting correct total in FGU. They now show correct total, but not individual rolls... (caused by v.value resetting to v.max)
+
 
 CONTENT
 
@@ -44,17 +41,23 @@ TODO: Add Base Spells - In Progress: Sent Kayla spell data, will receive formatt
 
 QUALITY OF LIFE
 
-TODO: Pages for Talents/Skills/etc reference lists?
 TODO: Update Exploding dice to actually throwDice. This is probably very complicated? Even with new pushRoll and Comm.throwDice.
 TODO: Figure out LibraryDataED4 (data_library_ED4.lua) I think this is related to exporting races,disciplines, etc.
 TODO: Allow spells to be displayed by class, level, etc. (Data Library, aPlayerListButtons, aGMListButtons)
 TODO: Maybe we need a getStepFromDice function in Step_Action_Lookup? (reverse of getStepDice)
-TODO: Optimize getStepDice to be formulaic vs ugly slow chain of if/elseif/then. (partially done)
 TODO: Fix pronouns to use they/them instead of he/him or she/her. (talent descriptions, etc)
+TODO: Do I need a legend worksheet?
 
 
 FINISHED
 
+DONE: Updated Total Damage script to include Current, Stun, and BloodMagic.
+DONE: Fixed Spell Descriptions to include Area of Effect.
+DONE: Fixed additional parent info for Talent/Skill rolls.
+DONE: Added Description info for Stats onDragStart
+DONE: Fixed Talent/Skill onUpdate to make sure the shortcut exists before overwriting the name.
+DONE: Fixed languages on FGU. I think.
+DONE: Added new action types for Attack, Damage, Heal
 DONE: Updated Talents/Skills tabs on char sheet to show rank/step.
 DONE: Added defenses to CT.
 DONE: Color Dice results when they explode! Or hit the "Rule of One"!
@@ -101,6 +104,7 @@ DONE: Add Current Damage and Wounds Fields to NPC records.
 DONE: Link NPC fields in CT to matching fields in NPC records.
 DONE: Fix recursive call from Charsheet Main "Stat_Step" fields.
 DONE: Update NPC Statistics to reflect stats automatically (Unconcious, Death, etc..)
+DONE: Optimize getStepDice to be formulaic.
 DONE: Remove Dice elements under Attributes, as they are no longer needed.
 DONE: Update NPC records to reflect stat blocks of monsters.
 DONE: Update numberColumn to show rollable property.
@@ -152,30 +156,26 @@ Unused Files:
   <!-- Window Classes -->
   <includefile source="campaign/record_npc.xml" />
   
-  <!-- Character Sheet (originally borrowed from ED4E V.5 and then updated.) -->
+  <!-- Character Sheet (originally borrowed and then updated.) -->
   <includefile source="campaign/charsheet.xml" />
-  
   	
 	<!-- Combat tracker -->
 	<includefile source="ct/ct_host.xml" />
 	<includefile source="ct/ct_client.xml" />
 	<includefile source="ct/template_ct.xml" />
-   
   
-  <!-- Strings -->
-  <includefile source="strings/strings_campaign.xml" />
-  <includefile source="strings/strings_utility.xml" />
-  <includefile source="strings/strings_ct.xml" />
+  <!-- Strings (for localization) -->
+  <includefile source="strings/strings_ED4.xml" />
   
   <!-- Scripts -->
   <script name="Global" file="scripts/global.lua" />
   <script name="LibraryDataED4" file="scripts/data_library_ED4.lua" />
   <script name="StepLookup" file="scripts/step_action_lookup.lua" />
   <script name="ActionManagerED4" file="scripts/manager_actions_ED4.lua" />
+  <script name="ActionsManager" file="scripts/manager_actions.lua" />
   <script name="CharacterManager" file="scripts/manager_character.lua" />
   <script name="CombatManagerED4" file="scripts/manager_combat_ED4.lua" />
-	<script name="GameSystem" file="scripts/manager_gamesystem.lua" />
-  
+	<script name="GameSystem" file="scripts/manager_gamesystem.lua" />  
   
   <!-- Templates -->
   <includefile source="common/template_ED4.xml" />

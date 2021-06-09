@@ -80,10 +80,68 @@
 						window.nonid_name.setVisible(not bID);
 					end
 				end
+        function onDragStart(button, x, y, draginfo)
+					local nodeChar = window.getDatabaseNode();
+					local nodeSrc = getDatabaseNode();
+          local sName = DB.getValue(nodeChar, "name");
+          local sDesc = DB.getText(nodeSrc, "description");
+        end
 			</script>
 			<anchored width="40" height="20">
 				<top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
 				<left offset="97" />
+			</anchored>
+      <source mergerule="resetandadd" />
+		</basicnumber>
+	</template>
+  
+  
+	<template name="number_ED4">
+		<basicnumber>    
+			<script>
+				local nodeSrc = nil;
+				function onInit()
+					nodeSrc = window.getDatabaseNode();
+					if nodeSrc then
+						onValueChanged();
+						DB.addHandler(DB.getPath(nodeSrc, "isidentified"), "onUpdate", onValueChanged);
+					end          
+          if rollable or (gmrollable and Session.IsHost) then
+            local w = addBitmapWidget("field_rollable");
+            w.setPosition("bottomleft", -1, -4);
+            setHoverCursor("hand");
+          elseif rollable2 or (gmrollable2 and Session.IsHost) then
+            local w = addBitmapWidget("field_rollable_transparent");
+            w.setPosition("topright", 0, 2);
+            w.sendToBack();
+            setHoverCursor("hand");
+          end          
+				end
+				function onClose()
+					if nodeSrc then
+						DB.removeHandler(DB.getPath(nodeSrc, "isidentified"), "onUpdate", onValueChanged);
+					end
+				end
+				function onValueChanged()
+					if window.onIDChanged then
+						window.onIDChanged();
+					elseif class then
+						local bIgnoreHost = false;
+						if ignorehost then bIgnoreHost = true; end
+						local bID = LibraryData.getIDState(class[1], nodeSrc, bIgnoreHost);
+						window.name.setVisible(bID);
+						window.nonid_name.setVisible(not bID);
+					end
+				end
+        function onDragStart(button, x, y, draginfo)
+					local nodeChar = window.getDatabaseNode();
+					local nodeSrc = getDatabaseNode();
+          local sName = DB.getValue(nodeChar, "name");
+          local sDesc = DB.getText(nodeSrc, "description");
+        end
+			</script>
+			<anchored width="40" height="20">
+				<top parent="columnanchor" relation="relative" />
 			</anchored>
       <source mergerule="resetandadd" />
 		</basicnumber>

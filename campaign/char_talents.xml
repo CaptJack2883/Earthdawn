@@ -30,16 +30,20 @@
 				<static textres="char_label_talentname" />
 			</label>
 			<label>
-				<anchored to="talentframe" position="insidetopleft" offset="290,30" />
+				<anchored to="talentframe" position="insidetopright" offset="215,30" />
 				<static textres="char_label_rank" />
 			</label>
 			<label>
-				<anchored to="talentframe" position="insidetopleft" offset="340,30" />
+				<anchored to="talentframe" position="insidetopright" offset="135,30" />
 				<static textres="char_label_attribute" />
 			</label>
 			<label>
-				<anchored to="talentframe" position="insidetopleft" offset="420,30" />
+				<anchored to="talentframe" position="insidetopright" offset="85,30" />
 				<static textres="char_label_total" />
+			</label>
+			<label>
+				<anchored to="talentframe" position="insidetopright" offset="35,30" />
+				<static textres="char_label_karma" />
 			</label>
       
       <list_chartalent name="talents">
@@ -115,8 +119,11 @@
       end
       function onUpdate()
         local nodeTalent = getDatabaseNode();
-        local talentName = DB.getValue(nodeTalent, "name");
-        DB.setValue(nodeTalent, "talent.name", "string", talentName);
+        local chkTalentName = DB.getValue(nodeTalent, "talent.name");
+        if chkTalentName == "" then
+          local talentName = DB.getValue(nodeTalent, "name");
+          DB.setValue(nodeTalent, "talent.name", "string", talentName);
+        end
         local nStat = stat.getValue();
         local nRank = ranks.getValue();
         local nTotal = 0;
@@ -165,6 +172,15 @@
 					<right anchor="left" relation="relative" offset="-5" />
 				</anchored>
 			</button_idelete>
+      
+      <button_checkbox name="karmaUse" source="karma.use">
+				<anchored width="32" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
+				</anchored>
+        <script>
+        </script>
+      </button_checkbox>
       
       <number_chartalentfield name="total" source="talent.total">
 				<anchored width="32" height="20">

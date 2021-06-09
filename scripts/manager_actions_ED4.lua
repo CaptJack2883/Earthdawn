@@ -8,10 +8,16 @@ function onInit()
 	-- Register the new action we're creating.  We'll allow use of the modifier stack for this action type.
 	--GameSystem.actions["mytestaction"] = { bUseModStack = true };
 	--GameSystem.actions["InitRoll"] = { bUseModStack = true };
-	--GameSystem.actions["Explode"] = { bUseModStack = false };
+	GameSystem.actions["Explode"] = { bUseModStack = false };
   
 	GameSystem.actions["Recovery"] = { bUseModStack = true };
 	GameSystem.actions["Recovery"].sIcon = "iconHeal";
+	GameSystem.actions["Heal"] = { bUseModStack = true };
+	GameSystem.actions["Heal"].sIcon = "iconHeal";
+	GameSystem.actions["Damage"] = { bUseModStack = true };
+	GameSystem.actions["Damage"].sIcon = "iconDamage";
+	GameSystem.actions["Attack"] = { bUseModStack = true };
+	GameSystem.actions["Attack"].sIcon = "iconAttack";
   
   --Register OOB Message Handlers
   
@@ -19,6 +25,7 @@ function onInit()
 	
 	-- Register the result handlers - called after the dice have stopped rolling
 	--ActionsManager.registerResultHandler("mytestaction", onRoll);
+	ActionsManager.registerResultHandler("Explode", onResult);
 	ActionsManager.registerResultHandler("InitRoll", onResult);
 	ActionsManager.registerResultHandler("Strength", onResult);
 	ActionsManager.registerResultHandler("Dexterity", onResult);
@@ -27,6 +34,9 @@ function onInit()
 	ActionsManager.registerResultHandler("Willpower", onResult);
 	ActionsManager.registerResultHandler("Charisma", onResult);
 	ActionsManager.registerResultHandler("Recovery", onResult);
+	ActionsManager.registerResultHandler("Heal", onResult);
+	ActionsManager.registerResultHandler("Damage", onResult);
+	ActionsManager.registerResultHandler("Attack", onResult);
 	ActionsManager.registerResultHandler("Knockdown", onResult);
 	ActionsManager.registerResultHandler("Karma", onResult);
 	ActionsManager.registerResultHandler("Talent", onResult);
@@ -57,6 +67,8 @@ function getRoll(rType, rStep, rActor, bSecretRoll)
 	-- The description to show in the chat window
   if rRoll.sType == "InitRoll" then
     rRoll.sDesc = rRoll.sDesc .. "Initiative: ";
+  elseif rRoll.sType == "Explode" then
+    rRoll.sDesc = rRoll.sDesc .. "Explode: ";
   elseif rRoll.sType == "Strength" then
     rRoll.sDesc = rRoll.sDesc .. "Strength Check: ";
   elseif rRoll.sType == "Dexterity" then
@@ -75,6 +87,12 @@ function getRoll(rType, rStep, rActor, bSecretRoll)
     rRoll.sDesc = rRoll.sDesc .. "Knockdown Check: ";
   elseif rRoll.sType == "Karma" then
     rRoll.sDesc = rRoll.sDesc .. "Karma Die: ";
+  elseif rRoll.sType == "Heal" then
+    rRoll.sDesc = rRoll.sDesc .. "Heal: ";
+  elseif rRoll.sType == "Damage" then
+    rRoll.sDesc = rRoll.sDesc .. "Damage: ";
+  elseif rRoll.sType == "Attack" then
+    rRoll.sDesc = rRoll.sDesc .. "Attack: ";
   elseif rRoll.sType == "Talent" then
     rRoll.sDesc = rRoll.sDesc .. "Talent: ";
   elseif rRoll.sType == "Skill" then
@@ -113,33 +131,179 @@ function pushRoll(rType, rStep, rActor, bSecretRoll)
   end
 end
 
-function pushExplode(nDieSides)
-  -- We don't explode modifiers, if any...
-  -- Testing new function to explode die by Comm.throwDice()?
-  local stringDice = "d" .. nDieSides;
-  local bData = { };
-	local rSlot = { };
-	rSlot.dice = stringDice;
-  bData.type = "dice";
-	bData.slots = { rSlot };
-  Comm.throwDice(bData);
+function isMaxResult(rDie)
+  if tonumber(rDie.type:match("^d(%d+)")) == rDie.result then
+    return rDie.result
+  else
+    return 0
+  end
 end
 
-function onResult(rSource, rTarget, rRoll)  
+function getReRoll(aDice, iRoll)
+	local rRoll = {}
+  rRoll.aDice = aDice
+  rRoll.nMod = iRoll.nMod 
+  rRoll.sType = iRoll.sType
+  rRoll.bSecret = iRoll.bSecret 
+  rRoll.nStrain = iRoll.nStrain
+  rRoll.sDesc = iRoll.sDesc
+  
+  rRoll.rPreviousResult = serializeTable(iRoll.aDice)
+  return rRoll
+end
+
+function serializeTable(val)
+  local tmp = ""
+
+-- Used ipairs instead of pairs to avoid issues with non numeric keys
+-- which cause v.result and v.type to be set to nil
+
+  for k, v in ipairs(val) do
+    tmp =  tmp .. v.result .. "," .. v.type .. ";"
+  end
+  
+  return tmp
+end
+
+
+function deserializeTable(val)
+  local result = {}
+  for k,i in string.gmatch(val, "(%w+),(%w+)") do
+    local vvv = {}
+    vvv.result = k
+    vvv.type = i
+    table.insert(result, vvv)
+  end
+  return result
+end
+
+
+function pushExplode(rRoll, nDieSides)
+  -- We don't explode modifiers, if any...
+  -- Testing new function to explode die by combo method.
+  --[[
+  local iRoll = { };
+  local newDice = "d" .. nDieSides;
+  local stringDice = StringManager.convertDiceToString(rRoll.aDice, rRoll.nMod);
+  stringDice = stringDice .. newDice;
+  local aDice = StringManager.convertStringToDice(stringDice);
+  iRoll.aDice = aDice;
+  return iRoll;
+  ]]--
+  explode = {}
+	for i,die in ipairs(rRoll.aDice) do
+		local reroll = isMaxResult(die)
+		if reroll>0 then
+      table.insert(explode, die.type)
+		end
+	end
+  if rRoll.rPreviousResult then
+    prev = deserializeTable(rRoll.rPreviousResult)
+    for i,roll in ipairs(prev) do
+        table.insert(rRoll.aDice, 1, roll)
+    end
+  end
+  if table.getn(explode) > 0 then
+    if rSource then
+      rMessageTemp = ActionsManager.createActionMessage(rSource, rRoll);
+    end
+      
+    ActionsManager.performAction(draginfo, rActor, getReRoll(explode, rRoll)); 
+      
+    return false;
+  end
+end
+
+function onResult(rSource, rTarget, rRoll)
+  --This is for FGU, so it doesn't use v.value?
+  ActionsManager.useFGUDiceValues(true);
+  --Get old Dice and store in string, so we can add to it.
+  local stringDice = StringManager.convertDiceToString(rRoll.aDice);
   -- Check for Max Value, and explode if needed.
-  for _,v in ipairs(rRoll.aDice) do
-    if v.result then
+  for i,v in ipairs(rRoll.aDice) do
+    --[[
+    ]]--
+    if v.value then
+      --This is for FGU
       local nDieSides = tonumber(v.type:match("[dgpr](%d+)")) or 0;
-      if v.result == nDieSides then
-        -- We need to explode! Roll another die and add it to v.result.
+      if v.value == nDieSides then
+        -- We need to explode! Roll another die and add it to v.value.
         -- Separate function to allow recursion.
-        v.result = explodeDie(nDieSides);
+        v.value = explodeDie(nDieSides);
+        --pushExplode(rRoll, nDieSides); Causing problems on second explosion of the session.
+      end
+    else
+      if v.result then
+      --This is for FGC
+        local nDieSides = tonumber(v.type:match("[dgpr](%d+)")) or 0;
+        if v.result == nDieSides then
+          -- We need to explode! Roll another die and add it to v.result.
+          -- Separate function to allow recursion.
+          v.result = explodeDie(nDieSides);
+          --pushExplode(rRoll, nDieSides); Causing problems on second explosion of the session.
+        end
       end
     end
   end
   
+    --[[ This kind of worked, but caused infinite loop.
+  Debug.chat("Start of Testing actionDirect");
+  local testRoll = rRoll;
+  local testDice = StringManager.convertStringToDice("5d4");
+  testRoll.aDice = testDice;
+	ActionsManager.actionDirect(nil, "Explode", { testRoll });
+  Debug.chat("End of Testing actionDirect");
+    ]]--
+  
+    --[[ This somehow erases our previous results?
+    actionDirect doesn't work either.
+    if v.result then
+      Debug.chat("V.Result: "..v.result);
+      local nDieSides = tonumber(v.type:match("[dgpr](%d+)")) or 0;
+      if v.result == nDieSides then
+        -- We need to explode! Make a new die and add it to rRoll.aDice.
+        -- Separate function to allow recursion?
+        --v.result = explodeDie(nDieSides);
+        local newDie = "d"..nDieSides;
+        stringDice = stringDice .. "newDie"
+      end
+    end
+  end
+  --Now we need to put the new dice string back into rRoll.aDice.
+  nDice = StringManager.convertStringToDice(stringDice);
+  rRoll.aDice = nDice;
+    ]]--
+  
   --Now we're gonna see if we need to color the dice.
   decodeDiceResults(rRoll);
+  
+  -- Before we display, make sure the sDesc has the charName in it. (this is for talents, skills, etc.)
+  if rSource then
+    if rSource.sCreatureNode then
+      --Debug.chat(rSource.sCreatureNode);
+      nodeString = tostring(rSource.sCreatureNode);
+      local nStart, nEnd = nodeString:find("talent");
+      if nStart then
+        --We found a talent, need to upgrade the source and rRoll.sDesc
+        rRoll.sDesc = rSource.sName .. ": " .. rRoll.sDesc;
+        local rActor = ActorManager.getCreatureNode(rSource);
+        -- go up two steps to find character node.
+        local rParent = DB.getParent(DB.getParent(rActor));
+        rSource = ActorManager.resolveActor(rParent);
+        nStart=nil;
+      end
+      nStart, nEnd = nodeString:find("skill");
+      if nStart then
+        --We found a skill, need to upgrade the source and rRoll.sDesc
+        rRoll.sDesc = rSource.sName .. ": " .. rRoll.sDesc;
+        local rActor = ActorManager.getCreatureNode(rSource);
+        -- go up two steps to find character node.
+        local rParent = DB.getParent(DB.getParent(rActor));
+        rSource = ActorManager.resolveActor(rParent);
+        nStart=nil;
+      end
+    end
+  end
   
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
 	
@@ -170,9 +334,28 @@ function onResult(rSource, rTarget, rRoll)
     local newKarma = oldKarma - 1;
     DB.setValue(nodeChar, "karma.value", "number", newKarma);
   end
+  if rRoll.sType == "Heal" then
+    
+  end
+  if rRoll.sType == "Damage" then
+    
+  end
+  if rRoll.sType == "Attack" then
+    
+  end
 end
 
 function explodeDie(nDieSides)
+  --[[
+  --Testing new feature?
+	local testRoll = {};
+  local testDice = StringManager.convertStringToDice("1d4");
+  testRoll.aDice = testDice;
+  testRoll.sType = "Explode";
+  testRoll.sDesc = "Explosion: ";
+  ActionsManager.actionDirect(nil, "Explode", { testRoll });
+  return nDieSides;
+  ]]--
   -- This works, don't break it.
   newResult = genRandNum(nDieSides);
   newResult = genRandNum(nDieSides);
@@ -229,7 +412,7 @@ function decodeDiceResults(rRoll)
     if v.result then
       --Check for explosions.
       local nDieSides = tonumber(v.type:match("[dgpr](%d+)")) or 0;
-      if v.result > nDieSides then
+      if v.result >= nDieSides then
         -- Found Explosion! We need to color Green!
 				rRoll.aDice[i].type = "g" .. string.sub(rRoll.aDice[i].type, 2);
       end

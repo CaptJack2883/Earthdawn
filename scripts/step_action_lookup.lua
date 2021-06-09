@@ -17,7 +17,7 @@ function getStepFromString(sInput)
   if nStart then
     Debug.chat(sNumber);
     local rStep = tonumber(sNumber);
-    --local sDice = getStepDice(rStep);
+    local sDice = getStepDice(rStep);
     return rStep, sDice;
   else
     return false;
