@@ -24,24 +24,27 @@ function onInit()
 	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYINIT, handleApplyInit);
 	
 	-- Register the result handlers - called after the dice have stopped rolling
+  -- We need to use the onResult from ActionStep (onExplode) to use the new explosions, I think.
+  --  ActionStep.onResult(rSource, rTarget, rRoll); (from combo)
+  -- ActionManagerED4.onExplode(rSource, rTarget, rRoll);
 	--ActionsManager.registerResultHandler("mytestaction", onRoll);
-	ActionsManager.registerResultHandler("Explode", onResult);
-	ActionsManager.registerResultHandler("InitRoll", onResult);
-	ActionsManager.registerResultHandler("Strength", onResult);
-	ActionsManager.registerResultHandler("Dexterity", onResult);
-	ActionsManager.registerResultHandler("Toughness", onResult);
-	ActionsManager.registerResultHandler("Perception", onResult);
-	ActionsManager.registerResultHandler("Willpower", onResult);
-	ActionsManager.registerResultHandler("Charisma", onResult);
-	ActionsManager.registerResultHandler("Recovery", onResult);
-	ActionsManager.registerResultHandler("Heal", onResult);
-	ActionsManager.registerResultHandler("Damage", onResult);
-	ActionsManager.registerResultHandler("Attack", onResult);
-	ActionsManager.registerResultHandler("Knockdown", onResult);
-	ActionsManager.registerResultHandler("Karma", onResult);
-	ActionsManager.registerResultHandler("Talent", onResult);
-	ActionsManager.registerResultHandler("Skill", onResult);
-	ActionsManager.registerResultHandler("dice", onResult);
+	ActionsManager.registerResultHandler("Explode", checkExplode);
+	ActionsManager.registerResultHandler("InitRoll", checkExplode);
+	ActionsManager.registerResultHandler("Strength", checkExplode);
+	ActionsManager.registerResultHandler("Dexterity", checkExplode);
+	ActionsManager.registerResultHandler("Toughness", checkExplode);
+	ActionsManager.registerResultHandler("Perception", checkExplode);
+	ActionsManager.registerResultHandler("Willpower", checkExplode);
+	ActionsManager.registerResultHandler("Charisma", checkExplode);
+	ActionsManager.registerResultHandler("Recovery", checkExplode);
+	ActionsManager.registerResultHandler("Heal", checkExplode);
+	ActionsManager.registerResultHandler("Damage", checkExplode);
+	ActionsManager.registerResultHandler("Attack", checkExplode);
+	ActionsManager.registerResultHandler("Knockdown", checkExplode);
+	ActionsManager.registerResultHandler("Karma", checkExplode);
+	ActionsManager.registerResultHandler("Talent", checkExplode);
+	ActionsManager.registerResultHandler("Skill", checkExplode);
+	ActionsManager.registerResultHandler("dice", checkExplode);
 end
 
 function getRoll(rType, rStep, rActor, bSecretRoll)
@@ -214,15 +217,12 @@ function pushExplode(rRoll, nDieSides)
   end
 end
 
-function onResult(rSource, rTarget, rRoll)
-  --This is for FGU, so it doesn't use v.value?
-  ActionsManager.useFGUDiceValues(true);
+function onResult(rSource, rTarget, rRoll, nTotal)
+  --[[Previous Exploding function.
   --Get old Dice and store in string, so we can add to it.
   local stringDice = StringManager.convertDiceToString(rRoll.aDice);
   -- Check for Max Value, and explode if needed.
   for i,v in ipairs(rRoll.aDice) do
-    --[[
-    ]]--
     if v.value then
       --This is for FGU
       local nDieSides = tonumber(v.type:match("[dgpr](%d+)")) or 0;
@@ -230,7 +230,8 @@ function onResult(rSource, rTarget, rRoll)
         -- We need to explode! Roll another die and add it to v.value.
         -- Separate function to allow recursion.
         v.value = explodeDie(nDieSides);
-        --pushExplode(rRoll, nDieSides); Causing problems on second explosion of the session.
+        --pushExplode(rRoll, nDieSides); Causing problems on second explosion.
+        --ActionManagerED4.onExplode(rSource, rTarget, rRoll); Causing problems on second explosion.
       end
     else
       if v.result then
@@ -240,21 +241,14 @@ function onResult(rSource, rTarget, rRoll)
           -- We need to explode! Roll another die and add it to v.result.
           -- Separate function to allow recursion.
           v.result = explodeDie(nDieSides);
-          --pushExplode(rRoll, nDieSides); Causing problems on second explosion of the session.
+          --pushExplode(rRoll, nDieSides); Causing problems on second explosion.
+          --ActionManagerED4.onExplode(rSource, rTarget, rRoll); Causing problems on second explosion.
         end
       end
     end
   end
-  
-    --[[ This kind of worked, but caused infinite loop.
-  Debug.chat("Start of Testing actionDirect");
-  local testRoll = rRoll;
-  local testDice = StringManager.convertStringToDice("5d4");
-  testRoll.aDice = testDice;
-	ActionsManager.actionDirect(nil, "Explode", { testRoll });
-  Debug.chat("End of Testing actionDirect");
-    ]]--
-  
+  ]]-- Previous Exploding function.
+    
     --[[ This somehow erases our previous results?
     actionDirect doesn't work either.
     if v.result then
@@ -273,14 +267,10 @@ function onResult(rSource, rTarget, rRoll)
   nDice = StringManager.convertStringToDice(stringDice);
   rRoll.aDice = nDice;
     ]]--
-  
-  --Now we're gonna see if we need to color the dice.
-  decodeDiceResults(rRoll);
-  
+    
   -- Before we display, make sure the sDesc has the charName in it. (this is for talents, skills, etc.)
   if rSource then
     if rSource.sCreatureNode then
-      --Debug.chat(rSource.sCreatureNode);
       nodeString = tostring(rSource.sCreatureNode);
       local nStart, nEnd = nodeString:find("talent");
       if nStart then
@@ -314,19 +304,41 @@ function onResult(rSource, rTarget, rRoll)
     notifyApplyInit(rSource, nTotal);
   end
   if rRoll.sType == "Recovery" then
+    -- check for damage/stun and heal it.
     local nodeChar = ActorManager.getCreatureNode(rSource);
     local oldDamage = DB.getValue(nodeChar, "health.damage.value", 0);
+    local oldStun = DB.getValue(nodeChar, "health.stun.value", 0);
+    local wounds = DB.getValue(nodeChar, "health.wounds.value", 0);
     local healValue = 0;
+    
+    local nTotal = ActionsManager.total(rRoll);
+    if nTotal > 0 then
+      healValue = healValue + nTotal - wounds;
+    end
+    if healValue < 1 then
+      healValue = 1;
+    end
+    --[[
     for _,v in ipairs(rRoll.aDice) do
-      if v.result then
+      if v.value then
+        --FGU
+        healValue = healValue + v.value;
+      elseif v.result then
+        --FGC
         healValue = healValue + v.result;
       end
     end
+    ]]--
     local newDamage = oldDamage - healValue;
+    local newStun = oldStun - healValue;
     if newDamage < 0 then
       newDamage = 0;
     end
+    if newStun < 0 then
+      newStun = 0;
+    end
     DB.setValue(nodeChar, "health.damage.value", "number", newDamage);
+    DB.setValue(nodeChar, "health.stun.value", "number", newStun);
   end
   if rRoll.sType == "Karma" then
     local nodeChar = ActorManager.getCreatureNode(rSource);
@@ -346,17 +358,7 @@ function onResult(rSource, rTarget, rRoll)
 end
 
 function explodeDie(nDieSides)
-  --[[
-  --Testing new feature?
-	local testRoll = {};
-  local testDice = StringManager.convertStringToDice("1d4");
-  testRoll.aDice = testDice;
-  testRoll.sType = "Explode";
-  testRoll.sDesc = "Explosion: ";
-  ActionsManager.actionDirect(nil, "Explode", { testRoll });
-  return nDieSides;
-  ]]--
-  -- This works, don't break it.
+  -- This works, don't break it. Needed to explode dice.
   newResult = genRandNum(nDieSides);
   newResult = genRandNum(nDieSides);
   if newResult == nDieSides then
@@ -368,7 +370,7 @@ function explodeDie(nDieSides)
 end
 
 function genRandNum(nDieSides)
-  -- This works, don't change it.
+  -- This works, don't change it. Needed for explodeDie(nDieSides);
   local r = 0;
   r=math.random(nDieSides);
   return r;  
@@ -409,43 +411,90 @@ end
 function decodeDiceResults(rRoll)
   --Copied from 5e. Need to update with Earthdawn rules for exploding dice (nDieSides == Max then "green") and Rule of One (v.result == 1 then "Red")
   for i,v in ipairs(rRoll.aDice) do
-    if v.result then
+    if v.result then      
       --Check for explosions.
+      local vResult = tonumber(v.result);
       local nDieSides = tonumber(v.type:match("[dgpr](%d+)")) or 0;
-      if v.result >= nDieSides then
+      if vResult >= nDieSides then
         -- Found Explosion! We need to color Green!
 				rRoll.aDice[i].type = "g" .. string.sub(rRoll.aDice[i].type, 2);
       end
       --Check for result of 1.
-      if v.result == 1 then       
+      if vResult == 1 then       
         -- Found Rule of One! We need to color Red! 
 				rRoll.aDice[i].type = "r" .. string.sub(rRoll.aDice[i].type, 2);
       end
     end
   end
-  
-	if (bADV and not bDIS) or (bDIS and not bADV) then
-		if #(rRoll.aDice) > 1 then
-			local nDecodeDie;
-			if (bADV and not bDIS) then
-				nDecodeDie = math.max(rRoll.aDice[1].result, rRoll.aDice[2].result);
-				nDroppedDie = math.min(rRoll.aDice[1].result, rRoll.aDice[2].result);
-				rRoll.aDice[1].type = "g" .. string.sub(rRoll.aDice[1].type, 2);
-			else
-				nDecodeDie = math.min(rRoll.aDice[1].result, rRoll.aDice[2].result);
-				nDroppedDie = math.max(rRoll.aDice[1].result, rRoll.aDice[2].result);
-				rRoll.aDice[1].type = "r" .. string.sub(rRoll.aDice[1].type, 2);
-			end
-			rRoll.aDice[1].result = nDecodeDie;
-			rRoll.aDice[1].value = nil;
-			table.remove(rRoll.aDice, 2);
-			rRoll.aDice.expr = nil;
-			rRoll.sDesc = rRoll.sDesc .. " [DROPPED " .. nDroppedDie .. "]";
-		end
-	end	
-  
 end
 
+
+--Copied from Combo Ruleset
+
+function checkExplode(rSource, rTarget, rRoll)
+  local nodeChar = ActorManager.getCreatureNode(rSource);
+	local isMaxResult = function(rDie)
+		if tonumber(rDie.type:match("^d(%d+)")) == rDie.result then
+			return rDie.result
+		else
+			return 0
+		end
+	end
+	
+--	rSource gets erased during an explode/reroll so this is to keep source.
+	if nodeChar then
+    charCTNode = ActorManager.resolveActor(nodeChar);
+	end
+  explode = {}
+	for i,die in ipairs(rRoll.aDice) do
+		local reroll = isMaxResult(die)
+		if reroll>0 then
+      table.insert(explode, die.type)
+		end
+	end
+  if rRoll.rPreviousResult then
+    prev = deserializeTable(rRoll.rPreviousResult)
+    for i,roll in ipairs(prev) do
+        table.insert(rRoll.aDice, 1, roll)
+    end
+  end
+  if table.getn(explode) > 0 then
+    if rSource then
+      rMessageTemp = ActionsManager.createActionMessage(rSource, rRoll);
+    end
+      
+    ActionsManager.performAction(draginfo, rActor, getReRoll(explode, rRoll)); 
+      
+    return false;
+  end
+  
+	--[[
+	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
+	local nTotal = ActionsManager.total(rRoll);
+  
+  --We have our roll, and our total, after explosions. Now we can check for roll types to apply appropriate actions.
+  --Need to call my previous onResult to handle after roll actions.
+  
+	
+	if not rSource then
+    if rMessageTemp then
+      rMessage.sender = rMessageTemp.sender;
+    end
+	end
+	
+	Comm.deliverChatMessage(rMessage); -- Return message to previous handler? (Description, step, strain, dice graphic and total roll)
+  ]]--
+  
+  --Color dice for 1's and Explosions.
+	ActionManagerED4.decodeDiceResults(rRoll);
+  if not rSource then
+    rSource = charCTNode;
+  end
+  
+  local nTotal = ActionsManager.total(rRoll);
+  ActionManagerED4.onResult(rSource, rTarget, rRoll, nTotal)
+  
+end
 
 
 

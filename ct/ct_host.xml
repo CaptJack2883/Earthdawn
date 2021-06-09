@@ -42,32 +42,32 @@
 				<static textres="ct_label_name" />
 			</label_ct>
 			<label_ct name="label_init">
-				<anchored to="headeranchor" position="insidetopright" offset="363,0" width="50" />
+				<anchored to="headeranchor" position="insidetopright" offset="378,0" width="60" />
 				<static textres="ct_label_init" />
 				<center />
 			</label_ct>
 			<label_ct name="label_deathrating">
-				<anchored to="headeranchor" position="insidetopright" offset="313,0" width="50" />
+				<anchored to="headeranchor" position="insidetopright" offset="333,0" width="50" />
 				<static textres="ct_label_deathrating" />
 				<center />
 			</label_ct>
 			<label_ct name="label_unconrating">
-				<anchored to="headeranchor" position="insidetopright" offset="263,0" width="50" />
+				<anchored to="headeranchor" position="insidetopright" offset="283,0" width="50" />
 				<static textres="ct_label_unconrating" />
 				<center />
 			</label_ct>
 			<label_ct name="label_threshold">
-				<anchored to="headeranchor" position="insidetopright" offset="213,0" width="50" />
+				<anchored to="headeranchor" position="insidetopright" offset="233,0" width="50" />
 				<static textres="ct_label_threshold" />
 				<center />
 			</label_ct>
 			<label_ct name="label_damage">
-				<anchored to="headeranchor" position="insidetopright" offset="163,0" width="50" />
+				<anchored to="headeranchor" position="insidetopright" offset="183,0" width="50" />
 				<static textres="ct_label_damage" />
 				<center />
 			</label_ct>
 			<label_ct name="label_wounds">
-				<anchored to="headeranchor" position="insidetopright" offset="113,0" width="50" />
+				<anchored to="headeranchor" position="insidetopright" offset="133,0" width="50" />
 				<static textres="ct_label_wounds" />
 				<center />
 			</label_ct>

@@ -153,7 +153,7 @@ function linkPCFields()
     deathrating.setLink(nodeChar.createChild("health.death.value", "number"), true);
     unconrating.setLink(nodeChar.createChild("health.uncon.value", "number"), true);
     threshold.setLink(nodeChar.createChild("health.wound.threshold", "number"), true);
-    damage.setLink(nodeChar.createChild("health.damage.value", "number"));
+    damage.setLink(nodeChar.createChild("health.damage.total", "number"));
     wounds.setLink(nodeChar.createChild("health.wounds.value", "number"));
     phys_def.setLink(nodeChar.createChild("defenses.physical.value", "number"));
     myst_def.setLink(nodeChar.createChild("defenses.mystic.value", "number"));

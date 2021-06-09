@@ -41,10 +41,11 @@ end
 function recoveryTest(nodeChar)
   local rActor = ActorManager.resolveActor(nodeChar);
   local rStep = DB.getValue(nodeChar, "health.recovery.step", 0);
-  local currentHealth = DB.getValue(nodeChar, "health.damage.value", 0);
+  local currentHealth = DB.getValue(nodeChar, "health.damage.total", 0);
+  local currentBlood = DB.getValue(nodeChar, "health.blood.value", 0);
   local rType = "Recovery";
   local bSecretRoll = false;
-  if currentHealth > 0 then
+  if currentHealth > currentBlood then
     ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
   end
 end
