@@ -194,11 +194,11 @@
             return true;
           end
           function onDoubleClick()
-            local rType = "Talent";
+            local sType = "Talent";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
-            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <readonly />

@@ -170,7 +170,25 @@
 			<button_ctentry_friendfoe name="friendfoe" />
 
       <number_ctentry_wounds name="wounds" />
-      <number_ctentry_damage name="damage" />
+      <number_ctentry_damage name="damage">
+        <delaykeyupdate />
+        <script>
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              local rActor = ActorManager.resolveActor(DB.getParent(getDatabaseNode()));
+              if ActorManager.isPC(rActor) then
+                local dmgValue = getValue() or 0;
+                CharacterManager.updateDamage(rActor, dmgValue);
+                local nodePC = ActorManager.getCreatureNode(rActor);
+                local pcDmgTotal = DB.getValue(nodePC, "health.damage.total", 0);
+                setValue(pcDmgTotal);
+              end
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+      </number_ctentry_damage>
       <number_ctentry_threshold name="threshold" />
       <number_ctentry_unconrating name="unconrating" />
       <number_ctentry_deathrating name="deathrating" />

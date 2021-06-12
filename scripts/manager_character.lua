@@ -42,22 +42,21 @@ function recoveryTest(nodeChar)
   local rActor = ActorManager.resolveActor(nodeChar);
   local rStep = DB.getValue(nodeChar, "health.recovery.step", 0);
   local currentHealth = DB.getValue(nodeChar, "health.damage.total", 0);
-  local currentBlood = DB.getValue(nodeChar, "health.blood.value", 0);
-  local rType = "Recovery";
+  local currentBlood = DB.getValue(nodeChar, "health.damage.blood", 0);
+  local sType = "Recovery";
   local bSecretRoll = false;
   if currentHealth > currentBlood then
-    ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+    ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
   end
 end
 
 function rollInit(nodeChar, bSecretRoll)
   local rStep = DB.getValue(nodeChar, "initiative.step", 0);
-  local rType = "InitRoll";
-  ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+  local sType = "InitRoll";
+  ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
 end
 
 function getKarmaStep(nodeChar)
-  Debug.printstack();
   local rActor = ActorManager.resolveActor(nodeChar);
   --Invalid Parameter for client? but only sometimes??
   local karmaStep = DB.getValue(actorPath, "karma.step", 4);
@@ -76,6 +75,29 @@ function updateMaxCarry(nodeChar)
   DB.setValue(nodeChar, "encumbrance.max", "number", maxCarry);  
 end
 
-
+function updateDamage(rActor, dmgValue)
+  if not dmgValue then
+    dmgValue = 0;
+  end
+  newDmg = 0;
+  local nodePC = ActorManager.getCreatureNode(rActor);
+  local pcDmgTotal = DB.getValue(nodePC, "health.damage.total", 0);
+  local pcDmgValue = DB.getValue(nodePC, "health.damage.value", 0);
+  local pcDmgStun = DB.getValue(nodePC, "health.damage.stun", 0);
+  local pcDmgBlood = DB.getValue(nodePC, "health.damage.blood", 0);
+  local newValue = dmgValue - pcDmgStun - pcDmgBlood;
+  if newValue < 0 then
+    newValue = 0;
+  end
+  local newTotal = newValue + pcDmgStun + pcDmgBlood;
+  if newTotal < 0 then
+    newTotal = 0;
+  end
+  if newValue ~= pcDmgValue then
+    DB.setValue(nodePC, "health.damage.value", "number", newValue);
+    DB.setValue(nodePC, "health.damage.total", "number", newTotal);
+  else
+  end
+end
 
 

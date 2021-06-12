@@ -20,19 +20,16 @@ function parseComponents()
 	for i = 1, #aClauses do
     --Look for Step # first.
 		local nStarts, nEnds, sMod = string.find(aClauses[i], "Step %d+");
-    --Debug.chat("Looking for Step # in NPC skills.");
+    --Looking for Step # in NPC skills.
     local sStep, sDesc = StringManager.extractPattern(aClauses[i], "Step %d+");
 		if sStep then
       local stepNum, sVerify = StringManager.extractPattern(sStep, "%d+");
       if sVerify == "Step " then
-        --Debug.chat("Found Step #: ");
         stepNum = tonumber(stepNum);
-        --Debug.chat(stepNum);
         local stepDice, nMod, stepNum = StepLookup.getStepDice(stepNum);
         local sLabel = sDesc .. " (Step " .. stepNum .. ")";
-        --Debug.chat(stepDice);
         -- Insert the possible skill into the skill list
-        table.insert(aComponents, {nStart = aClauseStats[i].startpos, nLabelEnd = aClauseStats[i].startpos + nEnds, nEnd = aClauseStats[i].endpos, sLabel = sLabel, aDice = stepDice, nMod = nMod, rStep = rStep });
+        table.insert(aComponents, {nStart = aClauseStats[i].startpos, nLabelEnd = aClauseStats[i].startpos + nEnds, nEnd = aClauseStats[i].endpos, sLabel = sLabel, aDice = stepDice, nMod = nMod, rStep = stepNum });
       else --look for "2d6+5" type dice.
         local nStarts, nEnds, sMod = string.find(aClauses[i], "([d%dF%+%-]+)%s*$");
         if nStarts then
@@ -97,8 +94,13 @@ function action(draginfo)
 	if nDragIndex then
 		if draginfo then
 			if #(aComponents[nDragIndex].aDice) > 0 then
-				local rRoll = { sType = "dice", sDesc = aComponents[nDragIndex].sLabel, aDice = aComponents[nDragIndex].aDice, nMod = aComponents[nDragIndex].nMod };
-				ActionsManager.performAction(draginfo, nil, rRoll);
+				local rRoll = { sType = "dice", sDesc = aComponents[nDragIndex].sLabel, aDice = aComponents[nDragIndex].aDice, nMod = aComponents[nDragIndex].nMod, rStep = aComponents[nDragIndex].rStep };
+        local bSecretRoll = true;
+        --need to make sure rActor has the NPC actor node.
+        local nodeChar = window.getDatabaseNode();
+        local rActor = ActorManager.resolveActor(nodeChar);
+        ActionManagerED4.dragRoll(draginfo, rRoll.sType, rStep, rActor, bSecretRoll, rRoll);
+				--ActionsManager.performAction(draginfo, nil, rRoll);
 			else
 				draginfo.setType("number");
 				draginfo.setDescription(aComponents[nDragIndex].sLabel);
@@ -107,8 +109,13 @@ function action(draginfo)
 			end
 		else
 			if #(aComponents[nDragIndex].aDice) > 0 then
-				local rRoll = { sType = "dice", sDesc = aComponents[nDragIndex].sLabel, aDice = aComponents[nDragIndex].aDice, nMod = aComponents[nDragIndex].nMod };
-				ActionsManager.performAction(nil, nil, rRoll);
+				local rRoll = { sType = "dice", sDesc = aComponents[nDragIndex].sLabel, aDice = aComponents[nDragIndex].aDice, nMod = aComponents[nDragIndex].nMod, rStep = aComponents[nDragIndex].rStep };
+        local bSecretRoll = true;
+        --need to make sure nodeChar has the NPC actor node.
+        local nodeChar = window.getDatabaseNode();
+        local rActor = ActorManager.resolveActor(nodeChar);
+        ActionManagerED4.pushRoll(rRoll.sType, rRoll.rStep, nodeChar, bSecretRoll, rRoll);
+				--ActionsManager.performAction(nil, nil, rRoll);
 			else
 				ModifierStack.addSlot(aComponents[nDragIndex].sLabel, aComponents[nDragIndex].nMod);
 			end

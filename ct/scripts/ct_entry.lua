@@ -155,9 +155,9 @@ function linkPCFields()
     threshold.setLink(nodeChar.createChild("health.wound.threshold", "number"), true);
     damage.setLink(nodeChar.createChild("health.damage.total", "number"));
     wounds.setLink(nodeChar.createChild("health.wounds.value", "number"));
-    phys_def.setLink(nodeChar.createChild("defenses.physical.value", "number"));
-    myst_def.setLink(nodeChar.createChild("defenses.mystic.value", "number"));
-    social_def.setLink(nodeChar.createChild("defenses.social.value", "number"));
+    phys_def.setLink(nodeChar.createChild("defenses.physical.value", "number"), true);
+    myst_def.setLink(nodeChar.createChild("defenses.mystic.value", "number"), true);
+    social_def.setLink(nodeChar.createChild("defenses.social.value", "number"), true);
 	end
 end
 
@@ -171,9 +171,9 @@ function linkNPCFields()
     threshold.setLink(nodeChar.createChild("health.wound.threshold", "number"), true);
     damage.setLink(nodeChar.createChild("health.damage.value", "number"));
     wounds.setLink(nodeChar.createChild("health.wounds.value", "number"));
-    phys_def.setLink(nodeChar.createChild("defenses.physical.value", "number"));
-    myst_def.setLink(nodeChar.createChild("defenses.mystic.value", "number"));
-    social_def.setLink(nodeChar.createChild("defenses.social.value", "number"));
+    phys_def.setLink(nodeChar.createChild("defenses.physical.value", "number"), true);
+    myst_def.setLink(nodeChar.createChild("defenses.mystic.value", "number"), true);
+    social_def.setLink(nodeChar.createChild("defenses.social.value", "number"), true);
 	end
 end
 --
