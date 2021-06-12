@@ -15,7 +15,6 @@ function getStepFromString(sInput)
   sInput = string.lower(sInput);
   local nStart, nEnd, sNumber = string.find(sInput, "%d+", 0, false);
   if nStart then
-    Debug.chat(sNumber);
     local rStep = tonumber(sNumber);
     local sDice = getStepDice(rStep);
     return rStep, sDice;
@@ -33,7 +32,6 @@ function getStepDice(stepNum)
 		stepNum = 1
 	end
 	if stepNum > 100 then
-    Debug.console("Step is Too Large, Returning Step 100.");
 		stepNum = 100;
     stepDice = getStepsHundreds(stepNum);
   return stepDice, nMod, stepNum;

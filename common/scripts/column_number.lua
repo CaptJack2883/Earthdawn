@@ -46,7 +46,6 @@ function update(bReadOnly, bForceHide)
 end
 
 function onValueChanged()
-  Debug.chat("Updating column_number Value");
 	if isVisible() then
 		if window.VisDataCleared then
 			if getValue() == 0 then
@@ -61,7 +60,6 @@ function onValueChanged()
 		end
 	end
   if super and super.onUpdate then
-    Debug.chat("Calling super.onUpdate");
     super.onUpdate();
   end
 end

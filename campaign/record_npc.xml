@@ -165,11 +165,11 @@
             return true;
           end
           function onDoubleClick()
-            local rType = "Dexterity";
+            local sType = "Dexterity";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
-            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
           end
           function onValueChanged()
             window.onStatUpdate();
@@ -190,11 +190,11 @@
             return true;
           end
           function onDoubleClick()
-            local rType = "Strength";
+            local sType = "Strength";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
-            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
           end
           function onValueChanged()
             window.onStatUpdate();
@@ -215,11 +215,11 @@
             return true;
           end
           function onDoubleClick()
-            local rType = "Toughness";
+            local sType = "Toughness";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
-            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
           end
           function onValueChanged()
             window.onStatUpdate();
@@ -240,11 +240,11 @@
             return true;
           end
           function onDoubleClick()
-            local rType = "Perception";
+            local sType = "Perception";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
-            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
           end
           function onValueChanged()
             window.onStatUpdate();
@@ -265,11 +265,11 @@
             return true;
           end
           function onDoubleClick()
-            local rType = "Willpower";
+            local sType = "Willpower";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
-            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
           end
           function onValueChanged()
             window.onStatUpdate();
@@ -290,11 +290,11 @@
             return true;
           end
           function onDoubleClick()
-            local rType = "Charisma";
+            local sType = "Charisma";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
-            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
           end
           function onValueChanged()
             window.onStatUpdate();
@@ -318,11 +318,11 @@
             return true;
           end
           function onDoubleClick()
-            local rType = "InitRoll";
+            local sType = "InitRoll";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
-            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <rollable />
@@ -349,7 +349,7 @@
 				<static textres="npc_label_currentDamage" />
 			</label_column>
       
-			<number_column name="currentDamage" source="health.damage.value">
+			<number_column name="currentDamage" source="health.damage.total">
 				<default>0</default>
         <min>0</min>
         <script>

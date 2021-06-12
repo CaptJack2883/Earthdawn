@@ -168,11 +168,11 @@
             return true;
           end
           function onDoubleClick()
-            local rType = "Dexterity";
+            local sType = "Dexterity";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
-            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <rollable />
@@ -239,11 +239,11 @@
             return true;
           end
           function onDoubleClick()
-            local rType = "Strength";
+            local sType = "Strength";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
-            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <default>5</default>
@@ -310,11 +310,11 @@
             return true;
           end
           function onDoubleClick()
-            local rType = "Toughness";
+            local sType = "Toughness";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
-            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <rollable />
@@ -381,11 +381,11 @@
             return true;
           end
           function onDoubleClick()
-            local rType = "Perception";
+            local sType = "Perception";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
-            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <rollable />
@@ -452,11 +452,11 @@
             return true;
           end
           function onDoubleClick()
-            local rType = "Willpower";
+            local sType = "Willpower";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
-            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <rollable />
@@ -523,11 +523,11 @@
             return true;
           end
           function onDoubleClick()
-            local rType = "Charisma";
+            local sType = "Charisma";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
-            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <rollable />
@@ -579,6 +579,7 @@
           end
         </script>
         <readonly />
+        <delaykeyupdate />
         <default>0</default>
       </number_ED4>
       <number_ED4 name="Current_Damage" source="health.damage.value">
@@ -608,6 +609,7 @@
             end
           end
         </script>
+        <delaykeyupdate />
         <default>0</default>
       </number_ED4>
       <number_ED4 name="Current_Wounds" source="health.wounds.value">
@@ -617,6 +619,13 @@
 				</anchored>
         <min>0</min>
         <script>
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+              window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
           function onDrop(x, y, draginfo)
             if draginfo.isType("Wound") then
               setValue(getValue() + draginfo.getNumberData());
@@ -644,7 +653,7 @@
 				</anchored>
         <static textres="char_label_blood" />
       </label>
-      <number_ED4 name="Stun_Damage" source="health.stun.value">
+      <number_ED4 name="Stun_Damage" source="health.damage.stun">
         <anchored to="CurrentHealthFrame" width="35" height="20">
           <top offset="155" />
           <left offset="20" />
@@ -671,9 +680,10 @@
             end
           end
         </script>
+        <delaykeyupdate />
         <default>0</default>
       </number_ED4>
-      <number_ED4 name="Blood_Damage" source="health.blood.value">
+      <number_ED4 name="Blood_Damage" source="health.damage.blood">
         <anchored to="CurrentHealthFrame" width="35" height="20">
           <top offset="155" />
           <left offset="70" />
@@ -688,6 +698,7 @@
             end
           end
         </script>
+        <delaykeyupdate />
         <default>0</default>
       </number_ED4>
       
@@ -944,11 +955,11 @@
             return true;
           end
           function onDoubleClick()
-            local rType = "InitRoll";
+            local sType = "InitRoll";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
-            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <default>5</default>
@@ -966,11 +977,11 @@
             return true;
           end
           function onDoubleClick()
-            local rType = "Knockdown";
+            local sType = "Knockdown";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
-            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <rollable />
@@ -1006,7 +1017,6 @@
             window.updateKarma();
           end
           function onValueChanged()
-            Debug.chat("Updating Karma Step");
             if not Global.cmUpdating then
               Global.cmUpdating = true;
               window.onUpdate();
@@ -1055,11 +1065,11 @@
             local kValue = getValue();
             if kValue > 0 then
               local karmaStep = 4;
-              local rType = "Karma";
+              local sType = "Karma";
               local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
               karmaStep = CharacterManager.getKarmaStep(nodeChar);
               local bSecretRoll = false;
-              ActionManagerED4.pushRoll(rType, karmaStep, nodeChar, bSecretRoll);
+              ActionManagerED4.pushRoll(sType, karmaStep, nodeChar, bSecretRoll);
             end
           end
         </script>
@@ -1077,11 +1087,11 @@
             return true;
           end
           function onDoubleClick()
-            local rType = "Recovery";
+            local sType = "Recovery";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
-            ActionManagerED4.pushRoll(rType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
           end
         </script>
         <rollable />

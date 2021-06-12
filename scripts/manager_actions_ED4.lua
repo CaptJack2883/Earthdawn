@@ -10,6 +10,7 @@ function onInit()
 	--GameSystem.actions["InitRoll"] = { bUseModStack = true };
 	GameSystem.actions["Explode"] = { bUseModStack = false };
   
+	GameSystem.actions["InitRoll"] = { bUseModStack = true };
 	GameSystem.actions["Recovery"] = { bUseModStack = true };
 	GameSystem.actions["Recovery"].sIcon = "iconHeal";
 	GameSystem.actions["Heal"] = { bUseModStack = true };
@@ -45,17 +46,18 @@ function onInit()
 	ActionsManager.registerResultHandler("Talent", checkExplode);
 	ActionsManager.registerResultHandler("Skill", checkExplode);
 	ActionsManager.registerResultHandler("dice", checkExplode);
+	ActionsManager.registerTargetingHandler("Attack", onTargeting);
 end
 
-function getRoll(rType, rStep, rActor, bSecretRoll)
+function getRoll(sType, rStep, rActor, bSecretRoll)
 	-- Initialise a blank rRoll record
 	local rRoll = {};
   rRoll.sDesc = "";
 	
 	-- Add the 4 minimum parameters needed:
 	-- the action type.
-  if rType then
-    rRoll.sType = rType;
+  if sType then
+    rRoll.sType = sType;
   end
   
 	-- A modifier to apply to the roll. This is not used here, StepLookup returns the dice and modifier.
@@ -116,16 +118,19 @@ function getRoll(rType, rStep, rActor, bSecretRoll)
 	return rRoll;
 end
 
-function dragRoll(draginfo, rType, rStep, rActor, bSecretRoll)
-  rSource, _, vTargets = decodeActionFromDrag(draginfo, false);
-  
-  local rRoll = getRoll(rType, rStep, rActor, bSecretRoll);
+function dragRoll(draginfo, sType, rStep, rActor, bSecretRoll, rRoll)
+  rSource, _, vTargets = ActionsManager.decodeActionFromDrag(draginfo, false);
+  if not rRoll then
+    rRoll = getRoll(sType, rStep, rActor, bSecretRoll);
+  end
   ActionsManager.performAction(draginfo, rActor, rRoll);
 end
 
-function pushRoll(rType, rStep, rActor, bSecretRoll)
-  local rRoll = ActionManagerED4.getRoll(rType, rStep, rActor, bSecretRoll)
-  if not rRoll.bTower and OptionsManager.isOption("MANUALROLL", "on") then
+function pushRoll(sType, rStep, rActor, bSecretRoll, rRoll)
+  if not rRoll then
+    rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bSecretRoll)
+  end
+  if not rRoll.bSecretRoll and OptionsManager.isOption("MANUALROLL", "on") then
     local wManualRoll = Interface.openWindow("manualrolls", "");
     wManualRoll.addRoll(rRoll, rActor, vTargets);
   else
@@ -218,55 +223,26 @@ function pushExplode(rRoll, nDieSides)
 end
 
 function onResult(rSource, rTarget, rRoll, nTotal)
-  --[[Previous Exploding function.
-  --Get old Dice and store in string, so we can add to it.
-  local stringDice = StringManager.convertDiceToString(rRoll.aDice);
-  -- Check for Max Value, and explode if needed.
-  for i,v in ipairs(rRoll.aDice) do
-    if v.value then
-      --This is for FGU
-      local nDieSides = tonumber(v.type:match("[dgpr](%d+)")) or 0;
-      if v.value == nDieSides then
-        -- We need to explode! Roll another die and add it to v.value.
-        -- Separate function to allow recursion.
-        v.value = explodeDie(nDieSides);
-        --pushExplode(rRoll, nDieSides); Causing problems on second explosion.
-        --ActionManagerED4.onExplode(rSource, rTarget, rRoll); Causing problems on second explosion.
-      end
-    else
-      if v.result then
-      --This is for FGC
-        local nDieSides = tonumber(v.type:match("[dgpr](%d+)")) or 0;
-        if v.result == nDieSides then
-          -- We need to explode! Roll another die and add it to v.result.
-          -- Separate function to allow recursion.
-          v.result = explodeDie(nDieSides);
-          --pushExplode(rRoll, nDieSides); Causing problems on second explosion.
-          --ActionManagerED4.onExplode(rSource, rTarget, rRoll); Causing problems on second explosion.
-        end
-      end
-    end
+  local aTargetNodes = {};
+  local aTargets;
+  if not rTarget then
+    local rActor = ActorManager.resolveActor(rSource);
+		if rRoll.bSelfTarget then
+			aTargets = { rActor };
+		else
+			aTargets = TargetingManager.getFullTargets(rActor);
+		end
+		for _,v in ipairs(aTargets) do
+			local sCTNode = ActorManager.getCTNodeName(v);
+			if sCTNode ~= "" then
+				table.insert(aTargetNodes, sCTNode);
+			end
+		end
+		
+		if #aTargetNodes > 0 then
+			rRoll.aTargets = table.concat(aTargetNodes, "|");
+		end
   end
-  ]]-- Previous Exploding function.
-    
-    --[[ This somehow erases our previous results?
-    actionDirect doesn't work either.
-    if v.result then
-      Debug.chat("V.Result: "..v.result);
-      local nDieSides = tonumber(v.type:match("[dgpr](%d+)")) or 0;
-      if v.result == nDieSides then
-        -- We need to explode! Make a new die and add it to rRoll.aDice.
-        -- Separate function to allow recursion?
-        --v.result = explodeDie(nDieSides);
-        local newDie = "d"..nDieSides;
-        stringDice = stringDice .. "newDie"
-      end
-    end
-  end
-  --Now we need to put the new dice string back into rRoll.aDice.
-  nDice = StringManager.convertStringToDice(stringDice);
-  rRoll.aDice = nDice;
-    ]]--
     
   -- Before we display, make sure the sDesc has the charName in it. (this is for talents, skills, etc.)
   if rSource then
@@ -295,6 +271,27 @@ function onResult(rSource, rTarget, rRoll, nTotal)
     end
   end
   
+  --We need to make sure that rRoll.sType has the correct info for the below functions to work.
+  --Extract the type of roll from the rRoll.sDesc.
+  if rRoll.sDesc then
+    local sDescLower = string.lower(rRoll.sDesc);
+    sDesc, sRemainder = StringManager.extractPattern(sDescLower, "attack");
+    if sDesc == "attack" then
+      rRoll.sType = "Attack"
+      sDesc = nil;
+    end
+    sDesc, sRemainder = StringManager.extractPattern(sDescLower, "damage");
+    if sDesc == "damage" then
+      rRoll.sType = "Damage"
+      sDesc = nil;
+    end
+    sDesc, sRemainder = StringManager.extractPattern(sDescLower, "heal");
+    if sDesc == "heal" then
+      rRoll.sType = "Heal"
+      sDesc = nil;
+    end
+  end
+  
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
 	
 	-- Display the message in chat.
@@ -307,7 +304,7 @@ function onResult(rSource, rTarget, rRoll, nTotal)
     -- check for damage/stun and heal it.
     local nodeChar = ActorManager.getCreatureNode(rSource);
     local oldDamage = DB.getValue(nodeChar, "health.damage.value", 0);
-    local oldStun = DB.getValue(nodeChar, "health.stun.value", 0);
+    local oldStun = DB.getValue(nodeChar, "health.damage.stun", 0);
     local wounds = DB.getValue(nodeChar, "health.wounds.value", 0);
     local healValue = 0;
     
@@ -338,7 +335,7 @@ function onResult(rSource, rTarget, rRoll, nTotal)
       newStun = 0;
     end
     DB.setValue(nodeChar, "health.damage.value", "number", newDamage);
-    DB.setValue(nodeChar, "health.stun.value", "number", newStun);
+    DB.setValue(nodeChar, "health.damage.stun", "number", newStun);
   end
   if rRoll.sType == "Karma" then
     local nodeChar = ActorManager.getCreatureNode(rSource);
@@ -347,15 +344,87 @@ function onResult(rSource, rTarget, rRoll, nTotal)
     DB.setValue(nodeChar, "karma.value", "number", newKarma);
   end
   if rRoll.sType == "Heal" then
-    
+    -- rSource is a creatureNode, and we need the CT node if there is one. 
+    local ctActor = ActorManager.resolveActor(rSource);
+    if #aTargets > 0 then
+      for i,v in ipairs(aTargets) do
+        local ctTarget = ActorManager.resolveActor(v);
+        resolveHeal(ctActor, ctTarget, rRoll);
+      end
+    end
   end
   if rRoll.sType == "Damage" then
-    
+    -- rSource is a creatureNode, and we need the CT node if there is one. 
+    local ctActor = ActorManager.resolveActor(rSource);
+    if #aTargets > 0 then
+      for i,v in ipairs(aTargets) do
+        local ctTarget = ActorManager.resolveActor(v);
+        resolveDamage(ctActor, ctTarget, rRoll);
+      end
+    end
   end
   if rRoll.sType == "Attack" then
-    
+    local nTotal = ActionsManager.total(rRoll);
+    -- rSource is a creatureNode, and we need the CT node if there is one. 
+    local ctActor = ActorManager.resolveActor(rSource);
+    if #aTargets > 0 then
+      for i,v in ipairs(aTargets) do
+        local ctTarget = ActorManager.resolveActor(v);
+        resolveAttack(ctActor, ctTarget, rRoll);
+      end
+    end
   end
 end
+
+function resolveAttack(rSource, rTarget, rRoll)
+  local rActor = ActorManager.resolveActor(rSource);
+  local nodeTarget = ActorManager.getCreatureNode(rTarget);
+  local nTotal = ActionsManager.total(rRoll);
+	local rMessage = ChatManager.createBaseMessage(rSource, rRoll.sUser);
+  local targetDefense = DB.getValue(nodeTarget, "defenses.physical.value");
+  local hitOrMiss = "missed.";
+  if nTotal >= targetDefense then
+    hitOrMiss = "hits.";
+  end
+  rMessage.text = "Attacking "..rTarget.sName..". The attack "..hitOrMiss;
+	Comm.deliverChatMessage(rMessage);  
+end
+
+
+function resolveDamage(rSource, rTarget, rRoll)
+  local rActor = ActorManager.resolveActor(rSource);
+  local nodeTarget = ActorManager.getCreatureNode(rTarget);
+  local nTotal = ActionsManager.total(rRoll);
+	local rMessage = ChatManager.createBaseMessage(rSource, rRoll.sUser);
+  local targetDamage = DB.getValue(nodeTarget, "health.damage.value", 0);
+  local newDamage = targetDamage + nTotal;
+  DB.setValue(nodeTarget, "health.damage.value", "number", newDamage);
+  rMessage.text = "Damaging "..rTarget.sName.." for "..nTotal;
+	Comm.deliverChatMessage(rMessage);  
+end
+
+
+function resolveHeal(rSource, rTarget, rRoll)
+  local rActor = ActorManager.resolveActor(rSource);
+  local nodeTarget = ActorManager.getCreatureNode(rTarget);
+  local nTotal = ActionsManager.total(rRoll);
+	local rMessage = ChatManager.createBaseMessage(rSource, rRoll.sUser);
+  local targetDamage = DB.getValue(nodeTarget, "health.damage.value", 0);
+  local targetStun = DB.getValue(nodeTarget, "health.damage.stun", 0);
+  local newDamage = targetDamage - nTotal;
+  local newStun = targetDamage - nTotal;
+  if newDamage < 0 then
+    newDamage = 0;
+  end
+  if newStun < 0 then
+    newStun = 0;
+  end
+  DB.setValue(nodeTarget, "health.damage.value", "number", newDamage);
+  DB.setValue(nodeTarget, "health.damage.stun", "number", newStun);
+  rMessage.text = "Healing "..rTarget.sName.." for "..nTotal;
+	Comm.deliverChatMessage(rMessage);  
+end
+
 
 function explodeDie(nDieSides)
   -- This works, don't break it. Needed to explode dice.
@@ -396,16 +465,6 @@ function handleApplyInit(msgOOB)
 	local nTotal = tonumber(msgOOB.nTotal) or 0;
 
 	DB.setValue(ActorManager.getCTNode(rSource), "initresult", "number", nTotal);
-end
-
-function decodeActionFromDrag(draginfo, bFinal)
-	local rSource, aTargets = ActionsManager.decodeActors(draginfo);
-	local rRolls = {};
-	for i = 1, draginfo.getSlotCount() do
-		table.insert(rRolls, ActionsManager.decodeRollFromDrag(draginfo, i, bFinal));
-	end
-	
-	return rSource, rRolls, aTargets;
 end
 
 function decodeDiceResults(rRoll)
@@ -496,6 +555,25 @@ function checkExplode(rSource, rTarget, rRoll)
   
 end
 
+--Copied from 5e.
+function onTargeting(rSource, aTargeting, rRolls)
+  --This doesn't seem to get called?
+	local bRemoveOnMiss = false;
+	local sOptRMMT = OptionsManager.getOption("RMMT");
+	if sOptRMMT == "on" then
+		bRemoveOnMiss = true;
+	elseif sOptRMMT == "multi" then
+		bRemoveOnMiss = (#aTargeting > 1);
+	end
+	
+	if bRemoveOnMiss then
+		for _,vRoll in ipairs(rRolls) do
+			vRoll.bRemoveOnMiss = "true";
+		end
+	end
+
+	return aTargeting;
+end
 
 
 
