@@ -207,8 +207,12 @@
 				<icon>button_shield_down</icon>
 			</icon_ctsection>
       
+			<label name="defense_label">
+				<anchored to="defensiveicon" position="righthigh" offset="10,0" />
+				<static textres="char_label_defenses" />
+			</label>
 			<number_ct name="phys_def">
-				<anchored to="defensiveicon" position="righthigh" offset="70,0" />
+				<anchored to="defense_label" position="righthigh" offset="60,0" />
 				<description textres="char_label_physical" />
 			</number_ct>
 			<label name="phys_def_label">
@@ -216,7 +220,7 @@
 				<static textres="char_label_physical" />
 			</label>
 			<number_ct name="myst_def">
-				<anchored to="phys_def" position="righthigh" offset="60,0" />
+				<anchored to="phys_def" position="righthigh" offset="65,0" />
 				<description textres="char_label_mystic" />
 			</number_ct>
 			<label name="myst_def_label">
@@ -232,7 +236,28 @@
 				<static textres="char_label_social" />
 			</label>
       
-			<string_ct name="specialqualities">
+			<label name="armor_label">
+				<anchored to="social_def" position="righthigh" offset="25,0" />
+				<static textres="char_label_armor" />
+			</label>
+			<number_ct name="phys_armor">
+				<anchored to="armor_label" position="righthigh" offset="65,0" />
+				<description textres="char_label_physical" />
+			</number_ct>
+			<label name="phys_armor_label">
+				<anchored to="phys_armor" position="lefthigh" offset="10,0"/>
+				<static textres="char_label_physical" />
+			</label>
+			<number_ct name="myst_armor">
+				<anchored to="phys_armor" position="righthigh" offset="65,0" />
+				<description textres="char_label_mystic" />
+			</number_ct>
+			<label name="myst_armor_label">
+				<anchored to="myst_armor" position="lefthigh" offset="10,0"/>
+				<static textres="char_label_mystic" />
+			</label>
+      
+			<string_ct name="specialdefenses">
 				<anchored>
 					<top parent="active_spacer_top" anchor="bottom" relation="relative" offset="35" />
 					<left parent="defensiveicon" anchor="right" offset="61" />
@@ -240,14 +265,14 @@
 				</anchored>
 				<multilinespacing>20</multilinespacing>
 			</string_ct>
-			<label name="specialqualitieslabel">
-				<anchored to="specialqualities" position="lefthigh" offset="5,0"/>
-				<static textres="ct_label_specialqualities" />
+			<label name="specialdefenseslabel">
+				<anchored to="specialdefenses" position="lefthigh" offset="5,0"/>
+				<static textres="ct_label_specialdefenses" />
 			</label>
 			<frame_ctsub name="frame_defensive">
 				<anchored>
 					<top parent="defensiveicon" />
-					<bottom parent="specialqualities" offset="8" />
+					<bottom parent="specialdefenses" offset="8" />
 				</anchored>
 			</frame_ctsub>
       
