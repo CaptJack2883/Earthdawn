@@ -66,7 +66,7 @@
           function addEntry(bFocus)
             local w = createWindow();
             if bFocus and w then
-              w.label.setFocus();
+              w.name.setFocus();
             end
             return w;
           end
@@ -225,7 +225,7 @@
 				<tabtarget prev="name" />
 				<script>
 					function onEnter()
-						window.windowlist.addNewInstance(window.label.getValue());
+						window.windowlist.addNewInstance(window.name.getValue());
 						return true;
 					end
 				</script>

@@ -277,6 +277,7 @@
 	<string name="ct_label_effects">Effects:</string>
 	<string name="ct_label_size">Size</string>
 	<string name="ct_label_reach">Reach</string>
+	<string name="ct_label_specialdefenses">Special:</string>
 	<string name="ct_label_effectappliedby">Applied by:</string>
 	<string name="ct_label_effecttargets">Targets:</string>
 	<string name="ct_label_menu">Menu</string>
@@ -371,12 +372,12 @@
   <string name="char_label_attribute">Attribute</string>
   <string name="char_label_total">Total</string>
   <string name="char_label_attributes">Attributes</string>
-  <string name="char_label_defenses">Defenses</string>
+  <string name="char_label_defenses">Defenses:</string>
   <string name="char_label_senses">Senses</string>
   <string name="char_label_physical">Physical</string>
   <string name="char_label_mystic">Mystic</string>
   <string name="char_label_social">Social</string>
-  <string name="char_label_armor">Armor</string>
+  <string name="char_label_armor">Armor:</string>
   <string name="char_label_health">Health</string>
   <string name="char_label_uncon">Uncon</string>
   <string name="char_label_death">Death</string>

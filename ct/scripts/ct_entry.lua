@@ -158,6 +158,8 @@ function linkPCFields()
     phys_def.setLink(nodeChar.createChild("defenses.physical.value", "number"), true);
     myst_def.setLink(nodeChar.createChild("defenses.mystic.value", "number"), true);
     social_def.setLink(nodeChar.createChild("defenses.social.value", "number"), true);
+    phys_armor.setLink(nodeChar.createChild("armor.physical.value", "number"), true);
+    myst_armor.setLink(nodeChar.createChild("armor.mystic.value", "number"), true);
 	end
 end
 
@@ -174,6 +176,8 @@ function linkNPCFields()
     phys_def.setLink(nodeChar.createChild("defenses.physical.value", "number"), true);
     myst_def.setLink(nodeChar.createChild("defenses.mystic.value", "number"), true);
     social_def.setLink(nodeChar.createChild("defenses.social.value", "number"), true);
+    phys_armor.setLink(nodeChar.createChild("armor.physical.value", "number"), true);
+    myst_armor.setLink(nodeChar.createChild("armor.mystic.value", "number"), true);
 	end
 end
 --
@@ -236,14 +240,20 @@ function setDefensiveVisible()
 		v = true;
 	end
 	defensiveicon.setVisible(v);
+	defense_label.setVisible(v);
 	phys_def.setVisible(v);
 	phys_def_label.setVisible(v);
 	myst_def.setVisible(v);
 	myst_def_label.setVisible(v);
 	social_def.setVisible(v);
 	social_def_label.setVisible(v);
-	specialqualities.setVisible(v);
-	specialqualitieslabel.setVisible(v);
+	armor_label.setVisible(v);
+	phys_armor.setVisible(v);
+	phys_armor_label.setVisible(v);
+	myst_armor.setVisible(v);
+	myst_armor_label.setVisible(v);
+	specialdefenses.setVisible(v);
+	specialdefenseslabel.setVisible(v);
 	frame_defensive.setVisible(v);
 	
   

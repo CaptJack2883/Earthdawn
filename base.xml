@@ -8,9 +8,10 @@ This means that I will no longer be testing this ruleset in FGC. I can only guar
 
 CRITICALLY IMPORTANT
 
-Add Targeting options.
+Add Combat/Actions/Spells/Thread Items Tab(s) to charsheet.
+Fix themes.
 Fill empty space on charsheet_main. (Blood Magic items, Half-Magic tests?)
-Need to create a place for Talent Knacks.
+Need to create a place for Talent Knacks. Secondary window on the talents page of charsheet?
 In Progress: Fix layout of main charsheet tab. Use correct label templates (<label> and <label_frametop> but not <label_column>)
 Possibly add Circle/Novice/Journeyman to skills/talents view.
 Add Karma Use to rolls. Talents, and based on a checkbox in/near modifier box?
@@ -19,7 +20,6 @@ Add Racial Stats to Race records, so they can be added to character sheet by dra
 Get Races reference to match definitions in book.
 Get Disciplines reference to match definitions in book.
 In Progress: Allow Drag/Drop Character Creation. Race/Discipline/Talents/Skills are now working.
-Add Combat/Actions/Spells/Thread Items Tab(s) to charsheet.
 Get rolls to check for targets, and their Defenses. 
 Create "Roll Step #" widget, (similar to the Mod window or the Dice Tower) that allows you to enter a step number and roll it.
 Add Custom Ability Modifier Fields to NPC and Charsheet, to allow custom bonuses/flaws. (Other computations, such as Race, Attribute Points, Half-Magic, etc.)
@@ -51,8 +51,15 @@ Do I need a legend worksheet?
 
 
 FINISHED/FIXED:
+
+GitHub Update #5
+June 13, 2021:
+Fixed "Script Execution error: {string "skills"]:23: attempt to index field 'label' (a nil value)"
+Added Armor values to CT Defensive frame.
+
 GitHub Update #4
 June 12, 2021:
+Rolls can now be targeted.
 onResult now recognizes rolls that have "attack", "damage", or "heal" as part of the rRoll.sDesc.
 Attack rolls now report hit or miss on physical defense.
 Heal rolls now heal the target.
