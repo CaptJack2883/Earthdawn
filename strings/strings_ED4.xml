@@ -6,6 +6,9 @@
 -->
 
 <root>
+	<!-- Testing -->
+	<string name="test">Testing</string>
+  
 	<!-- General -->
 	<string name="color_edit">Click to edit color</string>
 	<string name="ft_empty">Click to enter text</string>

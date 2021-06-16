@@ -11,6 +11,7 @@
   <includefile source="campaign/char_skills.xml" />
   <includefile source="campaign/char_inventory.xml" />
   <includefile source="campaign/char_notes.xml" />
+  <includefile source="campaign/char_actions.xml" />
   <includefile source="campaign/record_char_abilities.xml" />
   
 	<windowclass name="charsheet">
@@ -93,6 +94,10 @@
 				<bounds>0,65,-1,-20</bounds>
 				<class>charsheet_notes</class>
 			</subwindow>
+			<subwindow name="actions">
+				<bounds>0,65,-1,-20</bounds>
+				<class>charsheet_actions</class>
+			</subwindow>
 
 			<tabs_charsheet name="tabs">
 				<tab>
@@ -114,6 +119,10 @@
 				<tab>
 					<icon>tab_notes</icon>
 					<subwindow>notes</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_actions</icon>
+					<subwindow>actions</subwindow>
 				</tab>
 			</tabs_charsheet>
 		

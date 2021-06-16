@@ -161,11 +161,11 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "Dexterity", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "dexterity", getValue(), rActor);
             return true;
           end
           function onDoubleClick()
-            local sType = "Dexterity";
+            local sType = "dexterity";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
@@ -186,11 +186,11 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "Strength", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "strength", getValue(), rActor);
             return true;
           end
           function onDoubleClick()
-            local sType = "Strength";
+            local sType = "strength";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
@@ -211,11 +211,11 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "Toughness", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "toughness", getValue(), rActor);
             return true;
           end
           function onDoubleClick()
-            local sType = "Toughness";
+            local sType = "toughness";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
@@ -236,11 +236,11 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "Perception", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "perception", getValue(), rActor);
             return true;
           end
           function onDoubleClick()
-            local sType = "Perception";
+            local sType = "perception";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
@@ -261,11 +261,11 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "Willpower", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "willpower", getValue(), rActor);
             return true;
           end
           function onDoubleClick()
-            local sType = "Willpower";
+            local sType = "willpower";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
@@ -286,11 +286,11 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "Charisma", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "charisma", getValue(), rActor);
             return true;
           end
           function onDoubleClick()
-            local sType = "Charisma";
+            local sType = "charisma";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
@@ -314,11 +314,11 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "InitRoll", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "initroll", getValue(), rActor);
             return true;
           end
           function onDoubleClick()
-            local sType = "InitRoll";
+            local sType = "initroll";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
@@ -354,13 +354,13 @@
         <min>0</min>
         <script>
           function onDrop(x, y, draginfo)
-            if draginfo.isType("Recovery") then
+            if draginfo.isType("recovery") then
               setValue(getValue() - draginfo.getNumberData());
               return true;
-            elseif draginfo.isType("Heal") then
+            elseif draginfo.isType("heal") then
               setValue(getValue() - draginfo.getNumberData());
               return true;
-            elseif draginfo.isType("Damage") then
+            elseif draginfo.isType("damage") then
               setValue(getValue() + draginfo.getNumberData());
               return true;
             end

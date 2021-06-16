@@ -55,3 +55,10 @@ function rollPCInit()
     end
   end
 end
+
+function onDrop(dropType, nodeWin, draginfo)
+  if dropType == "ct" then    
+    local rTarget = ActorManager.resolveActor(nodeWin);
+    ActionsManager.actionDrop(draginfo, rTarget);
+  end
+end

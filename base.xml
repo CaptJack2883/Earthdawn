@@ -8,14 +8,15 @@ This means that I will no longer be testing this ruleset in FGC. I can only guar
 
 CRITICALLY IMPORTANT
 
+Drop rolls on map target.
+Make sure the CT calls onInit for each combatant?
 Add Combat/Actions/Spells/Thread Items Tab(s) to charsheet.
-Fix themes.
 Fill empty space on charsheet_main. (Blood Magic items, Half-Magic tests?)
 Need to create a place for Talent Knacks. Secondary window on the talents page of charsheet?
 In Progress: Fix layout of main charsheet tab. Use correct label templates (<label> and <label_frametop> but not <label_column>)
 Possibly add Circle/Novice/Journeyman to skills/talents view.
 Add Karma Use to rolls. Talents, and based on a checkbox in/near modifier box?
-Get Combat Tracker working. In progress, Initiative Rolls, Defenses, Health, and Current Wounds are working so far. (Need to add Attacks, etc)
+Get Combat Tracker working. In progress, Initiative Rolls, Attacks, Damage, Heal, Stun, Defenses, Health, and Current Wounds are working so far. (Need to add Armor, Spells, etc)
 Add Racial Stats to Race records, so they can be added to character sheet by dragging. (Create New Tab?)
 Get Races reference to match definitions in book.
 Get Disciplines reference to match definitions in book.
@@ -32,6 +33,7 @@ Fix NPCs so that manually entered numbers don't get overwritten by onUpdate(); (
 
 THEME/UI:
 FG Dark theme removes iedit buttons on client?
+Fix compatibility with CoreRPG themes.
 
 OPTIMIZATION:
 Verify that old FGC code isn't bogging us down.
@@ -48,9 +50,21 @@ Allow spells to be displayed by class, level, etc. (Data Library, aPlayerListBut
 Maybe we need a getStepFromDice function in Step_Action_Lookup? (reverse of getStepDice)
 Fix pronouns to use they/them instead of he/him or she/her. (talent descriptions, etc)
 Do I need a legend worksheet?
-
+Fix exploded dice to show green bgcolor instead of green die graphic for better viewing. (same for red 1/s? probably not, we know they're 1 by the color alone?)
+Fix steps 40+ (we don't use d4's after step 3)
 
 FINISHED/FIXED:
+
+GitHub Update #6
+June 16, 2021:
+Fixed targeted rolls losing their targets on explosion of dice.
+FINALLY!! I figured out how to make all step dice explode. THANKS Moon Wizard, damned, and psicodelix.
+The easier way of exploding dice unfortunately doesn't allow desktop dice to explode. 
+Removed borrowed code from DarkPaladin3. Thanks for the interrim solution!
+Added ability to drop rolls on CT. (Attack, Damage, Heal, Stun)
+Fixed healing rolls causing stun damage.
+Reorganized graphics xmls.
+Started working on Actions tab for Charsheet. (WIP)
 
 GitHub Update #5
 June 13, 2021:
@@ -81,6 +95,7 @@ Added Description info for Stats onDragStart
 Fixed Talent/Skill onUpdate to make sure the shortcut exists before overwriting the name.
 Fixed languages on FGU. I think.
 Added new action types for Attack, Damage, Heal
+Borrowed Code from DarkPaladin3 to update the exploding rolls.
 Updated Talents/Skills tabs on char sheet to show rank/step.
 Added defenses to CT.
 Color Dice results when they explode! Or hit the "Rule of One"!
@@ -145,7 +160,6 @@ Add Legend Points(XP) to Party Sheet.
 Fixed spelling of Obsidimen vs Obsidiman in race descriptions. (Obsidiman is singular, Obsidimen is plural.)
 
 Unused Files:
-	<includefile source="ct/template_ct.xml" />
   <script name="CombatManager" file="scripts/manager_combat.lua" />
   <script name="ActionsManager" file="scripts/manager_actions.lua" />
 -->
@@ -163,19 +177,19 @@ Unused Files:
   <includefile source="gameelements.xml" />
     
   <!-- Graphics -->
-  <includefile source="graphics/graphics_icons.xml" />
-  <includefile source="graphics/graphics_tabs.xml" />
-  <includefile source="graphics/graphics_frames.xml" />
   <includefile source="graphics/graphics_decals.xml" />
   <includefile source="graphics/graphics_fonts_ED4.xml" />
+  <includefile source="graphics/graphics_frames.xml" />
+  <includefile source="graphics/graphics_icons.xml" />
+  <includefile source="graphics/graphics_tabs.xml" />
   
   <!-- Window Classes -->
+  <includefile source="ref/ref_disciplines.xml" />
   <includefile source="ref/ref_races.xml" />
   <includefile source="ref/ref_racials.xml" />
-  <includefile source="ref/ref_disciplines.xml" />
-  <includefile source="ref/ref_talents.xml" />
   <includefile source="ref/ref_skills.xml" />
   <includefile source="ref/ref_spells.xml" />
+  <includefile source="ref/ref_talents.xml" />
   
   <!-- Window Classes -->
   <includefile source="campaign/record_npc.xml" />
@@ -194,11 +208,11 @@ Unused Files:
   <!-- Scripts -->
   <script name="Global" file="scripts/global.lua" />
   <script name="LibraryDataED4" file="scripts/data_library_ED4.lua" />
-  <script name="StepLookup" file="scripts/step_action_lookup.lua" />
   <script name="ActionManagerED4" file="scripts/manager_actions_ED4.lua" />
   <script name="CharacterManager" file="scripts/manager_character.lua" />
   <script name="CombatManagerED4" file="scripts/manager_combat_ED4.lua" />
-	<script name="GameSystem" file="scripts/manager_gamesystem.lua" />  
+	<script name="GameSystem" file="scripts/manager_gamesystem.lua" />
+  <script name="StepLookup" file="scripts/step_action_lookup.lua" />
   
   <!-- Templates -->
   <includefile source="common/template_ED4.xml" />

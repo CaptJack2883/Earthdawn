@@ -26,10 +26,14 @@ function parseComponents()
       local stepNum, sVerify = StringManager.extractPattern(sStep, "%d+");
       if sVerify == "Step " then
         stepNum = tonumber(stepNum);
-        local stepDice, nMod, stepNum = StepLookup.getStepDice(stepNum);
-        local sLabel = sDesc .. " (Step " .. stepNum .. ")";
+        local rRoll = StepLookup.getRoll(stepNum);
+        --local stepDice, nMod, stepNum = StepLookup.getStepDice(stepNum);
+        --local stepDice = rRoll.aDice;
+        --local nMod = rRoll.nMod;
+        rRoll.sDesc = sDesc .. rRoll.sDesc;
         -- Insert the possible skill into the skill list
-        table.insert(aComponents, {nStart = aClauseStats[i].startpos, nLabelEnd = aClauseStats[i].startpos + nEnds, nEnd = aClauseStats[i].endpos, sLabel = sLabel, aDice = stepDice, nMod = nMod, rStep = stepNum });
+        --table.insert(aComponents, {nStart = aClauseStats[i].startpos, nLabelEnd = aClauseStats[i].startpos + nEnds, nEnd = aClauseStats[i].endpos, sLabel = sLabel, aDice = stepDice, nMod = nMod, rStep = stepNum });
+        table.insert(aComponents, {nStart = aClauseStats[i].startpos, nLabelEnd = aClauseStats[i].startpos + nEnds, nEnd = aClauseStats[i].endpos, rRoll = rRoll });
       else --look for "2d6+5" type dice.
         local nStarts, nEnds, sMod = string.find(aClauses[i], "([d%dF%+%-]+)%s*$");
         if nStarts then
@@ -93,29 +97,55 @@ end
 function action(draginfo)
 	if nDragIndex then
 		if draginfo then
-			if #(aComponents[nDragIndex].aDice) > 0 then
-				local rRoll = { sType = "dice", sDesc = aComponents[nDragIndex].sLabel, aDice = aComponents[nDragIndex].aDice, nMod = aComponents[nDragIndex].nMod, rStep = aComponents[nDragIndex].rStep };
+      --This is for drag rolls.
+			if aComponents[nDragIndex].rRoll then
+        --We found a complete roll, so this is a Step Roll.
+				--local rRoll = { sType = "dice", sDesc = aComponents[nDragIndex].sLabel, aDice = aComponents[nDragIndex].aDice, nMod = aComponents[nDragIndex].nMod, rStep = aComponents[nDragIndex].rStep };
+        local rRoll = aComponents[nDragIndex].rRoll;
+        local rStep = rRoll.rStep;
         local bSecretRoll = true;
         --need to make sure rActor has the NPC actor node.
         local nodeChar = window.getDatabaseNode();
         local rActor = ActorManager.resolveActor(nodeChar);
         ActionManagerED4.dragRoll(draginfo, rRoll.sType, rStep, rActor, bSecretRoll, rRoll);
-				--ActionsManager.performAction(draginfo, nil, rRoll);
-			else
+				--ActionsManager.performAction(draginfo, rActor, rRoll);
+			elseif #(aComponents[nDragIndex].aDice) > 0 then
+        --We found non-step roll.
+				local rRoll = { sType = "dice", sDesc = aComponents[nDragIndex].sLabel, aDice = aComponents[nDragIndex].aDice, nMod = aComponents[nDragIndex].nMod, rStep = aComponents[nDragIndex].rStep };
+        local rStep = rRoll.rStep;
+        local bSecretRoll = true;
+        --need to make sure rActor has the NPC actor node.
+        local nodeChar = window.getDatabaseNode();
+        local rActor = ActorManager.resolveActor(nodeChar);
+        ActionManagerED4.dragRoll(draginfo, rRoll.sType, rStep, rActor, bSecretRoll, rRoll);
+				--ActionsManager.performAction(draginfo, rActor, rRoll);        
+      else
 				draginfo.setType("number");
 				draginfo.setDescription(aComponents[nDragIndex].sLabel);
 				draginfo.setStringData(aComponents[nDragIndex].sLabel);
 				draginfo.setNumberData(aComponents[nDragIndex].nMod);
 			end
 		else
-			if #(aComponents[nDragIndex].aDice) > 0 then
+      --This is for doubleclick rolls.
+			if aComponents[nDragIndex].rRoll then
+        --We found a complete roll, so this is a Step Roll.
+        local rRoll = aComponents[nDragIndex].rRoll;
+        local rStep = rRoll.rStep;
+        local bSecretRoll = true;
+        --need to make sure nodeChar has the NPC actor node.
+        local nodeChar = window.getDatabaseNode();
+        local rActor = ActorManager.resolveActor(nodeChar);
+        ActionManagerED4.pushRoll(rRoll.sType, rRoll.rStep, nodeChar, bSecretRoll, rRoll);
+				--ActionsManager.performAction(draginfo, rActor, rRoll);
+			elseif #(aComponents[nDragIndex].aDice) > 0 then
+        --We found non-step roll.
 				local rRoll = { sType = "dice", sDesc = aComponents[nDragIndex].sLabel, aDice = aComponents[nDragIndex].aDice, nMod = aComponents[nDragIndex].nMod, rStep = aComponents[nDragIndex].rStep };
         local bSecretRoll = true;
         --need to make sure nodeChar has the NPC actor node.
         local nodeChar = window.getDatabaseNode();
         local rActor = ActorManager.resolveActor(nodeChar);
         ActionManagerED4.pushRoll(rRoll.sType, rRoll.rStep, nodeChar, bSecretRoll, rRoll);
-				--ActionsManager.performAction(nil, nil, rRoll);
+				--ActionsManager.performAction(draginfo, rActor, rRoll);
 			else
 				ModifierStack.addSlot(aComponents[nDragIndex].sLabel, aComponents[nDragIndex].nMod);
 			end
