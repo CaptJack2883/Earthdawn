@@ -43,7 +43,7 @@ function recoveryTest(nodeChar)
   local rStep = DB.getValue(nodeChar, "health.recovery.step", 0);
   local currentHealth = DB.getValue(nodeChar, "health.damage.total", 0);
   local currentBlood = DB.getValue(nodeChar, "health.damage.blood", 0);
-  local sType = "Recovery";
+  local sType = "recovery";
   local bSecretRoll = false;
   if currentHealth > currentBlood then
     ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
@@ -52,7 +52,7 @@ end
 
 function rollInit(nodeChar, bSecretRoll)
   local rStep = DB.getValue(nodeChar, "initiative.step", 0);
-  local sType = "InitRoll";
+  local sType = "initroll";
   ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
 end
 

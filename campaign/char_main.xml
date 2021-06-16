@@ -108,7 +108,7 @@
         <static textres="char_label_step" />
       </label_column>
       
-      <label_column name="Dexterity">
+      <label_column name="dexterity">
 				<anchored>
           <top offset="80" />
           <left offset="15" />
@@ -164,11 +164,11 @@
           end
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "Dexterity", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "dexterity", getValue(), rActor);
             return true;
           end
           function onDoubleClick()
-            local sType = "Dexterity";
+            local sType = "dexterity";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
@@ -179,7 +179,7 @@
         <default>5</default>
       </number_column>
       
-      <label_column name="Strength">
+      <label_column name="strength">
 				<anchored>
           <top offset="10" />
           <left offset="15" />
@@ -235,11 +235,11 @@
           end
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "Strength", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "strength", getValue(), rActor);
             return true;
           end
           function onDoubleClick()
-            local sType = "Strength";
+            local sType = "strength";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
@@ -250,7 +250,7 @@
         <rollable />
       </number_column>
       
-      <label_column name="Toughness">
+      <label_column name="toughness">
 				<anchored>
           <top offset="10" />
           <left offset="15" />
@@ -306,11 +306,11 @@
           end
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "Toughness", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "toughness", getValue(), rActor);
             return true;
           end
           function onDoubleClick()
-            local sType = "Toughness";
+            local sType = "toughness";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
@@ -321,7 +321,7 @@
         <default>5</default>
       </number_column>
 
-      <label_column name="Perception">
+      <label_column name="perception">
 				<anchored>
           <top offset="10" />
           <left offset="15" />
@@ -377,11 +377,11 @@
           end
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "Perception", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "perception", getValue(), rActor);
             return true;
           end
           function onDoubleClick()
-            local sType = "Perception";
+            local sType = "perception";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
@@ -392,7 +392,7 @@
         <default>5</default>
       </number_column>
 
-      <label_column name="Willpower">
+      <label_column name="willpower">
 				<anchored>
           <top offset="10" />
           <left offset="15" />
@@ -448,11 +448,11 @@
           end
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "Willpower", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "willpower", getValue(), rActor);
             return true;
           end
           function onDoubleClick()
-            local sType = "Willpower";
+            local sType = "willpower";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
@@ -463,7 +463,7 @@
         <default>5</default>
       </number_column>
 
-      <label_column name="Charisma">
+      <label_column name="charisma">
 				<anchored>
           <top offset="10" />
           <left offset="15" />
@@ -519,11 +519,11 @@
           end
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "Charisma", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "charisma", getValue(), rActor);
             return true;
           end
           function onDoubleClick()
-            local sType = "Charisma";
+            local sType = "charisma";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
@@ -597,13 +597,13 @@
             end
           end
           function onDrop(x, y, draginfo)
-            if draginfo.isType("Recovery") then
+            if draginfo.isType("recovery") then
               setValue(getValue() - draginfo.getNumberData());
               return true;
-            elseif draginfo.isType("Heal") then
+            elseif draginfo.isType("heal") then
               setValue(getValue() - draginfo.getNumberData());
               return true;
-            elseif draginfo.isType("Damage") then
+            elseif draginfo.isType("damage") then
               setValue(getValue() + draginfo.getNumberData());
               return true;
             end
@@ -668,13 +668,13 @@
             end
           end
           function onDrop(x, y, draginfo)
-            if draginfo.isType("Recovery") then
+            if draginfo.isType("recovery") then
               setValue(getValue() - draginfo.getNumberData());
               return true;
-            elseif draginfo.isType("Heal") then
+            elseif draginfo.isType("heal") then
               setValue(getValue() - draginfo.getNumberData());
               return true;
-            elseif draginfo.isType("Damage") then
+            elseif draginfo.isType("damage") then
               setValue(getValue() + draginfo.getNumberData());
               return true;
             end
@@ -951,11 +951,11 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "InitRoll", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "initroll", getValue(), rActor);
             return true;
           end
           function onDoubleClick()
-            local sType = "InitRoll";
+            local sType = "initroll";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
@@ -973,11 +973,11 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "Knockdown", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "knockdown", getValue(), rActor);
             return true;
           end
           function onDoubleClick()
-            local sType = "Knockdown";
+            local sType = "knockdown";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
@@ -1057,7 +1057,7 @@
               local karmaStep = 4;
               local rActor = ActorManager.resolveActor(window.getDatabaseNode());
               karmaStep = CharacterManager.getKarmaStep(rActor);
-              ActionManagerED4.dragRoll(draginfo, "Karma", karmaStep, rActor);
+              ActionManagerED4.dragRoll(draginfo, "karma", karmaStep, rActor);
             end
             return true;
           end
@@ -1065,7 +1065,7 @@
             local kValue = getValue();
             if kValue > 0 then
               local karmaStep = 4;
-              local sType = "Karma";
+              local sType = "karma";
               local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
               karmaStep = CharacterManager.getKarmaStep(nodeChar);
               local bSecretRoll = false;
@@ -1083,11 +1083,11 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "Recovery", getValue(), rActor);
+            ActionManagerED4.dragRoll(draginfo, "recovery", getValue(), rActor);
             return true;
           end
           function onDoubleClick()
-            local sType = "Recovery";
+            local sType = "recovery";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
             local bSecretRoll = false;
@@ -1207,6 +1207,26 @@
           end
         </script>
 			</string_labeled>
+      
+      <button_text name="test">
+				<bounds>20,380,150,50</bounds>
+        <script>
+          function onClickDown()
+            Debug.chat("Testing:");
+            local rRoll = StepLookup.getRoll(13);
+            local rTarget = {};
+            local rSource = {};
+            local rActor = {};
+            local vTargets = {};
+            local rThrow = ActionsManager.buildThrow(rActor, vTargets, rRoll, false);
+            Comm.throwDice(rThrow);
+          end
+        </script>
+      </button_text>
+      <label_frametop name="test">
+				<anchored to="test" />
+        <static textres="test" />
+      </label_frametop>
       
     </sheetdata>
 	</windowclass>

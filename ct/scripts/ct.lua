@@ -19,6 +19,11 @@ function onInit()
 	DB.addHandler(DB.getPath(node, "*.nonid_name"), "onUpdate", onNameOrTokenUpdated);
 	DB.addHandler(DB.getPath(node, "*.isidentified"), "onUpdate", onNameOrTokenUpdated);
 	DB.addHandler(DB.getPath(node, "*.token"), "onUpdate", onNameOrTokenUpdated);
+  
+	for _,v in pairs(getWindows()) do
+		v.updateDisplay();
+	end
+  
 end
 
 function onClose()
@@ -185,6 +190,7 @@ function onDrop(x, y, draginfo)
 	if win then
 		local nodeWin = win.getDatabaseNode();
 		if nodeWin then
+      CombatManagerED4.onDrop("ct", nodeWin.getPath(), draginfo);
 			return CombatManager.onDrop("ct", nodeWin.getPath(), draginfo);
 		end
 	end

@@ -344,13 +344,13 @@
 				function update()
 				end
         function onDrop(x, y, draginfo)
-          if draginfo.isType("Recovery") then
+          if draginfo.isType("recovery") then
             setValue(getValue() - draginfo.getNumberData());
             return true;
-          elseif draginfo.isType("Heal") then
+          elseif draginfo.isType("heal") then
             setValue(getValue() - draginfo.getNumberData());
             return true;
-          elseif draginfo.isType("Damage") then
+          elseif draginfo.isType("damage") then
             setValue(getValue() + draginfo.getNumberData());
             return true;
           end

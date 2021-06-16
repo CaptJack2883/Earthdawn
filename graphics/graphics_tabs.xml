@@ -21,22 +21,48 @@
 	</framedef>
 	<icon name="tabtop" file="graphics/tabs/tabtop.png" />
 	<icon name="tabtop_h" file="graphics/tabs/tabtop_h.png" />
+  <icon name="tab_tabtop" file="graphics/tabs/tabtop.png" />
+  <icon name="tab_tabtop_h" file="graphics/tabs/tabtop_h.png" />
 	
 	<!-- Vertical tab names -->
 	<icon name="tab_inventory" file="graphics/tabs/tab_inventory.png" />
 	<icon name="tab_main" file="graphics/tabs/tab_main.png" />
 	<icon name="tab_notes" file="graphics/tabs/tab_notes.png" />
 	<icon name="tab_order" file="graphics/tabs/tab_order.png" />
-	
 	<icon name="tab_actions" file="graphics/tabs/tab_actions.png" />
 	<icon name="tab_abilities" file="graphics/tabs/tab_abilities.png" />
 	<icon name="tab_combat" file="graphics/tabs/tab_combat.png" />
 	<icon name="tab_other" file="graphics/tabs/tab_other.png" />
 	<icon name="tab_powers" file="graphics/tabs/tab_powers.png" />
+  <icon name="tab_shared" file="graphics/tabs/tab_shared.png" />
 	<icon name="tab_skills" file="graphics/tabs/tab_skills.png" />
 	<icon name="tab_spells" file="graphics/tabs/tab_spells.png" />
+  <icon name="tab_talents" file="graphics/tabs/tab_talents.png" />
+  <icon name="tab_threads" file="graphics/tabs/tab_threads.png" />
 	<icon name="tab_xp" file="graphics/tabs/tab_xp.png" />
-	<icon name="tab_log" file="graphics/tabs/tab_log.png" />
+	<icon name="tab_log" file="graphics/tabs/tab_log.png" />  
+  
+  <!-- Tabs -->
+  <icon name="tab_base1" file="graphics/tabs/tab_base1.png" />
+  <icon name="tab_base2" file="graphics/tabs/tab_base2.png" />
+  <icon name="tab_base3" file="graphics/tabs/tab_base3.png" />
+  <icon name="tab_base4" file="graphics/tabs/tab_base4.png" />
+  <icon name="tab_base5" file="graphics/tabs/tab_base5.png" />
+  <icon name="tab_base1s" file="graphics/tabs/tab_base1s.png" />
+  <icon name="tab_base2s" file="graphics/tabs/tab_base2s.png" />
+  <icon name="tab_base3s" file="graphics/tabs/tab_base3s.png" />
+  <icon name="tab_base4s" file="graphics/tabs/tab_base4s.png" />
+  <icon name="tab_base5s" file="graphics/tabs/tab_base5s.png" />
+  <icon name="tab_icon1" file="graphics/tabs/tab_icon1.png" />
+  <icon name="tab_icon2" file="graphics/tabs/tab_icon2.png" />
+  <icon name="tab_icon3" file="graphics/tabs/tab_icon3.png" />
+  <icon name="tab_icon4" file="graphics/tabs/tab_icon4.png" />
+  <icon name="tab_icon5" file="graphics/tabs/tab_icon5.png" />
+  <icon name="tab_icon6" file="graphics/tabs/tab_icon6.png" />
+  <icon name="tab_icon7" file="graphics/tabs/tab_icon7.png" />
+  <icon name="tab_icon8" file="graphics/tabs/tab_icon8.png" />
+  <icon name="tab_tabs" file="graphics/tabs/tabs.png" />
+  <icon name="tab_tabs_h" file="graphics/tabs/tabs_h.png" />
 	
 	<!-- Horizontal tab font -->
 	<font name="tabfont">

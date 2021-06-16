@@ -8,10 +8,21 @@ actions = {
 	["dice"] = { bUseModStack = "true" },
 	["table"] = { },
 	["effect"] = { sIcon = "action_effect", sTargeting = "all" },
+	["initroll"] = { bUseModStack = true };
+	["recovery"] = {sIcon = "iconHeal", bUseModStack = true };
+	["heal"] = {sIcon = "iconHeal", sTargeting = "all", bUseModStack = true };
+	["damage"] = {sIcon = "iconDamage", sTargeting = "all", bUseModStack = true };
+	["stun"] = {sIcon = "iconDamage", sTargeting = "all", bUseModStack = true };
+	["attack"] = {sIcon = "iconAttack", sTargeting = "each", bUseModStack = true };
+  
 };
 
 targetactions = {
 	"effect",
+	"attack",
+	"damage",
+	"stun",
+	"heal",
 };
 
 currencies = { "Gold", "Silver", "Copper" };
