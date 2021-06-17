@@ -48,8 +48,6 @@ function getRoll(sType, rStep, rActor, bSecretRoll)
     rRoll = StepLookup.getRoll(rStep);
     --rRoll.aDice, rRoll.nMod, rStep = StepLookup.getStepDice(rStep);
     --rRoll.sDesc =  "(Step " .. rStep .. ") ";
-    --Debug.chat("Testing aDice inside getRoll");
-    --Debug.chat(rRoll);
   end
 	-- Action type.
   if sType then
@@ -121,27 +119,6 @@ end
 
 
 function onResult(rSource, rTarget, rRoll, nTotal)
-  local aTargetNodes = {};
-  local aTargets;
-  if not rTarget then
-    local rActor = ActorManager.resolveActor(rSource);
-		if rRoll.bSelfTarget then
-			aTargets = { rActor };
-		else
-			aTargets = TargetingManager.getFullTargets(rActor);
-		end
-		for _,v in ipairs(aTargets) do
-			local sCTNode = ActorManager.getCTNodeName(v);
-			if sCTNode ~= "" then
-				table.insert(aTargetNodes, sCTNode);
-			end
-		end
-		
-		if #aTargetNodes > 0 then
-			rRoll.aTargets = table.concat(aTargetNodes, "|");
-		end
-  end
-  
   -- Before we display, make sure the sDesc has the charName in it. (this is for talents, skills, etc.)
   if rSource then
     if rSource.sCreatureNode then
@@ -166,8 +143,41 @@ function onResult(rSource, rTarget, rRoll, nTotal)
         rSource = ActorManager.resolveActor(rParent);
         nStart=nil;
       end
+      nStart, nEnd = nodeString:find("action");
+      if nStart then
+        --We found an action, need to upgrade the source and rRoll.sDesc
+        rRoll.sDesc = rSource.sName .. ": " .. rRoll.sDesc;
+        local rActor = ActorManager.getCreatureNode(rSource);
+        -- go up two steps to find character node.
+        local rParent = DB.getParent(DB.getParent(rActor));
+        rSource = ActorManager.resolveActor(rParent);
+        nStart=nil;
+      end
     end
   end
+  
+  --Look for targets after confirming rSource has character/CT node.
+  local rActor = ActorManager.resolveActor(rSource);
+  local aTargetNodes = {};
+  local aTargets;
+  if not rTarget then
+		if rRoll.bSelfTarget then
+			aTargets = { rActor };
+		else
+			aTargets = TargetingManager.getFullTargets(rActor);
+		end
+		for _,v in ipairs(aTargets) do
+			local sCTNode = ActorManager.getCTNodeName(v);
+			if sCTNode ~= "" then
+				table.insert(aTargetNodes, sCTNode);
+			end
+		end
+		
+		if #aTargetNodes > 0 then
+			rRoll.aTargets = table.concat(aTargetNodes, "|");
+		end
+  end
+  
   
   --We need to make sure that rRoll.sType has the correct info for the below functions to work.
   --Extract the type of roll from the rRoll.sDesc.
@@ -193,12 +203,6 @@ function onResult(rSource, rTarget, rRoll, nTotal)
       rRoll.sType = "heal"
       sDesc = nil;
     end
-  end
-  
-  if rRoll.aDice.expr then
-    --Debug.chat(rRoll.aDice.expr);
-  elseif rRoll.aDice then
-    --Debug.chat(rRoll.aDice);
   end
     
   --Color dice for 1's and Explosions.
@@ -272,7 +276,6 @@ function onResult(rSource, rTarget, rRoll, nTotal)
     end
   end
   if rRoll.sType == "damage" then
-    --Debug.chat("Testing Damage Function");
     -- rSource is a creatureNode, and we need the CT node if there is one. 
     local ctActor = ActorManager.resolveActor(rSource);
     if aTargets then
@@ -303,7 +306,6 @@ function onResult(rSource, rTarget, rRoll, nTotal)
     end
   end
   if rRoll.sType == "attack" then
-    --Debug.chat("Testing Attack Function");
     local nTotal = ActionsManager.total(rRoll);
     -- rSource is a creatureNode, and we need the CT node if there is one. 
     local ctActor = ActorManager.resolveActor(rSource);
@@ -320,19 +322,15 @@ function onResult(rSource, rTarget, rRoll, nTotal)
     end
   end
   if rTarget then
-    --Debug.chat("Clearing rTarget.");
     rTarget = nil;
   end
   if nodeTarget then
-    --Debug.chat("Clearing nodeTarget.");
     nodeTarget = nil;
   end
   if targetCTNode then
-    --Debug.chat("Clearing targetCTNode.");
     targetCTNode = nil;
   end
   if ctTarget then
-    --Debug.chat("Clearing ctTarget.");
     ctTarget = nil;
   end
 end
@@ -474,8 +472,6 @@ function checkExplode(rSource, rTarget, rRoll)
     nodeTarget = ActorManager.getCreatureNode(rTarget);
   end
   if not rTarget then
-    --Debug.chat("No drop targets, looking for CT targets.");
-    --Debug.chat(aTargets);
   end
 	local isMaxResult = function(rDie)
 		if tonumber(rDie.type:match("^d(%d+)")) == rDie.result then

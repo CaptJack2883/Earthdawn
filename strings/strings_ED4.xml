@@ -391,6 +391,7 @@
   <string name="char_label_strain">Strain</string>
   <string name="char_label_skilluse">Skill Use</string>
   <string name="char_label_action">Action</string>
+  <string name="char_label_actions">Actions</string>
   <string name="char_label_dice">Dice</string>
   <string name="char_label_main">Main</string>
   <string name="char_label_talents">Talents</string>
