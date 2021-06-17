@@ -1208,26 +1208,6 @@
         </script>
 			</string_labeled>
       
-      <button_text name="test">
-				<bounds>20,380,150,50</bounds>
-        <script>
-          function onClickDown()
-            Debug.chat("Testing:");
-            local rRoll = StepLookup.getRoll(13);
-            local rTarget = {};
-            local rSource = {};
-            local rActor = {};
-            local vTargets = {};
-            local rThrow = ActionsManager.buildThrow(rActor, vTargets, rRoll, false);
-            Comm.throwDice(rThrow);
-          end
-        </script>
-      </button_text>
-      <label_frametop name="test">
-				<anchored to="test" />
-        <static textres="test" />
-      </label_frametop>
-      
     </sheetdata>
 	</windowclass>
     

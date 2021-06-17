@@ -33,7 +33,7 @@ Fix NPCs so that manually entered numbers don't get overwritten by onUpdate(); (
 
 THEME/UI:
 FG Dark theme removes iedit buttons on client?
-Fix compatibility with CoreRPG themes.
+Fix compatibility with CoreRPG themes. (probably just need to get rid of crystal png)
 
 OPTIMIZATION:
 Verify that old FGC code isn't bogging us down.
@@ -54,6 +54,12 @@ Fix exploded dice to show green bgcolor instead of green die graphic for better 
 Fix steps 40+ (we don't use d4's after step 3)
 
 FINISHED/FIXED:
+
+GitHub Update #7
+June 17, 2021:
+Added an Actions tab to the charsheet, right now it's using the NPC action script. (Attack, Damage, Stun, Heal, misc.)
+Fixed an issue with targets still disappearing sometimes.
+Removed temporary "testing" button. This wasn't supposed to stay where it was.
 
 GitHub Update #6
 June 16, 2021:
@@ -158,6 +164,27 @@ Allow modifier box to increase the step number before rolling.
 Include ED4 logo for decal options.
 Add Legend Points(XP) to Party Sheet.
 Fixed spelling of Obsidimen vs Obsidiman in race descriptions. (Obsidiman is singular, Obsidimen is plural.)
+
+start of step rolling widget?
+
+<button_text name="test">
+  <bounds>20,380,150,50</bounds>
+  <script>
+    function onClickDown()
+      local rRoll = StepLookup.getRoll(13);
+      local rTarget = {};
+      local rSource = {};
+      local rActor = {};
+      local vTargets = {};
+      local rThrow = ActionsManager.buildThrow(rActor, vTargets, rRoll, false);
+      Comm.throwDice(rThrow);
+    end
+  </script>
+</button_text>
+<label_frametop name="test">
+  <anchored to="test" />
+  <static textres="test" />
+</label_frametop>
 
 Unused Files:
   <script name="CombatManager" file="scripts/manager_combat.lua" />

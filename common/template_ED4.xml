@@ -158,8 +158,8 @@
 			<datasource>.skillslist</datasource>
 			<class>char_skills</class>
 			<sortby>
-				<control>label</control>
-				<control>sublabel</control>
+				<control>name</control>
+				<control>subname</control>
 			</sortby>
     <!--  
 			<script file="campaign/scripts/char_skilllist.lua" /> 
@@ -229,8 +229,8 @@
 			<datasource>.talentlist</datasource>
 			<class>char_talents</class>
 			<sortby>
-				<control>label</control>
-				<control>sublabel</control>
+				<control>name</control>
+				<control>subname</control>
 			</sortby>
     <!--  
 			<script file="campaign/scripts/char_talentlist.lua" /> 
