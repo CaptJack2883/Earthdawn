@@ -25,15 +25,38 @@ function parseComponents()
 		if sStep then
       local stepNum, sVerify = StringManager.extractPattern(sStep, "%d+");
       if sVerify == "Step " then
+        --check for karma use.
+        
+        local sDescLower = string.lower(sDesc);
+        local nStart, nEnd = sDescLower:find("karma");
+        local bKarma = false;
+        if nStart then
+          bKarma = true;
+        end
+        
+        --get the dice for the roll.
         stepNum = tonumber(stepNum);
         local rRoll = StepLookup.getRoll(stepNum);
-        --local stepDice, nMod, stepNum = StepLookup.getStepDice(stepNum);
-        --local stepDice = rRoll.aDice;
-        --local nMod = rRoll.nMod;
+        
+        --update dice for karma.
+        if bKarma then
+          --First we need to see if the char has karma points left.
+          --need to make sure rActor has the NPC actor node.
+          local nodeChar = window.getDatabaseNode();
+          local rActor = ActorManager.resolveActor(nodeChar);
+          rActor = CharacterManager.verifyActor(rActor);
+          local karmaValue = CharacterManager.getKarmaValue(rActor);
+          if karmaValue > 0 then
+          --We need to add dice equal to the karma step (default Step 4/d6)
+            rRoll.aDice.expr = rRoll.aDice.expr.."+d6e"
+          end
+        end
+        
+        --set the description.
         rRoll.sDesc = sDesc .. rRoll.sDesc;
         -- Insert the possible skill into the skill list
         --table.insert(aComponents, {nStart = aClauseStats[i].startpos, nLabelEnd = aClauseStats[i].startpos + nEnds, nEnd = aClauseStats[i].endpos, sLabel = sLabel, aDice = stepDice, nMod = nMod, rStep = stepNum });
-        table.insert(aComponents, {nStart = aClauseStats[i].startpos, nLabelEnd = aClauseStats[i].startpos + nEnds, nEnd = aClauseStats[i].endpos, rRoll = rRoll });
+        table.insert(aComponents, {nStart = aClauseStats[i].startpos, nLabelEnd = aClauseStats[i].startpos + nEnds, nEnd = aClauseStats[i].endpos, rRoll = rRoll, bKarma = bKarma });
       else --look for "2d6+5" type dice.
         local nStarts, nEnds, sMod = string.find(aClauses[i], "([d%dF%+%-]+)%s*$");
         if nStarts then
@@ -104,21 +127,21 @@ function action(draginfo)
         local rRoll = aComponents[nDragIndex].rRoll;
         local rStep = rRoll.rStep;
         local bSecretRoll = true;
+        local bKarma = aComponents[nDragIndex].bKarma;
         --need to make sure rActor has the NPC actor node.
         local nodeChar = window.getDatabaseNode();
         local rActor = ActorManager.resolveActor(nodeChar);
-        ActionManagerED4.dragRoll(draginfo, rRoll.sType, rStep, rActor, bSecretRoll, rRoll);
-				--ActionsManager.performAction(draginfo, rActor, rRoll);
+        ActionManagerED4.dragRoll(draginfo, rRoll.sType, rStep, rActor, rRoll, bKarma, bSecretRoll);
 			elseif #(aComponents[nDragIndex].aDice) > 0 then
         --We found non-step roll.
 				local rRoll = { sType = "dice", sDesc = aComponents[nDragIndex].sLabel, aDice = aComponents[nDragIndex].aDice, nMod = aComponents[nDragIndex].nMod, rStep = aComponents[nDragIndex].rStep };
         local rStep = rRoll.rStep;
         local bSecretRoll = true;
+        local bKarma = aComponents[nDragIndex].bKarma;
         --need to make sure rActor has the NPC actor node.
         local nodeChar = window.getDatabaseNode();
         local rActor = ActorManager.resolveActor(nodeChar);
-        ActionManagerED4.dragRoll(draginfo, rRoll.sType, rStep, rActor, bSecretRoll, rRoll);
-				--ActionsManager.performAction(draginfo, rActor, rRoll);        
+        ActionManagerED4.dragRoll(draginfo, rRoll.sType, rStep, rActor, rRoll, bKarma, bSecretRoll);
       else
 				draginfo.setType("number");
 				draginfo.setDescription(aComponents[nDragIndex].sLabel);
@@ -132,20 +155,20 @@ function action(draginfo)
         local rRoll = aComponents[nDragIndex].rRoll;
         local rStep = rRoll.rStep;
         local bSecretRoll = true;
+        local bKarma = aComponents[nDragIndex].bKarma;
         --need to make sure nodeChar has the NPC actor node.
         local nodeChar = window.getDatabaseNode();
         local rActor = ActorManager.resolveActor(nodeChar);
-        ActionManagerED4.pushRoll(rRoll.sType, rRoll.rStep, nodeChar, bSecretRoll, rRoll);
-				--ActionsManager.performAction(draginfo, rActor, rRoll);
+        ActionManagerED4.pushRoll(rRoll.sType, rRoll.rStep, nodeChar, rRoll, bKarma, bSecretRoll);
 			elseif #(aComponents[nDragIndex].aDice) > 0 then
         --We found non-step roll.
 				local rRoll = { sType = "dice", sDesc = aComponents[nDragIndex].sLabel, aDice = aComponents[nDragIndex].aDice, nMod = aComponents[nDragIndex].nMod, rStep = aComponents[nDragIndex].rStep };
         local bSecretRoll = true;
+        local bKarma = aComponents[nDragIndex].bKarma;
         --need to make sure nodeChar has the NPC actor node.
         local nodeChar = window.getDatabaseNode();
         local rActor = ActorManager.resolveActor(nodeChar);
-        ActionManagerED4.pushRoll(rRoll.sType, rRoll.rStep, nodeChar, bSecretRoll, rRoll);
-				--ActionsManager.performAction(draginfo, rActor, rRoll);
+        ActionManagerED4.pushRoll(rRoll.sType, rRoll.rStep, nodeChar, rRoll, bKarma, bSecretRoll);
 			else
 				ModifierStack.addSlot(aComponents[nDragIndex].sLabel, aComponents[nDragIndex].nMod);
 			end

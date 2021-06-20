@@ -143,6 +143,14 @@
         end            
         DB.setValue(nodeTalent, "talent.total", "number", nTotal);
       end
+      function getKarmaUse()
+        local kValue = karmaUse.getValue();
+        local kUse = false;
+        if kValue == 1 then
+          kUse = true;
+        end
+        return kUse;
+      end
     </script>
 		<sheetdata>
 			<genericcontrol name="leftanchor">
@@ -179,6 +187,8 @@
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
 				</anchored>
         <script>
+          function onValueChanged()
+          end
         </script>
       </button_checkbox>
       
@@ -190,15 +200,18 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "talent", getValue(), rActor);
+            local rStep = getValue();
+            local sType = "talent";
+            local bKarma = window.getKarmaUse();
+            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor, nil, bKarma);
             return true;
           end
           function onDoubleClick()
             local sType = "talent";
             local rStep = getValue();
-            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-            local bSecretRoll = false;
-            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            local bKarma = window.getKarmaUse();
+            ActionManagerED4.pushRoll(sType, rStep, rActor, nil, bKarma);
           end
         </script>
         <readonly />

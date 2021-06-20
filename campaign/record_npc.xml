@@ -168,11 +168,10 @@
             local sType = "dexterity";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-            local bSecretRoll = false;
-            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar);
           end
           function onValueChanged()
-            window.onStatUpdate();
+            window.update();
           end
         </script>
         <rollable />
@@ -193,11 +192,10 @@
             local sType = "strength";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-            local bSecretRoll = false;
-            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar);
           end
           function onValueChanged()
-            window.onStatUpdate();
+            window.update();
           end
         </script>
         <rollable />
@@ -218,11 +216,10 @@
             local sType = "toughness";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-            local bSecretRoll = false;
-            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar);
           end
           function onValueChanged()
-            window.onStatUpdate();
+            window.update();
           end
         </script>
         <rollable />
@@ -243,11 +240,10 @@
             local sType = "perception";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-            local bSecretRoll = false;
-            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar);
           end
           function onValueChanged()
-            window.onStatUpdate();
+            window.update();
           end
         </script>
         <rollable />
@@ -268,11 +264,10 @@
             local sType = "willpower";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-            local bSecretRoll = false;
-            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar);
           end
           function onValueChanged()
-            window.onStatUpdate();
+            window.update();
           end
         </script>
         <rollable />
@@ -293,11 +288,10 @@
             local sType = "charisma";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-            local bSecretRoll = false;
-            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar);
           end
           function onValueChanged()
-            window.onStatUpdate();
+            window.update();
           end
         </script>
         <rollable />
@@ -314,15 +308,16 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "initroll", getValue(), rActor);
+            local sType = "initroll";
+            local rStep = getValue();
+            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor);
             return true;
           end
           function onDoubleClick()
             local sType = "initroll";
             local rStep = getValue();
-            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-            local bSecretRoll = false;
-            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ActionManagerED4.pushRoll(sType, rStep, rActor);
           end
         </script>
         <rollable />
@@ -345,11 +340,56 @@
       
 			<line_column name="divider" />      
       
+			<label_column name="totalDamage_label">
+				<static textres="npc_label_totalDamage" />
+			</label_column>
+      
+			<number_column name="totalDamage" source="health.damage.total">
+				<default>0</default>
+        <min>0</min>
+        <script>
+          function onValueChanged()
+            window.update();
+          end
+        </script>
+        <readonly />
+			</number_column>
+      
+			<label_column_right name="currentStun_label">
+				<anchored to="totalDamage_label">
+          <right offset="-60" />
+        </anchored>
+				<static textres="npc_label_currentStun" />
+			</label_column_right>
+      
+			<number_column_right name="currentStun" source="health.damage.stun">
+				<anchored to="currentStun_label" />
+				<default>0</default>
+        <min>0</min>
+        <script>
+          function onDrop(x, y, draginfo)
+            if draginfo.isType("recovery") then
+              setValue(getValue() - draginfo.getNumberData());
+              return true;
+            elseif draginfo.isType("heal") then
+              setValue(getValue() - draginfo.getNumberData());
+              return true;
+            elseif draginfo.isType("stun") then
+              setValue(getValue() + draginfo.getNumberData());
+              return true;
+            end
+          end
+          function onValueChanged()
+            window.update();
+          end
+        </script>
+			</number_column_right>
+      
 			<label_column name="currentDamage_label">
 				<static textres="npc_label_currentDamage" />
 			</label_column>
       
-			<number_column name="currentDamage" source="health.damage.total">
+			<number_column name="currentDamage" source="health.damage.value">
 				<default>0</default>
         <min>0</min>
         <script>
@@ -364,6 +404,9 @@
               setValue(getValue() + draginfo.getNumberData());
               return true;
             end
+          end
+          function onValueChanged()
+            window.update();
           end
         </script>
 			</number_column>

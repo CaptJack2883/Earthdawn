@@ -44,9 +44,8 @@ function recoveryTest(nodeChar)
   local currentHealth = DB.getValue(nodeChar, "health.damage.total", 0);
   local currentBlood = DB.getValue(nodeChar, "health.damage.blood", 0);
   local sType = "recovery";
-  local bSecretRoll = false;
   if currentHealth > currentBlood then
-    ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+    ActionManagerED4.pushRoll(sType, rStep, nodeChar);
   end
 end
 
@@ -56,23 +55,70 @@ function rollInit(nodeChar, bSecretRoll)
   ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
 end
 
+function getKarmaValue(nodeChar)
+  local karmaValue = 0;
+  if nodeChar and nodeChar.sCreatureNode then
+    local nodeString = tostring(nodeChar.sCreatureNode);
+    local nStart, nEnd = nodeString:find("talent");
+    if nStart then
+      local rParent = DB.getParent(DB.getParent(nodeChar.sCreatureNode));
+      nodeChar = ActorManager.resolveActor(rParent);
+    end
+    local rActor = ActorManager.getCreatureNode(nodeChar);
+    --Invalid Parameter for client? but only sometimes?? I hope this is fixed?
+    karmaValue = DB.getValue(rActor, "karma.value", 0);
+  end
+  return karmaValue;
+end
+
+function setKarmaValue(nodeChar, kValue)
+  if nodeChar and nodeChar.sCreatureNode then
+    local nodeString = tostring(nodeChar.sCreatureNode);
+    local nStart, nEnd = nodeString:find("talent");
+    if nStart then
+      local rParent = DB.getParent(DB.getParent(nodeChar.sCreatureNode));
+      nodeChar = ActorManager.resolveActor(rParent);
+    end
+    local rActor = ActorManager.getCreatureNode(nodeChar);
+    kValue = tonumber(kValue);
+    DB.setValue(rActor, "karma.value", "number", kValue);
+  end
+end
+
 function getKarmaStep(nodeChar)
-  local rActor = ActorManager.resolveActor(nodeChar);
-  --Invalid Parameter for client? but only sometimes??
-  local karmaStep = DB.getValue(actorPath, "karma.step", 4);
+  local karmaStep = 4;
+  if nodeChar and nodeChar.sCreatureNode then
+    local nodeString = tostring(nodeChar.sCreatureNode);
+    local nStart, nEnd = nodeString:find("talent");
+    if nStart then
+      local rParent = DB.getParent(DB.getParent(nodeChar.sCreatureNode));
+      nodeChar = ActorManager.resolveActor(rParent);
+    end
+    local rActor = ActorManager.getCreatureNode(nodeChar);
+    --still returning default value???
+    karmaStep = DB.getValue(rActor, "karma.step", 4);
+  end
   return karmaStep;
 end
 
 function setKarmaStep(nodeChar, kStep)
-  local rActor = ActorManager.resolveActor(nodeChar);
-  kStep = tonumber(kStep);
-  DB.setValue(rActor, "karma.step", "number", kStep);
+  if nodeChar and nodeChar.sCreatureNode then
+    local nodeString = tostring(nodeChar.sCreatureNode);
+    local nStart, nEnd = nodeString:find("talent");
+    if nStart then
+      local rParent = DB.getParent(DB.getParent(nodeChar.sCreatureNode));
+      nodeChar = ActorManager.resolveActor(rParent);
+    end
+    local rActor = ActorManager.getCreatureNode(nodeChar);
+    kStep = tonumber(kStep);
+    DB.setValue(rActor, "karma.step", "number", kStep);
+  end
 end
 
 function updateMaxCarry(nodeChar)
   local strValue = DB.getValue(nodeChar, "abilities.strength.value", 0);
   local maxCarry = StepLookup.getMaxCarry(strValue);
-  DB.setValue(nodeChar, "encumbrance.max", "number", maxCarry);  
+  DB.setValue(rActor, "encumbrance.max", "number", maxCarry);  
 end
 
 function updateDamage(rActor, dmgValue)
@@ -100,4 +146,48 @@ function updateDamage(rActor, dmgValue)
   end
 end
 
+function verifyActor(rSource, rRoll)
+  if rSource then
+    if rSource.sCreatureNode then
+      nodeString = tostring(rSource.sCreatureNode);
+      local nStart, nEnd = nodeString:find("talent");
+      if nStart then
+        --We found a talent, need to upgrade the source and rRoll.sDesc
+        if rRoll then
+          rRoll.sDesc = rSource.sName .. ": " .. rRoll.sDesc;
+        end
+        local rActor = ActorManager.getCreatureNode(rSource);
+        -- go up two steps to find character node.
+        local rParent = DB.getParent(DB.getParent(rActor));
+        rSource = ActorManager.resolveActor(rParent);
+        nStart=nil;
+      end
+      nStart, nEnd = nodeString:find("skill");
+      if nStart then
+        --We found a talent, need to upgrade the source and rRoll.sDesc
+        if rRoll then
+          rRoll.sDesc = rSource.sName .. ": " .. rRoll.sDesc;
+        end
+        local rActor = ActorManager.getCreatureNode(rSource);
+        -- go up two steps to find character node.
+        local rParent = DB.getParent(DB.getParent(rActor));
+        rSource = ActorManager.resolveActor(rParent);
+        nStart=nil;
+      end
+      nStart, nEnd = nodeString:find("action");
+      if nStart then
+        --We found a talent, need to upgrade the source and rRoll.sDesc
+        if rRoll then
+          rRoll.sDesc = rSource.sName .. ": " .. rRoll.sDesc;
+        end
+        local rActor = ActorManager.getCreatureNode(rSource);
+        -- go up two steps to find character node.
+        local rParent = DB.getParent(DB.getParent(rActor));
+        rSource = ActorManager.resolveActor(rParent);
+        nStart=nil;
+      end
+    end
+  end  
+  return rSource, rRoll;
+end
 

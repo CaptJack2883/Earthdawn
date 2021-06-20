@@ -157,15 +157,16 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "skill", getValue(), rActor);
+            local sType = "skill";
+            local rStep = getValue();
+            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor);
             return true;
           end
           function onDoubleClick()
             local sType = "skill";
             local rStep = getValue();
-            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-            local bSecretRoll = false;
-            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ActionManagerED4.pushRoll(sType, rStep, rActor);
           end
         </script>
         <readonly />

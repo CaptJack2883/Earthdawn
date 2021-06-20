@@ -64,7 +64,7 @@ aRecordOverrides = {
     sListDisplayClass = "masterindexitem_id",
 		aCustomFilters = {
 			["Source"] = { sField = "source", fGetValue = getSpellSourceValue },
-			["Level"] = { sField = "level", sType = "number" };
+			["Circle"] = { sField = "circle", sType = "number" };
     },
   },
 };
