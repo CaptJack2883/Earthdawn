@@ -140,8 +140,10 @@
 	<string name="npc_label_defenseSocial">Social Def.</string>
 	<string name="npc_label_armorPhysical">Physical Armor</string>
 	<string name="npc_label_armorMystic">Mystic Armor</string>
-	<string name="npc_label_currentDamage">Current Dmg</string>
-	<string name="npc_label_currentWounds">Current Wounds</string>
+	<string name="npc_label_totalDamage">Total Dmg</string>
+	<string name="npc_label_currentStun">Stun Damage</string>
+	<string name="npc_label_currentDamage">Damage</string>
+	<string name="npc_label_currentWounds">Wounds</string>
 	<string name="npc_label_unconciousRating">Unconciousness Rating</string>
 	<string name="npc_label_deathRating">Death Rating</string>
 	<string name="npc_label_woundThresh">Wound Threshold</string>

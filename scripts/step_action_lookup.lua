@@ -14,7 +14,7 @@ function getRoll(stepNum)
   --local stepDice = "d8e+d6e";
   --local nMod = 0;
   local stepExpr = { expr = stepDice };
-  local rRoll = { sType = "dice", sDesc = "(Step "..stepNum..") ", aDice = stepExpr, nMod = nMod };
+  local rRoll = { sType = "dice", sDesc = " (Step "..stepNum..") ", aDice = stepExpr, nMod = nMod };
   
   return rRoll;
 end

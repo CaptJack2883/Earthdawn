@@ -6,6 +6,7 @@
 function onInit()
 	update();
   onStatUpdate();
+  updateDamage();
 end
 
 function VisDataCleared()
@@ -52,6 +53,9 @@ function update()
 	if updateControl("items", bReadOnly) then bSection2 = true; end;
 	if updateControl("languages", bReadOnly) then bSection = true; end;
 	divider2.setVisible(bSection2);
+  
+  updateDamage();
+  onStatUpdate();
 end
 
 function onStatUpdate()
@@ -80,6 +84,18 @@ function getStatValue(input)
   return stat;
 end
 
+function updateDamage()
+  local dmgTotal = 0;
+  local dmgCurrent = 0;
+  local dmgStun = 0;
+  dmgCurrent = currentDamage.getValue();
+  dmgStun = currentStun.getValue();
+  dmgTotal = dmgCurrent + dmgStun;
+  if dmgTotal < 1 then
+    dmgTotal = 0;
+  end
+  totalDamage.setValue(dmgTotal);  
+end
 
 
 

@@ -171,8 +171,7 @@
             local sType = "dexterity";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-            local bSecretRoll = false;
-            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar);
           end
         </script>
         <rollable />
@@ -242,8 +241,7 @@
             local sType = "strength";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-            local bSecretRoll = false;
-            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar);
           end
         </script>
         <default>5</default>
@@ -313,8 +311,7 @@
             local sType = "toughness";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-            local bSecretRoll = false;
-            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar);
           end
         </script>
         <rollable />
@@ -384,8 +381,7 @@
             local sType = "perception";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-            local bSecretRoll = false;
-            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar);
           end
         </script>
         <rollable />
@@ -455,8 +451,7 @@
             local sType = "willpower";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-            local bSecretRoll = false;
-            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar);
           end
         </script>
         <rollable />
@@ -526,8 +521,7 @@
             local sType = "charisma";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-            local bSecretRoll = false;
-            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar);
           end
         </script>
         <rollable />
@@ -951,15 +945,16 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "initroll", getValue(), rActor);
+            local sType = "initroll";
+            local rStep = getValue();
+            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor);
             return true;
           end
           function onDoubleClick()
             local sType = "initroll";
             local rStep = getValue();
-            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-            local bSecretRoll = false;
-            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ActionManagerED4.pushRoll(sType, rStep, rActor);
           end
         </script>
         <default>5</default>
@@ -973,15 +968,16 @@
         <script>
           function onDragStart(button, x, y, draginfo)
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            ActionManagerED4.dragRoll(draginfo, "knockdown", getValue(), rActor);
+            local sType = "knockdown";
+            local rStep = getValue();
+            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor);
             return true;
           end
           function onDoubleClick()
             local sType = "knockdown";
             local rStep = getValue();
-            local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-            local bSecretRoll = false;
-            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ActionManagerED4.pushRoll(sType, rStep, rActor);
           end
         </script>
         <rollable />
@@ -1055,9 +1051,10 @@
             local kValue = getValue();
             if kValue > 0 then
               local karmaStep = 4;
+              local sType = "karma";
               local rActor = ActorManager.resolveActor(window.getDatabaseNode());
               karmaStep = CharacterManager.getKarmaStep(rActor);
-              ActionManagerED4.dragRoll(draginfo, "karma", karmaStep, rActor);
+              ActionManagerED4.dragRoll(draginfo, sType, karmaStep, rActor);
             end
             return true;
           end
@@ -1066,10 +1063,9 @@
             if kValue > 0 then
               local karmaStep = 4;
               local sType = "karma";
-              local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-              karmaStep = CharacterManager.getKarmaStep(nodeChar);
-              local bSecretRoll = false;
-              ActionManagerED4.pushRoll(sType, karmaStep, nodeChar, bSecretRoll);
+              local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+              karmaStep = CharacterManager.getKarmaStep(rActor);
+              ActionManagerED4.pushRoll(sType, karmaStep, rActor);
             end
           end
         </script>
@@ -1090,8 +1086,7 @@
             local sType = "recovery";
             local rStep = getValue();
             local nodeChar = ActorManager.resolveActor(window.getDatabaseNode());
-            local bSecretRoll = false;
-            ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+            ActionManagerED4.pushRoll(sType, rStep, nodeChar);
           end
         </script>
         <rollable />

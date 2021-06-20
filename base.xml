@@ -5,14 +5,12 @@
 IMPORTANT NOTE: Development of FGC has been discontinued due to sunset phase starting on June 24, 2021. 
 This means that I will no longer be testing this ruleset in FGC. I can only guarantee that it works in FGU.
 
-
 CRITICALLY IMPORTANT
 
-Drop rolls on map target.
-Make sure the CT calls onInit for each combatant?
-Add Combat/Actions/Spells/Thread Items Tab(s) to charsheet.
+Can I make the CT call onInit or onUpdate for combatants?
+Add Spells/Thread Items Tab(s) to charsheet.
 Fill empty space on charsheet_main. (Blood Magic items, Half-Magic tests?)
-Need to create a place for Talent Knacks. Secondary window on the talents page of charsheet?
+Need to create a place for Talent Knacks. Subwindow on the talents page of charsheet?
 In Progress: Fix layout of main charsheet tab. Use correct label templates (<label> and <label_frametop> but not <label_column>)
 Possibly add Circle/Novice/Journeyman to skills/talents view.
 Add Karma Use to rolls. Talents, and based on a checkbox in/near modifier box?
@@ -36,17 +34,15 @@ FG Dark theme removes iedit buttons on client?
 Fix compatibility with CoreRPG themes. (probably just need to get rid of crystal png)
 
 OPTIMIZATION:
+Double Check Factorization.
 Verify that old FGC code isn't bogging us down.
-
 
 CONTENT:
 Add NPCs/Monsters from Gamemaster's Guide. Not Started. (less important?)
 Add Base Spells - In Progress: Sent Kayla spell data, will receive formatted XML file.
 
-
 QUALITY OF LIFE:
-Figure out LibraryDataED4 (data_library_ED4.lua) I think this is related to exporting races,disciplines, etc.
-Allow spells to be displayed by class, level, etc. (Data Library, aPlayerListButtons, aGMListButtons)
+Figure out LibraryDataED4 (data_library_ED4.lua) I think this is related to displaying races,disciplines, etc.
 Maybe we need a getStepFromDice function in Step_Action_Lookup? (reverse of getStepDice)
 Fix pronouns to use they/them instead of he/him or she/her. (talent descriptions, etc)
 Do I need a legend worksheet?
@@ -55,9 +51,24 @@ Fix steps 40+ (we don't use d4's after step 3)
 
 FINISHED/FIXED:
 
+GitHub Update #8
+June 20, 2021:
+Updating ActionManagerED4 to check for karma use in talents and character action rolls. 
+To use karma with a talent, just check the box marked "Karma"
+To use a PC action with karma, just put "with karma" after the Step #.
+If the PC is out of karma, it will not be added to the roll.
+If you have an NPC that is a 'Name Giver' and therefore uses karma, you'll need to use a PC sheet for them.
+Added basic conditions to the effects sidebar. (no automation yet)
+Added functionality to drop rolls on map token.
+Added options for mystic attacks and social attacks. (Use "Mystic Attack" or "Social Attack" in ability description)
+Fixed NPC to allow stun damage.
+Fixed spells reference to be filtered by source, or circle.
+Imported all the spells from the ED4E Player's Guide.
+Exported ED4E Player's Guide module.
+
 GitHub Update #7
 June 17, 2021:
-Added an Actions tab to the charsheet, right now it's using the NPC action script. (Attack, Damage, Stun, Heal, misc.)
+Added an Actions tab to the charsheet, right now it's using the NPC action script. (Attack, Damage, Stun, Heal, misc.)  (WIP)
 Fixed an issue with targets still disappearing sometimes.
 Removed temporary "testing" button. This wasn't supposed to stay where it was.
 
@@ -233,6 +244,7 @@ Unused Files:
   <includefile source="strings/strings_ED4.xml" />
   
   <!-- Scripts -->
+  <script name="DataCommon" file="scripts/data_common.lua" />
   <script name="Global" file="scripts/global.lua" />
   <script name="LibraryDataED4" file="scripts/data_library_ED4.lua" />
   <script name="ActionManagerED4" file="scripts/manager_actions_ED4.lua" />
@@ -240,6 +252,7 @@ Unused Files:
   <script name="CombatManagerED4" file="scripts/manager_combat_ED4.lua" />
 	<script name="GameSystem" file="scripts/manager_gamesystem.lua" />
   <script name="StepLookup" file="scripts/step_action_lookup.lua" />
+  <script name="TokenManager" file="scripts/manager_token.lua" />
   
   <!-- Templates -->
   <includefile source="common/template_ED4.xml" />
