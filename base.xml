@@ -10,7 +10,6 @@ CRITICALLY IMPORTANT
 **
 Added Spells Tab to charsheet.
 **Spellcasting Test, Thread Weaving Test, (calculate based on talents/stats)
-Add Dmg/Heal checkbox to spell entries for effect tests.
 Bypass armor option for spells?
 Matrix checkbox?
 Add custom mod to entries' spellcasting tests.
@@ -74,6 +73,9 @@ Fix steps 40+ (we don't use d4's after step 3)
 
 FINISHED/FIXED:
 
+GitHub Update #10
+Fixed mystic damage rolls.
+
 GitHub Update #9
 June 30, 2021:
 Added spells tab to character sheet. This is for storing spells known/prepared, and rolling spellcasting rolls.
@@ -83,8 +85,7 @@ Fixed spelldata fields in module (threads, weaving)
 Fixed talents and skills to automatically update when stats are changed in main tab.
 Fixed physical armor to account for Obsidimen's Natural Armor (3).
 Updated damage functions to account for physical/mystic armor.
-Fixed rolls dropped on CT from sometimes rolling too many times.
-
+Fixed rolls dropped on CT from sometimes rolling too many times or not enough times.
 
 GitHub Update #8
 June 20, 2021:
