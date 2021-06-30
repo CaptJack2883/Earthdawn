@@ -6,12 +6,13 @@
 -->
 
 <root>
+  <includefile source="campaign/char_actions.xml" />
   <includefile source="campaign/char_main.xml" />
-  <includefile source="campaign/char_talents.xml" />
-  <includefile source="campaign/char_skills.xml" />
   <includefile source="campaign/char_inventory.xml" />
   <includefile source="campaign/char_notes.xml" />
-  <includefile source="campaign/char_actions.xml" />
+  <includefile source="campaign/char_talents.xml" />
+  <includefile source="campaign/char_skills.xml" />
+  <includefile source="campaign/char_spells.xml" />
   <includefile source="campaign/record_char_abilities.xml" />
   
 	<windowclass name="charsheet">
@@ -35,7 +36,33 @@
 					portrait.setVisible(false);
 					localportrait.setVisible(true);
 				end
+        if main.subwindow then
+          main.subwindow.onInit();
+        end
+        if talents.subwindow then
+          talents.subwindow.onInit();
+        end
+        if skills.subwindow then
+          skills.subwindow.onInit();
+        end
+        if spells.subwindow then
+          spells.subwindow.onInit();
+        end
 			end
+      function onUpdate()
+        if main.subwindow then
+          main.subwindow.onUpdate();
+        end
+        if talents.subwindow then
+          talents.subwindow.onUpdate();
+        end
+        if skills.subwindow then
+          skills.subwindow.onUpdate();
+        end
+        if spells.subwindow then
+          spells.subwindow.onUpdate();
+        end
+      end
 		</script>
 		<sheetdata>
 			<button_charactivate name="speak">
@@ -86,6 +113,10 @@
 				<bounds>0,65,-1,-20</bounds>
 				<class>charsheet_skills</class>
 			</subwindow>
+			<subwindow name="spells">
+				<bounds>0,65,-1,-20</bounds>
+				<class>charsheet_spells</class>
+			</subwindow>
 			<subwindow name="inventory">
 				<bounds>0,65,-1,-20</bounds>
 				<class>charsheet_inventory</class>
@@ -111,6 +142,10 @@
 				<tab>
 					<icon>tab_skills</icon>
 					<subwindow>skills</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_spells</icon>
+					<subwindow>spells</subwindow>
 				</tab>
 				<tab>
 					<icon>tab_inventory</icon>

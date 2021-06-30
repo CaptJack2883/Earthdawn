@@ -131,6 +131,7 @@ function action(draginfo)
         --need to make sure rActor has the NPC actor node.
         local nodeChar = window.getDatabaseNode();
         local rActor = ActorManager.resolveActor(nodeChar);
+        rRoll = ActionManagerED4.checkDescType(rRoll);
         ActionManagerED4.dragRoll(draginfo, rRoll.sType, rStep, rActor, rRoll, bKarma, bSecretRoll);
 			elseif #(aComponents[nDragIndex].aDice) > 0 then
         --We found non-step roll.
@@ -141,6 +142,7 @@ function action(draginfo)
         --need to make sure rActor has the NPC actor node.
         local nodeChar = window.getDatabaseNode();
         local rActor = ActorManager.resolveActor(nodeChar);
+        rRoll = ActionManagerED4.checkDescType(rRoll);
         ActionManagerED4.dragRoll(draginfo, rRoll.sType, rStep, rActor, rRoll, bKarma, bSecretRoll);
       else
 				draginfo.setType("number");
@@ -159,6 +161,7 @@ function action(draginfo)
         --need to make sure nodeChar has the NPC actor node.
         local nodeChar = window.getDatabaseNode();
         local rActor = ActorManager.resolveActor(nodeChar);
+        rRoll = ActionManagerED4.checkDescType(rRoll);
         ActionManagerED4.pushRoll(rRoll.sType, rRoll.rStep, nodeChar, rRoll, bKarma, bSecretRoll);
 			elseif #(aComponents[nDragIndex].aDice) > 0 then
         --We found non-step roll.
@@ -168,6 +171,7 @@ function action(draginfo)
         --need to make sure nodeChar has the NPC actor node.
         local nodeChar = window.getDatabaseNode();
         local rActor = ActorManager.resolveActor(nodeChar);
+        rRoll = ActionManagerED4.checkDescType(rRoll);
         ActionManagerED4.pushRoll(rRoll.sType, rRoll.rStep, nodeChar, rRoll, bKarma, bSecretRoll);
 			else
 				ModifierStack.addSlot(aComponents[nDragIndex].sLabel, aComponents[nDragIndex].nMod);

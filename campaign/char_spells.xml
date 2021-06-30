@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+  
+  
+			<string_textlistitem name="name">
+				<anchored to="rightanchor">
+					<top />
+					<left parent="" offset="30" />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+			</string_textlistitem>
+-->
+
+<root>
+	<windowclass name="charsheet_spells">
+    <script>
+      function onInit()
+        onUpdate();
+        detailButtonAll.setValue(0);
+        spells.toggleDetail();
+      end
+      function onUpdate()
+        spells.onUpdate();
+      end
+      function toggleDetail()
+        spells.toggleDetail();
+      end
+    </script>
+		<sheetdata>
+			<frame_char name="detailsframe">
+				<bounds>15,0,-29,100</bounds>
+			</frame_char>
+      <anchor_column name="columnanchor">
+				<anchored to="detailsframe" position="insidetopright" />
+      </anchor_column>
+			<label_frametop>
+				<anchored to="detailsframe" />
+				<static textres="char_label_spelldetails" />
+			</label_frametop>
+			<label>
+				<anchored to="detailsframe" position="insidetopleft" offset="15,35" />
+				<static textres="char_label_spellcasting" />
+			</label>
+      <number_ED4 name="castingTest" source="spell.casting.test">
+        <anchored to="detailsframe" width="35" height="20">
+          <top offset="40" />
+          <left offset="160" />
+				</anchored>
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local sType = "spellcasting";
+            local rStep = getValue();
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor);
+            return true;
+          end
+          function onDoubleClick()
+            local sType = "spellcasting";
+            local rStep = getValue();
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ActionManagerED4.pushRoll(sType, rStep, rActor);
+          end
+          function onValueChanged()
+            window.onUpdate();
+          end
+        </script>
+        <readonly />
+        <rollable />
+      </number_ED4>
+			<label>
+				<anchored to="detailsframe" position="insidetopleft" offset="15,65" />
+				<static textres="char_label_threadweaving" />
+			</label>
+      <number_ED4 name="threadweavingTest" source="spell.weaving.test">
+        <anchored to="detailsframe" width="35" height="20">
+          <top offset="70" />
+          <left offset="160" />
+				</anchored>
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local sType = "threadweaving";
+            local rStep = getValue();
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor);
+            return true;
+          end
+          function onDoubleClick()
+            local sType = "threadweaving";
+            local rStep = getValue();
+            local rActor = ActorManager.resolveActor(window.getDatabaseNode());
+            ActionManagerED4.pushRoll(sType, rStep, rActor);
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+                window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <rollable />
+      </number_ED4>
+			<frame_char name="spellframe">
+				<bounds>15,100,-29,-5</bounds>
+			</frame_char>
+			<label_frametop>
+				<anchored to="spellframe" />
+				<static textres="char_label_spells" />
+			</label_frametop>
+			<label>
+				<anchored to="spellframe" position="insidetopleft" offset="40,30" />
+				<static textres="char_label_circle" />
+			</label>
+			<label>
+				<anchored to="spellframe" position="insidetopleft" offset="80,30" />
+				<static textres="char_label_spellname" />
+			</label>
+			<label>
+				<anchored to="spellframe" position="insidetopright" offset="170,30" />
+				<static textres="char_label_casting" />
+			</label>
+			<label>
+				<anchored to="spellframe" position="insidetopright" offset="90,30" />
+				<static textres="char_label_effectStep" />
+			</label>
+			<label>
+				<anchored to="spellframe" position="insidetopright" offset="35,30" />
+				<static textres="char_label_karma" />
+			</label>
+      
+      <list_charspell name="spells">
+				<anchored to="spellframe">
+					<left offset="15" />
+					<top offset="55" />
+					<right offset="-20" />
+					<bottom offset="-20" />
+				</anchored>
+				<acceptdrop>
+					<class>referencetext</class>
+					<class>referencetextwide</class>
+          <class>spells</class>
+					<field>*</field>
+				</acceptdrop>
+        <script>
+          function onInit()
+            onUpdate();
+          end
+          
+          function onListChanged()
+            onUpdate();
+          end
+          
+          function onUpdate()
+            for _,w in ipairs(getWindows()) do
+              w.onStatUpdate();
+              w.onUpdate();
+            end
+          end
+          
+          function update()
+            local bEditMode = (window.spells_iedit.getValue() == 1);
+            for _,w in ipairs(getWindows()) do
+              w.idelete.setVisibility(bEditMode);
+            end
+            onUpdate();
+          end
+          
+          function addEntry(bFocus)
+            local w = createWindow();
+            if bFocus and w then
+              w.name.setFocus();
+            end
+            return w;
+          end
+          function onDrop(x, y, draginfo)
+            onUpdate();
+          end
+          function toggleDetail()
+            local v = window.detailButtonAll.getValue();
+            for _,w in ipairs(getWindows()) do
+              w.detailButton.setValue(v);
+            end
+          end
+        </script>
+      </list_charspell>
+			<scrollbar_list>
+				<anchored to="spells" />
+				<target>spells</target>
+			</scrollbar_list>
+
+			<button_iedit name="spells_iedit">
+				<anchored to="spells" position="aboveright" offset="5,23" />
+				<target>spells</target>
+			</button_iedit>
+			<button_iadd name="spells_iadd">
+				<anchored to="spells_iedit" position="lefthigh" offset="5,0" />
+				<target>spells</target>
+			</button_iadd>
+      <button_toggledetail name="detailButtonAll">
+				<anchored to="spells_iadd" position="lefthigh" offset="5,0" />
+      </button_toggledetail>
+      
+      <basicnumber name="dexterity" source="spell.dexterity">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="spellframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+				<script>
+					function onValueChanged()
+						window.spells.update();
+					end
+				</script>
+      </basicnumber>
+      <basicnumber name="strength" source="spell.strength">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="spellframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+				<script>
+					function onValueChanged()
+						window.spells.update();
+					end
+				</script>
+      </basicnumber>
+      <basicnumber name="toughness" source="spell.toughness">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="spellframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+				<script>
+					function onValueChanged()
+						window.spells.update();
+					end
+				</script>
+      </basicnumber>
+      <basicnumber name="perception" source="spell.perception">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="spellframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+				<script>
+					function onValueChanged()
+						window.spells.update();
+					end
+				</script>
+      </basicnumber>
+      <basicnumber name="willpower" source="spell.willpower">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="spellframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+				<script>
+					function onValueChanged()
+						window.spells.update();
+					end
+				</script>
+      </basicnumber>
+      <basicnumber name="charisma" source="spell.charisma">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="spellframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+				<script>
+					function onValueChanged()
+						window.spells.update();
+					end
+				</script>
+      </basicnumber>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="char_spells">
+		<margins control="1,1,1,4" />
+    <script>
+      function onInit()
+        onStatUpdate();
+        onUpdate();
+      end
+      function onStatUpdate()
+        stat.update(statname.getStringValue());
+      end
+      function onUpdate()
+        if not Global.cmUpdating then
+          Global.cmUpdating = true;
+          local nodespell = getDatabaseNode();
+          local nodeChar = DB.getParent(DB.getParent(nodespell));
+          local charSpellcasting = DB.getValue(nodeChar, "spell.casting.test");
+          DB.setValue(nodespell, "spell.casting.test", "number", charSpellcasting);
+          local chkspellName = DB.getValue(nodespell, "spell.name");
+          if chkspellName == "" then
+            local spellName = DB.getValue(nodespell, "name");
+            DB.setValue(nodespell, "spell.name", "string", spellName);
+          end
+          local chkspellCTEffects = DB.getValue(nodespell, "spell.ctEffects");
+          if chkspellCTEffects == "" then
+            local spellCTEffects = DB.getValue(nodespell, "ctEffects");
+            DB.setValue(nodespell, "spell.ctEffects", "string", spellCTEffects);
+          end
+          local nStat = stat.getValue();
+          local nRank = effectStep.getValue();
+          local nTotal = 0;
+          if nStat > 0 then
+            if nRank > 0 then
+              nTotal = nStat + nRank;
+            else
+              nTotal = nStat;
+            end
+          end
+          if nRank > 0 then
+            if nStat > 0 then
+              nTotal = nStat + nRank;
+            else
+              nTotal = nRank;
+            end
+          end            
+          DB.setValue(nodespell, "spell.total", "number", nTotal);
+          Global.cmUpdating = false;
+        end
+      end
+      function getKarmaUse()
+        local kValue = karmaUse.getValue();
+        local kUse = false;
+        if kValue == 1 then
+          kUse = true;
+        end
+        return kUse;
+      end
+      function toggleDetail()
+        local v = false;
+        if detailButton.getValue() == 1 then
+          v = true;
+        end
+        rollsLabel.setVisible(v);
+        attackicon.setVisible(v);
+        detailspellcastingTest.setVisible(v);
+        vsLabel.setVisible(v);
+        defenseicon.setVisible(v);
+        vsdefense.setVisible(v);
+        knighticon.setVisible(v);
+        vsarmor.setVisible(v);
+        EffectStepLabel.setVisible(v);
+        effectStep.setVisible(v);
+        plusOperator.setVisible(v);
+        statname.setVisible(v);
+        stat.setVisible(v);
+        equalOperator.setVisible(v);
+        detailtotal.setVisible(v);
+        labelIsHeal.setVisible(v);
+        isHeal.setVisible(v);
+        ctEffectsLabel.setVisible(v);
+        ctEffects.setVisible(v);
+      end
+    </script>
+		<sheetdata>
+			<genericcontrol name="leftanchor">
+				<anchored height="0" width="0">
+					<top offset="5" />
+					<left />
+				</anchored>
+			</genericcontrol>
+			<genericcontrol name="rightanchor">
+				<anchored height="0" width="0">
+					<top offset="5" />
+					<right />
+				</anchored>
+			</genericcontrol>
+      <anchor_column name="columnanchor">
+				<anchored to="leftanchor" />
+      </anchor_column>
+			<linkfield name="shortcut">
+				<anchored to="leftanchor" width="20" height="20">
+					<top />
+					<left anchor="left" relation="relative" offset="5" />
+				</anchored>
+				<class>spells</class>
+				<description field="name" />
+				<readonly />
+			</linkfield>
+			<button_idelete name="idelete">
+				<anchored to="rightanchor">
+					<top />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+			</button_idelete>
+      
+      <!-- Main Line --> 
+      <button_checkbox name="karmaUse" source="karma.use">
+				<anchored width="20" height="20">
+					<top offset="5" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-25" />
+				</anchored>
+        <script>
+          function onValueChanged()
+          end
+        </script>
+      </button_checkbox>
+      <button_toggledetail name="detailButton">
+				<anchored width="20" height="20">
+					<top offset="5" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+      </button_toggledetail>
+      <number_charspellfield name="total" source="spell.total">
+				<anchored width="40" height="20">
+					<top offset="5" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
+				</anchored>
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local spellType = "effectRoll";
+            if window.isHeal.getValue() > 0 then
+              spellType = "heal";
+            end
+            Debug.chat(spellType);
+            local sType = spellType;
+            local rStep = getValue();
+            local nodeSpell = window.getDatabaseNode();
+            local nodeChar = DB.getParent(DB.getParent(nodeSpell));
+            local rActor = ActorManager.resolveActor(nodeSpell);
+            local bKarma = window.getKarmaUse();
+            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma);
+            local versArmor = window.vsarmor.getValue();
+            rRoll.vs = "VS: "..versArmor;
+            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor, rRoll, bKarma);
+            return true;
+          end
+          function onDoubleClick()
+            local spellType = "effectRoll";
+            if window.isHeal.getValue() > 0 then
+              spellType = "heal";
+            end
+            local sType = spellType;
+            local rStep = getValue();
+            local nodeSpell = window.getDatabaseNode();
+            local nodeChar = DB.getParent(DB.getParent(nodeSpell));
+            local rActor = ActorManager.resolveActor(nodeSpell);
+            local bKarma = window.getKarmaUse();
+            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma);
+            local versArmor = window.vsarmor.getValue();
+            rRoll.vs = "VS: "..versArmor;
+            ActionManagerED4.pushRoll(sType, rStep, rActor, rRoll, bKarma);
+          end
+        </script>
+        <readonly />
+        <rollable />
+      </number_charspellfield>
+      <number_ED4 name="spellcastingTest" source="spell.casting.test">
+				<anchored>
+					<top offset="5" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-30" />
+				</anchored>
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local sType = "spellcasting";
+            local rStep = getValue();
+            local nodeSpell = window.getDatabaseNode();
+            local nodeChar = DB.getParent(DB.getParent(nodeSpell));
+            local rActor = ActorManager.resolveActor(nodeSpell);
+            local bKarma = window.getKarmaUse();
+            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma);
+            local versDef = window.vsdefense.getValue();
+            rRoll.vs = "VS: "..versDef;
+            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor, rRoll, bKarma);
+            return true;
+          end
+          function onDoubleClick()
+            local sType = "spellcasting";
+            local rStep = getValue();
+            local nodeSpell = window.getDatabaseNode();
+            local nodeChar = DB.getParent(DB.getParent(nodeSpell));
+            local rActor = ActorManager.resolveActor(nodeSpell);
+            local bKarma = window.getKarmaUse();
+            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma);
+            local versDef = window.vsdefense.getValue();
+            rRoll.vs = "VS: "..versDef;
+            ActionManagerED4.pushRoll(sType, rStep, rActor, rRoll, bKarma);
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+                window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <readonly />
+        <rollable />
+      </number_ED4>
+			<stringu name="name" source="spell.name">
+				<anchored height="20">
+					<top offset="5" />
+					<left offset="65" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<script>
+					function onEnter()
+						window.windowlist.addEntry(true);
+						return true;
+					end
+				</script>
+			</stringu>
+			<number_charspellfield_static name="circle">
+				<anchored parent="statname" width="32" height="20">
+					<top offset="5" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<script>
+          function onInit()
+          end
+				</script>
+			</number_charspellfield_static>
+      
+      <!-- Subframe line 1 --> 
+			<label name="rollsLabel">
+				<anchored>
+					<top parent="shortcut" anchor="bottom" offset="10" />
+					<left parent="leftanchor" anchor="right" offset="5" />
+				</anchored>
+				<static textres="char_label_rolls" />
+			</label>
+			<icon_attack name="attackicon">
+				<anchored>
+					<top parent="shortcut" anchor="bottom" offset="10" />
+					<left parent="rollsLabel" anchor="right" relation="relative" offset="25" />
+				</anchored>
+			</icon_attack>
+      <number_ED4 name="detailspellcastingTest" source="spell.casting.test">
+				<anchored>
+					<top parent="shortcut" anchor="bottom" offset="10" />
+					<left parent="rollsLabel" anchor="right" relation="relative" offset="5" />
+				</anchored>
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local sType = "spellcasting";
+            local rStep = getValue();
+            local nodeSpell = window.getDatabaseNode();
+            local nodeChar = DB.getParent(DB.getParent(nodeSpell));
+            local rActor = ActorManager.resolveActor(nodeSpell);
+            local bKarma = window.getKarmaUse();
+            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma);
+            local versDef = window.vsdefense.getValue();
+            rRoll.vs = "VS: "..versDef;
+            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor, rRoll, bKarma);
+            return true;
+          end
+          function onDoubleClick()
+            local sType = "spellcasting";
+            local rStep = getValue();
+            local nodeSpell = window.getDatabaseNode();
+            local nodeChar = DB.getParent(DB.getParent(nodeSpell));
+            local rActor = ActorManager.resolveActor(nodeSpell);
+            local bKarma = window.getKarmaUse();
+            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma);
+            local versDef = window.vsdefense.getValue();
+            rRoll.vs = "VS: "..versDef;
+            ActionManagerED4.pushRoll(sType, rStep, rActor, rRoll, bKarma);
+          end
+          function onValueChanged()
+            if not Global.cmUpdating then
+              Global.cmUpdating = true;
+                window.onUpdate();
+              Global.cmUpdating = false;
+            end
+          end
+        </script>
+        <rollable />
+      </number_ED4>
+			<label name="vsLabel">
+				<anchored>
+					<top parent="shortcut" anchor="bottom" offset="10" />
+					<left parent="rollsLabel" anchor="right" relation="relative" offset="10" />
+				</anchored>
+				<static textres="char_label_vs" />
+			</label>
+			<icon_defense name="defenseicon">
+				<anchored>
+					<top parent="shortcut" anchor="bottom" offset="10" />
+					<left parent="rollsLabel" anchor="right" relation="relative" offset="5" />
+				</anchored>
+			</icon_defense>
+			<cycler_chardefense name="vsdefense" source="spell.vs.defense">
+				<anchored width="40" height="20">
+					<top parent="shortcut" anchor="bottom" offset="10" />
+					<left parent="rollsLabel" anchor="right" relation="relative" offset="5" />
+				</anchored>
+				<script>
+					function onValueChanged()
+						window.onStatUpdate();
+            window.onUpdate();
+					end
+				</script>
+			</cycler_chardefense>
+			<icon_armor name="knighticon">
+				<anchored>
+					<top parent="shortcut" anchor="bottom" offset="10" />
+					<left parent="rollsLabel" anchor="right" relation="relative" offset="10" />
+				</anchored>
+			</icon_armor>
+			<cycler_chararmor name="vsarmor" source="spell.vs.armor">
+				<anchored width="40" height="20">
+					<top parent="shortcut" anchor="bottom" offset="10" />
+					<left parent="rollsLabel" anchor="right" relation="relative" offset="5" />
+				</anchored>
+				<script>
+					function onValueChanged()
+						window.onStatUpdate();
+            window.onUpdate();
+					end
+				</script>
+			</cycler_chararmor>
+      
+      <!-- Subframe line 2 --> 
+			<label name="EffectStepLabel">
+				<anchored>
+					<top parent="rollsLabel" anchor="bottomleft" offset="10" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="5" />
+				</anchored>
+				<static textres="char_label_effectStep" />
+			</label>
+      <number_charspellranks name="effectStep" source="spell.effect.step">
+				<anchored width="42" height="20">
+					<top parent="rollsLabel" anchor="bottom" offset="10" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="18" />
+				</anchored>
+        <min>0</min>
+      </number_charspellranks>
+			<label name="plusOperator">
+				<anchored>
+					<top parent="rollsLabel" anchor="bottomleft" offset="10" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="12" />
+				</anchored>
+				<static text="+" />
+			</label>
+			<cycler_charability name="statname" source="spell.statname">
+				<anchored width="40" height="20">
+					<top parent="rollsLabel" anchor="bottom" offset="10" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="13" />
+				</anchored>
+				<script>
+					function onValueChanged()
+						window.onStatUpdate();
+            window.onUpdate();
+					end
+				</script>
+			</cycler_charability>
+			<number_charspellfield_static name="stat">
+				<anchored parent="statname" width="32" height="20">
+					<top parent="rollsLabel" anchor="bottom" offset="10" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="5" />
+				</anchored>
+				<script>
+          function onInit()
+          end
+					function update(statname)
+						setValue(DB.getValue(window.getDatabaseNode(), "...abilities." .. statname .. ".step", 0));
+					end
+				</script>
+        <displaysign />
+			</number_charspellfield_static>
+			<label name="equalOperator">
+				<anchored>
+					<top parent="rollsLabel" anchor="bottomleft" offset="10" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="1" />
+				</anchored>
+				<static text="=" />
+			</label>
+      <number_charspellfield name="detailtotal" source="spell.total">
+				<anchored width="40" height="20">
+					<top parent="rollsLabel" anchor="bottom" offset="10" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="15" />
+				</anchored>
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            local sType = "effectRoll";
+            local rStep = getValue();
+            local nodeSpell = window.getDatabaseNode();
+            local nodeChar = DB.getParent(DB.getParent(nodeSpell));
+            local rActor = ActorManager.resolveActor(nodeSpell);
+            local bKarma = window.getKarmaUse();
+            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma);
+            local versArmor = window.vsarmor.getValue();
+            rRoll.vs = "VS: "..versArmor;
+            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor, rRoll, bKarma);
+            return true;
+          end
+          function onDoubleClick()
+            local sType = "effectRoll";
+            local rStep = getValue();
+            local nodeSpell = window.getDatabaseNode();
+            local nodeChar = DB.getParent(DB.getParent(nodeSpell));
+            local rActor = ActorManager.resolveActor(nodeSpell);
+            local bKarma = window.getKarmaUse();
+            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma);
+            local versArmor = window.vsarmor.getValue();
+            rRoll.vs = "VS: "..versArmor;
+            ActionManagerED4.pushRoll(sType, rStep, rActor, rRoll, bKarma);
+          end
+        </script>
+        <readonly />
+        <rollable />
+      </number_charspellfield>
+			<label name="labelIsHeal">
+				<anchored>
+					<top parent="rollsLabel" anchor="bottomleft" offset="10" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="15" />
+				</anchored>
+				<static textres="char_label_healq" />
+			</label>
+      <button_checkbox name="isHeal" source="spell.isheal">
+				<anchored width="20" height="20">
+					<top parent="rollsLabel" anchor="bottom" offset="10" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="5" />
+				</anchored>
+        <script>
+          function onValueChanged()
+          end
+        </script>
+      </button_checkbox>
+      
+      
+      <!-- Subframe line 3 --> 
+			<label name="ctEffectsLabel">
+				<anchored>
+					<top parent="effectStep" anchor="bottomleft" offset="7" />
+					<left parent="leftanchor" anchor="right" offset="5" />
+				</anchored>
+				<static textres="char_label_ctEffects" />
+			</label>
+			<stringu name="ctEffects" source="spell.ctEffects">
+				<anchored height="20">
+					<top parent="effectStep" anchor="bottomleft" offset="7" />
+					<left parent="ctEffectsLabel" anchor="right" relation="relative" offset="10" />
+					<right parent="rightanchor" anchor="left" offset="-10" />
+				</anchored>
+				<acceptdrop>
+					<type>string</type>
+				</acceptdrop>
+        <droptypes>
+					<type merge="add">string</type>
+					<type merge="add">shortcut</type>
+        </droptypes>
+				<nodragselect />
+        <script>
+          function onDragStart(button, x, y, draginfo)
+            action(draginfo);
+            bClicked = false;
+            bDragging = true;            
+            return true;
+          end
+          function action(draginfo)
+            local sData = getValue();
+            draginfo.setType("effect");
+            draginfo.setStringData(sData);
+          end
+        </script>
+			</stringu>
+		</sheetdata>
+	</windowclass>
+</root>

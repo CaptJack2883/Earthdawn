@@ -255,8 +255,6 @@ function setDefensiveVisible()
 	specialdefenses.setVisible(v);
 	specialdefenseslabel.setVisible(v);
 	frame_defensive.setVisible(v);
-	
-  
 end
 
 

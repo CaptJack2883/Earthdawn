@@ -31,6 +31,7 @@
 				circle.setReadOnly(bReadOnly);
 				threads.setReadOnly(bReadOnly);
 				weaving.setReadOnly(bReadOnly);
+				reattune.setReadOnly(bReadOnly);
 				casting.setReadOnly(bReadOnly);
 				range.setReadOnly(bReadOnly);
 				duration.setReadOnly(bReadOnly);

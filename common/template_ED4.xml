@@ -146,8 +146,32 @@
       <source mergerule="resetandadd" />
 		</basicnumber>
 	</template>
+	<template name="cycler_charability">
+		<button_stringcycler>
+			<parameters>
+				<labelsres>dex|str|tou|per|wil|cha</labelsres>
+				<values>dexterity|strength|toughness|perception|willpower|charisma</values>
+			</parameters>
+		</button_stringcycler>
+	</template>
+	<template name="cycler_chardefense">
+		<button_stringcycler>
+			<parameters>
+				<labelsres>phys|myst|soci</labelsres>
+				<values>physical|mystic|social</values>
+			</parameters>
+		</button_stringcycler>
+	</template>
+	<template name="cycler_chararmor">
+		<button_stringcycler>
+			<parameters>
+				<labelsres>phys|myst</labelsres>
+				<values>physical|mystic</values>
+			</parameters>
+		</button_stringcycler>
+	</template>
   
-	<!-- Talent/Skill Lists -->
+	<!-- Skill Lists -->
   
 	<template name="list_charskill">
 		<windowlist>
@@ -161,9 +185,6 @@
 				<control>name</control>
 				<control>subname</control>
 			</sortby>
-    <!--  
-			<script file="campaign/scripts/char_skilllist.lua" /> 
-    -->
 		</windowlist>
 	</template>
 	<template name="number_charskillfield">
@@ -201,16 +222,6 @@
 			</script>
 		</basicnumber>
 	</template>
-	<template name="cycler_charskillability">
-		<button_stringcycler>
-			<!--<disabled />-->
-			<parameters>
-				<labelsres>dex|str|tou|per|wil|cha</labelsres>
-				<values>dexterity|strength|toughness|perception|willpower|charisma</values>
-			</parameters>
-		</button_stringcycler>
-	</template>
-  
 	<template name="number_charskillfield_static">
 		<simplenumber>
 			<hideonvalue>0</hideonvalue>
@@ -219,6 +230,8 @@
 			<disabled />
 		</simplenumber>
 	</template>
+  
+	<!-- Talent Lists -->  
   
 	<template name="list_chartalent">
 		<windowlist>
@@ -232,9 +245,6 @@
 				<control>name</control>
 				<control>subname</control>
 			</sortby>
-    <!--  
-			<script file="campaign/scripts/char_talentlist.lua" /> 
-    -->
 		</windowlist>
 	</template>
 	<template name="number_chartalentfield">
@@ -258,16 +268,6 @@
 			</script>
 		</basicnumber>
 	</template>
-	<template name="cycler_chartalentability">
-		<button_stringcycler>
-			<!--<disabled />-->
-			<parameters>
-				<labelsres>dex|str|tou|per|wil|cha</labelsres>
-				<values>dexterity|strength|toughness|perception|willpower|charisma</values>
-			</parameters>
-		</button_stringcycler>
-	</template>
-  
 	<template name="number_chartalentfield_static">
 		<simplenumber>
 			<hideonvalue>0</hideonvalue>
@@ -275,6 +275,105 @@
 			<displaysign />
 			<disabled />
 		</simplenumber>
+	</template>
+  
+	<!-- Spell Lists -->  
+  
+	<template name="list_charspell">
+		<windowlist>
+      <allowcreate />
+      <allowdelete />
+			<child><offset>2,2,2,2</offset></child>
+			<child><backcolor>1A40301E</backcolor><offset>2,2,2,2</offset></child>
+			<datasource>.spelllist</datasource>
+			<class>char_spells</class>
+			<sortby>
+				<control>circle</control>
+				<control>name</control>
+			</sortby>
+		</windowlist>
+	</template>
+	<template name="number_charspellfield">
+		<basicnumber>
+			<delaykeyupdate />
+			<hideonvalue>0</hideonvalue>
+			<nodrag />
+			<displaysign />
+		</basicnumber>
+	</template>
+	<template name="number_charspellranks">
+		<basicnumber>
+			<delaykeyupdate />
+			<hideonvalue>0</hideonvalue>
+			<nodrag />
+			<min>0</min>
+			<script>
+				function onValueChanged()
+          window.onUpdate()
+				end
+			</script>
+		</basicnumber>
+	</template>
+	<template name="number_charspellfield_static">
+		<simplenumber>
+			<nodrag />
+			<disabled />
+		</simplenumber>
+	</template>
+  
+  
+	<!-- Buttons -->
+  
+	<template name="button_toggledetail">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<state icon="button_details" />
+			<state icon="button_details_down" />
+			<script>
+        function onInit()
+          setValue(0);
+					if window.toggleDetail then
+            window.toggleDetail();
+					end
+        end
+				function onValueChanged()
+					if window.toggleDetail then
+            window.toggleDetail();
+					end
+				end
+			</script>
+      <default>0</default>
+		</buttoncontrol>
+	</template>
+
+  
+	<!-- Icons -->
+	<template name="icon_defense">
+		<genericcontrol>
+			<anchored width="20" height="20">
+				<left offset="2" />
+				<top offset="2" />
+			</anchored>
+      <icon>button_shield_down</icon>
+		</genericcontrol>
+	</template>
+	<template name="icon_armor">
+		<genericcontrol>
+			<anchored width="20" height="20">
+				<left offset="2" />
+				<top offset="2" />
+			</anchored>
+      <icon>iconKnight</icon>
+		</genericcontrol>
+	</template>
+	<template name="icon_attack">
+		<genericcontrol>
+			<anchored width="20" height="20">
+				<left offset="2" />
+				<top offset="2" />
+			</anchored>
+      <icon>iconSword</icon>
+		</genericcontrol>
 	</template>
   
 	<!-- Combat Tracker -->

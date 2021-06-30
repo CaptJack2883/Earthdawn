@@ -54,6 +54,7 @@
           function onUpdate()
             local node = getDatabaseNode();
             for _,w in ipairs(getWindows()) do
+              w.onStatUpdate();
               w.onUpdate();
             end
           end
@@ -62,6 +63,7 @@
             for _,w in ipairs(getWindows()) do
               w.idelete.setVisibility(bEditMode);
             end
+            onUpdate();
           end
           function addEntry(bFocus)
             local w = createWindow();
@@ -85,12 +87,101 @@
 				<anchored to="skills_iedit" position="lefthigh" offset="5,0" />
 				<target>skills</target>
 			</button_iadd>
+      
+      <basicnumber name="dexterity" source="skill.dexterity">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="skillframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+				<script>
+					function onValueChanged()
+						window.skills.update();
+					end
+				</script>
+      </basicnumber>
+      <basicnumber name="strength" source="skill.strength">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="skillframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+				<script>
+					function onValueChanged()
+						window.skills.update();
+					end
+				</script>
+      </basicnumber>
+      <basicnumber name="toughness" source="skill.toughness">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="skillframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+				<script>
+					function onValueChanged()
+						window.skills.update();
+					end
+				</script>
+      </basicnumber>
+      <basicnumber name="perception" source="skill.perception">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="skillframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+				<script>
+					function onValueChanged()
+						window.skills.update();
+					end
+				</script>
+      </basicnumber>
+      <basicnumber name="willpower" source="skill.willpower">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="skillframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+				<script>
+					function onValueChanged()
+						window.skills.update();
+					end
+				</script>
+      </basicnumber>
+      <basicnumber name="charisma" source="skill.charisma">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="skillframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+				<script>
+					function onValueChanged()
+						window.skills.update();
+					end
+				</script>
+      </basicnumber>
 		</sheetdata>
 	</windowclass>
 
 	<windowclass name="char_skills">
 		<margins control="0,0,0,2" />
     <script>
+      function onInit()
+        onStatUpdate();
+        onUpdate();
+      end
       function onStatUpdate()
         stat.update(statname.getStringValue());
       end
@@ -183,7 +274,7 @@
 					end
 				</script>
 			</number_charskillfield_static>
-			<cycler_charskillability name="statname">
+			<cycler_charability name="statname">
 				<anchored width="40" height="20">
 					<top offset="2" />
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
@@ -194,7 +285,7 @@
             window.onUpdate();
 					end
 				</script>
-			</cycler_charskillability>
+			</cycler_charability>
       <number_charskillranks name="ranks" source="skill.rank">
 				<anchored width="32" height="20">
 					<top offset="2" />

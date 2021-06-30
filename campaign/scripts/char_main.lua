@@ -14,13 +14,23 @@ function onUpdate()
   Cha_Step.setValue(StepLookup.getStep(Cha_Value.getValue()));
     
   --Update Characteristics (Table (EDPG pg63))
-  Physical_Def.setValue(math.ceil(Dex_Value.getValue()/2)+1);
+  local charRace = race.getValue();
+  local racialArmor = 0;
+  local racialDef = 0;
+  if charRace == "Obsidiman" then
+    racialArmor = 3;
+  end
+  if charRace == "Windling" then
+    racialDef = 2;
+  end
+  Physical_Def.setValue(math.ceil(Dex_Value.getValue()/2)+1+racialDef);
   Mystic_Def.setValue(math.ceil(Per_Value.getValue()/2)+1);
   Social_Def.setValue(math.ceil(Cha_Value.getValue()/2)+1);
   Uncon_Rating.setValue(Tou_Value.getValue()*2);
   Death_Rating.setValue(Tou_Value.getValue()*2+Tou_Step.getValue());
   Wound_Threshold.setValue(math.ceil(Tou_Value.getValue()/2)+2);  
   Mystic_Armor.setValue(math.floor(Wil_Value.getValue()/5));
+  Physical_Armor.setValue(racialArmor);
   Initiative_Step.setValue(Dex_Step.getValue());
   Knockdown_Step.setValue(Str_Step.getValue());
   Recovery_Step.setValue(Tou_Step.getValue());
@@ -31,6 +41,42 @@ function onUpdate()
   udpateCarry();
   updateDamage();
   
+  updateTalents();
+  
+end
+
+function updateTalents()
+  --First we find the current window's character sheet.
+  local nodeChar = getDatabaseNode();
+  local rActor = ActorManager.resolveActor(nodeChar);
+  if rActor.sType == "charsheet" then
+    --We found a character, now we notify the talent window
+    --ActionManagerED4.notifyUpdateStat(nodeChar);
+    local dexValue = Dex_Value.getValue();
+    DB.setValue(nodeChar, "talent.dexterity", "number", dexValue);
+    DB.setValue(nodeChar, "skill.dexterity", "number", dexValue);
+    DB.setValue(nodeChar, "spell.dexterity", "number", dexValue);
+    local strValue = Str_Value.getValue();
+    DB.setValue(nodeChar, "talent.strength", "number", strValue);
+    DB.setValue(nodeChar, "skill.strength", "number", strValue);
+    DB.setValue(nodeChar, "spell.strength", "number", strValue);
+    local touValue = Tou_Value.getValue();
+    DB.setValue(nodeChar, "talent.toughness", "number", touValue);
+    DB.setValue(nodeChar, "skill.toughness", "number", touValue);
+    DB.setValue(nodeChar, "spell.toughness", "number", touValue);
+    local perValue = Per_Value.getValue();
+    DB.setValue(nodeChar, "talent.perception", "number", perValue);
+    DB.setValue(nodeChar, "skill.perception", "number", perValue);
+    DB.setValue(nodeChar, "spell.perception", "number", perValue);
+    local wilValue = Wil_Value.getValue();
+    DB.setValue(nodeChar, "talent.willpower", "number", wilValue);
+    DB.setValue(nodeChar, "skill.willpower", "number", wilValue);
+    DB.setValue(nodeChar, "spell.willpower", "number", wilValue);
+    local chaValue = Cha_Value.getValue();
+    DB.setValue(nodeChar, "talent.charisma", "number", chaValue);
+    DB.setValue(nodeChar, "skill.charisma", "number", chaValue);
+    DB.setValue(nodeChar, "spell.charisma", "number", chaValue);
+  end
 end
 
 function updateKarma()
