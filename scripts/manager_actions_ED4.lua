@@ -10,10 +10,8 @@ function onInit()
 	OOBManager.registerOOBMsgHandler(OOB_MSGTYPE_APPLYINIT, handleApplyInit);
 	
 	-- Register the result handlers - called after the dice have stopped rolling
-  -- We need to use the onResult from ActionStep (onExplode) to use the new explosions, I think.
-  --  ActionStep.onResult(rSource, rTarget, rRoll); (from combo)
-  -- ActionManagerED4.onExplode(rSource, rTarget, rRoll);
-	--ActionsManager.registerResultHandler("mytestaction", onRoll);
+  -- ActionStep.onResult(rSource, rTarget, rRoll); (from combo)
+	-- ActionsManager.registerResultHandler("mytestaction", onRoll);
 	ActionsManager.registerResultHandler("explode", onResult);
 	ActionsManager.registerResultHandler("initroll", onResult);
 	ActionsManager.registerResultHandler("strength", onResult);
@@ -33,10 +31,11 @@ function onInit()
 	ActionsManager.registerResultHandler("karma", onResult);
 	ActionsManager.registerResultHandler("talent", onResult);
 	ActionsManager.registerResultHandler("skill", onResult);
+	ActionsManager.registerResultHandler("spell", onResult);
+	ActionsManager.registerResultHandler("effectRoll", onResult);
+	ActionsManager.registerResultHandler("spellcasting", onResult);
+	ActionsManager.registerResultHandler("threadweaving", onResult);
 	ActionsManager.registerResultHandler("dice", onResult);
-	ActionsManager.registerTargetingHandler("attack", onTargeting);
-	ActionsManager.registerTargetingHandler("mysticattack", onTargeting);
-	ActionsManager.registerTargetingHandler("socialattack", onTargeting);
 end
 
 function getRoll(sType, rStep, rActor, bKarma, bSecretRoll)
@@ -65,7 +64,7 @@ function getRoll(sType, rStep, rActor, bKarma, bSecretRoll)
 	-- Action type.
   if sType then
     rRoll.sType = sType;
-  end  
+  end
 	-- The description to show in the chat window
   if rRoll.sType == "initroll" then
     rRoll.sDesc = "Initiative: " .. rRoll.sDesc;
@@ -105,11 +104,21 @@ function getRoll(sType, rStep, rActor, bKarma, bSecretRoll)
     rRoll.sDesc =  "Talent: " .. rRoll.sDesc;
   elseif rRoll.sType == "skill" then
     rRoll.sDesc =  "Skill: " .. rRoll.sDesc;
+  elseif rRoll.sType == "effectRoll" then
+    rRoll.sDesc =  "Spell Effect Test: " .. rRoll.sDesc;
+  elseif rRoll.sType == "spell" then
+    rRoll.sDesc =  "Spellcasting Test: " .. rRoll.sDesc;
+  elseif rRoll.sType == "spellcasting" then
+    rRoll.sDesc =  "Spellcasting Test: " .. rRoll.sDesc;
+  elseif rRoll.sType == "threadweaving" then
+    rRoll.sDesc =  "Thread Weaving Test: " .. rRoll.sDesc;
   else
     rRoll.sDesc =  "Default Roll Description";
   end
 	-- For GM secret rolls.
 	rRoll.bSecret = bSecretRoll;
+  -- Verify that the type matches description.
+  rRoll = ActionManagerED4.checkDescType(rRoll);
 	return rRoll;
 end
 
@@ -118,6 +127,10 @@ function dragRoll(draginfo, sType, rStep, rActor, rRoll, bKarma, bSecretRoll)
   if not rRoll then
     rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma, bSecretRoll);
   end
+  if rRoll.sType == "dice" then
+    rRoll = ActionManagerED4.checkDescType(rRoll);
+  end
+  rActor, rRoll = CharacterManager.verifyActor(rActor, rRoll);
   ActionsManager.performAction(draginfo, rActor, rRoll);
 end
 
@@ -125,83 +138,26 @@ function pushRoll(sType, rStep, rActor, rRoll, bKarma, bSecretRoll)
   if not rRoll then
     rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma, bSecretRoll)
   end
+  if rRoll.sType == "dice" then
+    rRoll = ActionManagerED4.checkDescType(rRoll);
+  end
+  rActor, rRoll = CharacterManager.verifyActor(rActor, rRoll);
   if not rRoll.bSecretRoll and OptionsManager.isOption("MANUALROLL", "on") then
     local wManualRoll = Interface.openWindow("manualrolls", "");
     wManualRoll.addRoll(rRoll, rActor, vTargets);
   else
-    local rThrow = ActionsManager.buildThrow(rActor, vTargets, rRoll, bMultiTarget);
-    Comm.throwDice(rThrow);
+    ActionsManager.performAction(draginfo, rActor, rRoll);
   end
 end
 
-
-function onResult(rSource, rTarget, rRoll, nTotal)
-  -- Before we display, make sure the sDesc has the charName in it. (this is for talents, skills, etc.)
-  rSource, rRoll = CharacterManager.verifyActor(rSource, rRoll);
-  --[[ Test verifyActor(rSource) and if its working, remove this chunk.
-  if rSource then
-    if rSource.sCreatureNode then
-      nodeString = tostring(rSource.sCreatureNode);
-      local nStart, nEnd = nodeString:find("talent");
-      if nStart then
-        --We found a talent, need to upgrade the source and rRoll.sDesc
-        rRoll.sDesc = rSource.sName .. ": " .. rRoll.sDesc;
-        local rActor = ActorManager.getCreatureNode(rSource);
-        -- go up two steps to find character node.
-        local rParent = DB.getParent(DB.getParent(rActor));
-        rSource = ActorManager.resolveActor(rParent);
-        nStart=nil;
-      end
-      nStart, nEnd = nodeString:find("skill");
-      if nStart then
-        --We found a skill, need to upgrade the source and rRoll.sDesc
-        rRoll.sDesc = rSource.sName .. ": " .. rRoll.sDesc;
-        local rActor = ActorManager.getCreatureNode(rSource);
-        -- go up two steps to find character node.
-        local rParent = DB.getParent(DB.getParent(rActor));
-        rSource = ActorManager.resolveActor(rParent);
-        nStart=nil;
-      end
-      nStart, nEnd = nodeString:find("action");
-      if nStart then
-        --We found an action, need to upgrade the source and rRoll.sDesc
-        rRoll.sDesc = rSource.sName .. ": " .. rRoll.sDesc;
-        local rActor = ActorManager.getCreatureNode(rSource);
-        -- go up two steps to find character node.
-        local rParent = DB.getParent(DB.getParent(rActor));
-        rSource = ActorManager.resolveActor(rParent);
-        nStart=nil;
-      end
-    end
+function checkDescType(rRoll)
+  if not rRoll then
+    return
   end
-  ]]--
-  
-  --Look for targets after confirming rSource has character/CT node.
-  local rActor = ActorManager.resolveActor(rSource);
-  local aTargetNodes = {};
-  local aTargets;
-  if not rTarget then
-		if rRoll.bSelfTarget then
-			aTargets = { rActor };
-		else
-			aTargets = TargetingManager.getFullTargets(rActor);
-		end
-		for _,v in ipairs(aTargets) do
-			local sCTNode = ActorManager.getCTNodeName(v);
-			if sCTNode ~= "" then
-				table.insert(aTargetNodes, sCTNode);
-			end
-		end
-		
-		if #aTargetNodes > 0 then
-			rRoll.aTargets = table.concat(aTargetNodes, "|");
-		end
+  if rRoll.sType then
+    local sType = rRoll.sType;
   end
   
-  
-  --We need to make sure that rRoll.sType has the correct info for the below functions to work.
-  --We also need to check if karma was added to the roll so that we can deduct a karma point.
-  --Extract the type of roll from the rRoll.sDesc.
   if rRoll.sDesc then
     local sDescLower = string.lower(rRoll.sDesc);
     sDesc, sRemainder = StringManager.extractPattern(sDescLower, "attack");
@@ -229,21 +185,69 @@ function onResult(rSource, rTarget, rRoll, nTotal)
       rRoll.sType = "stun"
       sDesc = nil;
     end
+    sDesc, sRemainder = StringManager.extractPattern(sDescLower, "mystic damage");
+    if sDesc == "mystic damage" then
+      rRoll.sType = "mysticdamage"
+      sDesc = nil;
+    end
     sDesc, sRemainder = StringManager.extractPattern(sDescLower, "heal");
     if sDesc == "heal" then
       rRoll.sType = "heal"
       sDesc = nil;
     end
+  end
+  return rRoll;
+end
+
+function onResult(rSource, rTarget, rRoll, nTotal)
+  -- Before we display, make sure the sDesc has the charName in it. (this is for talents, skills, etc.)
+  -- This is too late, we need to do this before rolling, in pushRoll/dragRoll
+  --rSource, rRoll = CharacterManager.verifyActor(rSource, rRoll);
+  
+  --Look for targets after confirming rSource has character/CT node.
+  local rActor = ActorManager.resolveActor(rSource);
+  local aTargetNodes = {};
+  local aTargets;
+  if not rTarget then
+		if rRoll.bSelfTarget then
+			aTargets = { rActor };
+		else
+			aTargets = TargetingManager.getFullTargets(rActor);
+		end
+		for _,v in ipairs(aTargets) do
+			local sCTNode = ActorManager.getCTNodeName(v);
+			if sCTNode ~= "" then
+				table.insert(aTargetNodes, sCTNode);
+			end
+		end
+		
+		if #aTargetNodes > 0 then
+			rRoll.aTargets = table.concat(aTargetNodes, "|");
+		end
+  end
+  
+  
+  --We need to make sure that rRoll.sType has the correct info for the below functions to work.
+  --We also need to check if karma was added to the roll so that we can deduct a karma point.
+  --Extract the type of roll from the rRoll.sDesc. (if the sType is not already set?)
+  if rRoll.sType == "dice" then
+    rRoll = ActionManagerED4.checkDescType(rRoll);
+  end
+  if rRoll.sDesc then
+    local sDescLower = string.lower(rRoll.sDesc);
     sDesc, sRemainder = StringManager.extractPattern(sDescLower, "karma");
     if sDesc == "karma" then
       --TODO: Deduct 1 karma point from the char.
       local kValue = CharacterManager.getKarmaValue(rActor);
       kValue = kValue - 1;
+      if kValue < 1 then
+        kValue = 0;
+      end
       CharacterManager.setKarmaValue(rActor, kValue);
       sDesc = nil;
     end
   end
-    
+  
   --Color dice for 1's and Explosions.
 	ActionManagerED4.decodeDiceResults(rRoll);
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
@@ -323,6 +327,21 @@ function onResult(rSource, rTarget, rRoll, nTotal)
       resolveDamage(ctActor, ctTarget, rRoll);
     end
   end
+  if rRoll.sType == "mysticdamage" then
+    -- rSource is a creatureNode, and we need the CT node if there is one. 
+    local ctActor = ActorManager.resolveActor(rSource);
+    if aTargets then
+      if #aTargets > 0 then
+        for i,v in ipairs(aTargets) do
+          local ctTarget = ActorManager.resolveActor(v);
+          resolveMysticDamage(ctActor, ctTarget, rRoll);
+        end
+      end
+    elseif rTarget then
+      local ctTarget = ActorManager.resolveActor(rTarget);
+      resolveMysticDamage(ctActor, ctTarget, rRoll);
+    end
+  end
   if rRoll.sType == "stun" then
     -- rSource is a creatureNode, and we need the CT node if there is one. 
     local ctActor = ActorManager.resolveActor(rSource);
@@ -386,6 +405,38 @@ function onResult(rSource, rTarget, rRoll, nTotal)
       resolveSocialAttack(ctActor, ctTarget, rRoll);
     end
   end
+  if rRoll.sType == "spellcasting" then
+    local nTotal = ActionsManager.total(rRoll);
+    -- rSource is a creatureNode, and we need the CT node if there is one. 
+    local ctActor = ActorManager.resolveActor(rSource);
+    if aTargets then
+      if #aTargets > 0 then
+        for i,v in ipairs(aTargets) do
+          local ctTarget = ActorManager.resolveActor(v);
+          resolveSpellcasting(ctActor, ctTarget, rRoll);
+        end
+      end
+    elseif rTarget then
+      local ctTarget = ActorManager.resolveActor(rTarget);
+      resolveSpellcasting(ctActor, ctTarget, rRoll);
+    end
+  end
+  if rRoll.sType == "effectRoll" then
+    local nTotal = ActionsManager.total(rRoll);
+    -- rSource is a creatureNode, and we need the CT node if there is one. 
+    local ctActor = ActorManager.resolveActor(rSource);
+    if aTargets then
+      if #aTargets > 0 then
+        for i,v in ipairs(aTargets) do
+          local ctTarget = ActorManager.resolveActor(v);
+          resolveEffectRoll(ctActor, ctTarget, rRoll);
+        end
+      end
+    elseif rTarget then
+      local ctTarget = ActorManager.resolveActor(rTarget);
+      resolveEffectRoll(ctActor, ctTarget, rRoll);
+    end
+  end
   if rTarget then
     rTarget = nil;
   end
@@ -405,7 +456,7 @@ function resolveAttack(rSource, rTarget, rRoll)
   local nodeTarget = ActorManager.getCreatureNode(rTarget);
   local nTotal = ActionsManager.total(rRoll);
 	local rMessage = ChatManager.createBaseMessage(rSource, rRoll.sUser);
-  local targetDefense = DB.getValue(nodeTarget, "defenses.physical.value");
+  local targetDefense = DB.getValue(nodeTarget, "defenses.physical.value", 0);
   local hitOrMiss = "missed.";
   if nTotal >= targetDefense then
     hitOrMiss = "hits.";
@@ -419,7 +470,7 @@ function resolveMysticAttack(rSource, rTarget, rRoll)
   local nodeTarget = ActorManager.getCreatureNode(rTarget);
   local nTotal = ActionsManager.total(rRoll);
 	local rMessage = ChatManager.createBaseMessage(rSource, rRoll.sUser);
-  local targetDefense = DB.getValue(nodeTarget, "defenses.mystic.value");
+  local targetDefense = DB.getValue(nodeTarget, "defenses.mystic.value", 0);
   local hitOrMiss = "missed.";
   if nTotal >= targetDefense then
     hitOrMiss = "hits.";
@@ -433,7 +484,7 @@ function resolveSocialAttack(rSource, rTarget, rRoll)
   local nodeTarget = ActorManager.getCreatureNode(rTarget);
   local nTotal = ActionsManager.total(rRoll);
 	local rMessage = ChatManager.createBaseMessage(rSource, rRoll.sUser);
-  local targetDefense = DB.getValue(nodeTarget, "defenses.social.value");
+  local targetDefense = DB.getValue(nodeTarget, "defenses.social.value", 0);
   local hitOrMiss = "missed.";
   if nTotal >= targetDefense then
     hitOrMiss = "hits.";
@@ -442,15 +493,106 @@ function resolveSocialAttack(rSource, rTarget, rRoll)
 	Comm.deliverChatMessage(rMessage);
 end
 
+function resolveSpellcasting(rSource, rTarget, rRoll)
+  local rActor = ActorManager.resolveActor(rSource);
+  local nodeTarget = ActorManager.getCreatureNode(rTarget);
+  local nTotal = ActionsManager.total(rRoll);
+	local rMessage = ChatManager.createBaseMessage(rSource, rRoll.sUser);
+  local sVS = rRoll.vs;
+  local versusLower = string.lower(sVS);
+  local defenseVS = nil
+  local vsDefense, sRemain;
+  vsDefense, sRemain = StringManager.extractPattern(versusLower, "phys");
+  if vsDefense and vsDefense == "phys" then
+    defenseVS = "physical";
+    vsDefense = nil;
+  end
+  vsDefense, sRemain = StringManager.extractPattern(versusLower, "myst");
+  if vsDefense and vsDefense == "myst" then
+    defenseVS = "mystic";
+    vsDefense = nil;
+  end
+  vsDefense, sRemain = StringManager.extractPattern(versusLower, "soci");
+  if vsDefense and vsDefense == "soci" then
+    defenseVS = "social";
+    vsDefense = nil;
+  end
+  if defenseVS then
+    local targetDefense = DB.getValue(nodeTarget, "defenses."..defenseVS..".value", 0);
+    local hitOrMiss = "missed.";
+    if nTotal >= targetDefense then
+      hitOrMiss = "hits.";
+    end
+    rMessage.text = "Attacking "..rTarget.sName.." with a "..defenseVS.." spell. The spell "..hitOrMiss;
+    Comm.deliverChatMessage(rMessage);
+  end
+end
+
+function resolveEffectRoll(rSource, rTarget, rRoll)
+  local rActor = ActorManager.resolveActor(rSource);
+  local nodeTarget = ActorManager.getCreatureNode(rTarget);
+  local nTotal = ActionsManager.total(rRoll);
+	local rMessage = ChatManager.createBaseMessage(rSource, rRoll.sUser);
+  local sVS = rRoll.vs;
+  local versusLower = string.lower(sVS);
+  local vsArmor, sRemain;
+  vsArmor, sRemain = StringManager.extractPattern(versusLower, "phys");
+  if vsArmor and vsArmor == "phys" then
+    resolveDamage(rSource, rTarget, rRoll);
+    vsArmor = nil;
+  end
+  vsArmor, sRemain = StringManager.extractPattern(versusLower, "myst");
+  if vsArmor and vsArmor == "myst" then
+    resolveMysticDamage(rSource, rTarget, rRoll);
+    vsArmor = nil;
+  end
+end
+
 function resolveDamage(rSource, rTarget, rRoll)
   local rActor = ActorManager.resolveActor(rSource);
   local nodeTarget = ActorManager.getCreatureNode(rTarget);
   local nTotal = ActionsManager.total(rRoll);
 	local rMessage = ChatManager.createBaseMessage(rSource, rRoll.sUser);
   local targetDamage = DB.getValue(nodeTarget, "health.damage.value", 0);
-  local newDamage = targetDamage + nTotal;
+  local targetArmor = DB.getValue(nodeTarget, "armor.physical.value", 0);
+  local newTotal = nTotal - targetArmor;
+  if newTotal < 1 then
+    newTotal = 0;
+  end
+  local newDamage = targetDamage + newTotal;
   DB.setValue(nodeTarget, "health.damage.value", "number", newDamage);
-  rMessage.text = "Damaging "..rTarget.sName.." for "..nTotal.." Lethal Damage.";
+  rMessage.text = "Damaging "..rTarget.sName.." for "..newTotal.." Lethal Damage.";
+  if newTotal < nTotal then
+    if newTotal == 0 then
+      rMessage.text = rMessage.text.." (fully absorbed) ";
+    else
+      rMessage.text = rMessage.text.." (partially absorbed) ";
+    end
+  end
+	Comm.deliverChatMessage(rMessage);  
+end
+
+function resolveMysticDamage(rSource, rTarget, rRoll)
+  local rActor = ActorManager.resolveActor(rSource);
+  local nodeTarget = ActorManager.getCreatureNode(rTarget);
+  local nTotal = ActionsManager.total(rRoll);
+	local rMessage = ChatManager.createBaseMessage(rSource, rRoll.sUser);
+  local targetDamage = DB.getValue(nodeTarget, "health.damage.value", 0);
+  local targetArmor = DB.getValue(nodeTarget, "armor.mystic.value", 0);
+  local newTotal = nTotal - targetArmor;
+  if newTotal < 1 then
+    newTotal = 0;
+  end
+  local newDamage = targetDamage + newTotal;
+  DB.setValue(nodeTarget, "health.damage.value", "number", newDamage);
+  rMessage.text = "Damaging "..rTarget.sName.." for "..newTotal.." Mystic Damage.";
+  if newTotal < nTotal then
+    if newTotal == 0 then
+      rMessage.text = rMessage.text.." (fully absorbed) ";
+    else
+      rMessage.text = rMessage.text.." (partially absorbed) ";
+    end
+  end
 	Comm.deliverChatMessage(rMessage);  
 end
 
@@ -460,10 +602,22 @@ function resolveStunDamage(rSource, rTarget, rRoll)
   local nTotal = ActionsManager.total(rRoll);
 	local rMessage = ChatManager.createBaseMessage(rSource, rRoll.sUser);
   local targetDamage = DB.getValue(nodeTarget, "health.damage.stun", 0);
-  local newDamage = targetDamage + nTotal;
+  local targetArmor = DB.getValue(nodeTarget, "armor.physical.value", 0);
+  local newTotal = nTotal - targetArmor;
+  if newTotal < 1 then
+    newTotal = 0;
+  end
+  local newDamage = targetDamage + newTotal;
   DB.setValue(nodeTarget, "health.damage.stun", "number", newDamage);
-  rMessage.text = "Damaging "..rTarget.sName.." for "..nTotal.." Stun Damage.";
-	Comm.deliverChatMessage(rMessage);  
+  rMessage.text = "Damaging "..rTarget.sName.." for "..newTotal.." Stun Damage.";
+  if newTotal < nTotal then
+    if newTotal == 0 then
+      rMessage.text = rMessage.text.." (fully absorbed) ";
+    else
+      rMessage.text = rMessage.text.." (partially absorbed) ";
+    end
+  end
+	Comm.deliverChatMessage(rMessage);
 end
 
 function resolveHeal(rSource, rTarget, rRoll)
@@ -529,6 +683,10 @@ function decodeDiceResults(rRoll)
   end
 end
 
+
+--[[ PROBABLY DEPRECATED ]]--
+--[[
+
 --Copied from 5e.
 function onTargeting(rSource, aTargeting, rRolls)
   --This doesn't seem to get called?
@@ -550,150 +708,7 @@ function onTargeting(rSource, aTargeting, rRolls)
 end
 
 
-
---[[ PROBABLY DEPRECATED ]]--
---[[
-
---Copied from Combo Ruleset
-
-function checkExplode(rSource, rTarget, rRoll)
-  if rSource then
-    local nodeChar = ActorManager.getCreatureNode(rSource);
-  end
-  if rTarget then
-    -- This is working.
-    nodeTarget = ActorManager.getCreatureNode(rTarget);
-  end
-  if not rTarget then
-  end
-	local isMaxResult = function(rDie)
-		if tonumber(rDie.type:match("^d(%d+)")) == rDie.result then
-			return rDie.result
-		else
-			return 0
-		end
-	end
-	
---	rSource gets erased during an explode/reroll so this is to keep source.
-	if nodeChar then
-    charCTNode = ActorManager.resolveActor(nodeChar);
-	end
-  if nodeTarget then
-    targetCTNode = ActorManager.resolveActor(nodeTarget);
-  end
-  explode = {}
-	for i,die in ipairs(rRoll.aDice) do
-		local reroll = isMaxResult(die)
-		if reroll>0 then
-      table.insert(explode, die.type)
-		end
-	end
-  if rRoll.rPreviousResult then
-    prev = deserializeTable(rRoll.rPreviousResult)
-    for i,roll in ipairs(prev) do
-        table.insert(rRoll.aDice, 1, roll)
-    end
-  end
-  if table.getn(explode) > 0 then
-    if rSource then
-      rMessageTemp = ActionsManager.createActionMessage(rSource, rRoll);
-    end
-    ActionsManager.performAction(draginfo, rActor, getReRoll(explode, rRoll));
-    
-    return false;
-  end
-  
-  --We have our roll, and our total, after explosions. Now we can check for roll types to apply appropriate actions.
-  --Need to call my previous onResult to handle after roll actions.
-  --Color dice for 1's and Explosions.
-	ActionManagerED4.decodeDiceResults(rRoll);
-  if not rSource then
-    rSource = charCTNode;
-  end
-  if not rTarget then
-    if targetCTNode then
-      rTarget = targetCTNode;
-    end
-  end
-  
-  local nTotal = ActionsManager.total(rRoll);
-  ActionManagerED4.onResult(rSource, rTarget, rRoll, nTotal)
-  
-end
-
-function isMaxResult(rDie)
-  if tonumber(rDie.type:match("^d(%d+)")) == rDie.result then
-    return rDie.result
-  else
-    return 0
-  end
-end
-
-function getReRoll(aDice, iRoll)
-	local rRoll = {}
-  rRoll.aDice = aDice
-  rRoll.nMod = iRoll.nMod 
-  rRoll.sType = iRoll.sType
-  rRoll.bSecret = iRoll.bSecret 
-  rRoll.nStrain = iRoll.nStrain
-  rRoll.sDesc = iRoll.sDesc
-  
-  rRoll.rPreviousResult = serializeTable(iRoll.aDice)
-  return rRoll
-end
-
-function serializeTable(val)
-  local tmp = ""
-
--- Used ipairs instead of pairs to avoid issues with non numeric keys
--- which cause v.result and v.type to be set to nil
-
-  for k, v in ipairs(val) do
-    tmp =  tmp .. v.result .. "," .. v.type .. ";"
-  end
-  
-  return tmp
-end
-
-
-function deserializeTable(val)
-  local result = {}
-  for k,i in string.gmatch(val, "(%w+),(%w+)") do
-    local vvv = {}
-    vvv.result = k
-    vvv.type = i
-    table.insert(result, vvv)
-  end
-  return result
-end
-
-
-function pushExplode(rRoll, nDieSides)
-  -- We don't explode modifiers, if any...
-  -- Testing new function to explode die by combo method.
-  explode = {}
-	for i,die in ipairs(rRoll.aDice) do
-		local reroll = isMaxResult(die)
-		if reroll>0 then
-      table.insert(explode, die.type)
-		end
-	end
-  if rRoll.rPreviousResult then
-    prev = deserializeTable(rRoll.rPreviousResult)
-    for i,roll in ipairs(prev) do
-        table.insert(rRoll.aDice, 1, roll)
-    end
-  end
-  if table.getn(explode) > 0 then
-    if rSource then
-      rMessageTemp = ActionsManager.createActionMessage(rSource, rRoll);
-    end
-      
-    ActionsManager.performAction(draginfo, rActor, getReRoll(explode, rRoll)); 
-      
-    return false;
-  end
-end
+--Old explosion function (mine)
 
 function explodeDie(nDieSides)
   -- This works, don't break it. Needed to explode dice.

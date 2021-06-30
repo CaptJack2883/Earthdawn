@@ -34,6 +34,11 @@
   <icon name="iconHeal" file="graphics/icons/action_heal.png" />
   <icon name="iconDamage" file="graphics/icons/action_damage.png" />
   <icon name="iconAttack" file="graphics/icons/action_attack.png" />
+  <icon name="iconSword" file="graphics/icons/indicator_sworddown.png" />
+  <icon name="iconArmor" file="graphics/icons/action_armor.png" />
+  <icon name="iconArmorSmall" file="graphics/icons/action_armor_small.png" />
+  <icon name="iconKnight" file="graphics/icons/knight_armor.png" />
+  <icon name="iconKnightSmall" file="graphics/icons/knight_armor_small.png" />
   
   
 </root>

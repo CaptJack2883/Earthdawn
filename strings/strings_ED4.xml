@@ -63,7 +63,7 @@
 	<string name="char_tooltip_inv_none">Not Carried</string>
 	<string name="char_tooltip_inv_carried">Carried</string>
 	<string name="char_tooltip_inv_equipped">Equipped</string>
-	<string name="char_label_attributes">Attributes / Skills</string>
+	<string name="char_label_attributes">Attributes</string>
 	<string name="char_label_abilities">Abilities</string>
 	<string name="char_label_itemlocation">Location</string>
 	<string name="char_label_itemname">Name</string>
@@ -371,6 +371,7 @@
   <string name="library_recordtype_empty_spells">&#171; New Spell &#187;</string>
   
   <!-- Charsheet -->
+  <string name="char_label_spellname">Name</string>
   <string name="char_label_skillname">Name</string>
   <string name="char_label_talentname">Name</string>
   <string name="char_label_rank">Rank</string>
@@ -383,6 +384,7 @@
   <string name="char_label_mystic">Mystic</string>
   <string name="char_label_social">Social</string>
   <string name="char_label_armor">Armor:</string>
+  <string name="char_label_healq">Heal?</string>
   <string name="char_label_health">Health</string>
   <string name="char_label_uncon">Uncon</string>
   <string name="char_label_death">Death</string>
@@ -398,6 +400,10 @@
   <string name="char_label_main">Main</string>
   <string name="char_label_talents">Talents</string>
   <string name="char_label_skills">Skills</string>
+  <string name="char_label_spells">Spells</string>
+  <string name="char_label_spelldetails">Spellcasting Details</string>
+  <string name="char_label_spellcasting">Spellcasting Test:</string>
+  <string name="char_label_threadweaving">Thread Weaving Test:</string>
   <string name="char_label_cost">Cost</string>
   <string name="char_label_artisan">Artisan Skill?</string>
   <string name="char_label_initiative">Initiative</string>
@@ -405,6 +411,8 @@
   <string name="char_label_current">Current</string>
   <string name="char_label_recovery">Recovery</string>
   <string name="char_label_tests">Tests</string>
+  <string name="char_label_rolls">Rolls:</string>
+  <string name="char_label_vs">VS:</string>
   <string name="char_label_knockdown">Knockdown</string>
   <string name="char_label_movement">Movement</string>
   <string name="char_label_damage">Damage</string>
@@ -430,7 +438,6 @@
   <string name="char_attr_step">Step</string>
     
 	<!-- Spells -->
-  <string name="char_label_circle">Circle</string>
   <string name="char_label_threads">Threads</string>
   <string name="char_label_weaving">Weaving Difficulty</string>
   <string name="char_label_reattune">Reattune Difficulty</string>
@@ -438,26 +445,34 @@
   <string name="char_label_range">Range</string>
   <string name="char_label_duration">Duration</string>
   <string name="char_label_area">Area of Effect</string>
-  <string name="char_label_effectStep">Effect / Step</string>
+  <string name="char_label_effectStep">Effect Step</string>
   <string name="char_label_success">Success Levels</string>
   <string name="char_label_extraThreads">Extra Threads</string>
   <string name="char_label_source">Source</string>
   <string name="char_label_spelltraits">Traits</string>
   <string name="char_label_ctEffects">CT Effects</string>
   
-  <!-- Other -->
+  <!-- Cyclers -->
 	<string name="dex">Dex</string>
-	<string name="str">Str</string>
-	<string name="tou">Tou</string>
-	<string name="per">Per</string>
-	<string name="wil">Wil</string>
-	<string name="cha">Cha</string>
 	<string name="dexterity">Dexterity</string>
+	<string name="str">Str</string>
 	<string name="strength">Strength</string>
-	<string name="constitution">Constitution</string>
+	<string name="tou">Tou</string>
+	<string name="toughness">Toughness</string>
+	<string name="per">Per</string>
 	<string name="perception">Perception</string>
+	<string name="wil">Wil</string>
 	<string name="willpower">Willpower</string>
+	<string name="cha">Cha</string>
 	<string name="charisma">Charisma</string>
+	<string name="phys">Phys</string>
+	<string name="physical">Physical</string>
+	<string name="myst">Myst</string>
+	<string name="mystic">Mystic</string>
+	<string name="soci">Soci</string>
+	<string name="socical">Social</string>
+  
+  <!-- Other -->
   <string name="empty"> </string>
   
 	<!-- Languages -->

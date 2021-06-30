@@ -190,7 +190,7 @@ function onDrop(x, y, draginfo)
 	if win then
 		local nodeWin = win.getDatabaseNode();
 		if nodeWin then
-      CombatManagerED4.onDrop("ct", nodeWin.getPath(), draginfo);
+      --CombatManagerED4.onDrop("ct", nodeWin.getPath(), draginfo);
 			return CombatManager.onDrop("ct", nodeWin.getPath(), draginfo);
 		end
 	end

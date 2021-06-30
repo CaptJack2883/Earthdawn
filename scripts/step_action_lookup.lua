@@ -10,12 +10,11 @@ function getStep(attribute)
 end
 
 function getRoll(stepNum)
-  local stepDice, nMod = getStepDice(stepNum)
+  local stepDice, nMod, newStep = getStepDice(stepNum)
   --local stepDice = "d8e+d6e";
   --local nMod = 0;
   local stepExpr = { expr = stepDice };
-  local rRoll = { sType = "dice", sDesc = " (Step "..stepNum..") ", aDice = stepExpr, nMod = nMod };
-  
+  local rRoll = { sType = "dice", sDesc = " (Step "..newStep..") ", aDice = stepExpr, nMod = nMod };
   return rRoll;
 end
 

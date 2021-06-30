@@ -71,6 +71,7 @@
           function onUpdate()
             local node = getDatabaseNode();
             for _,w in ipairs(getWindows()) do
+              w.onStatUpdate();
               w.onUpdate();
             end
           end
@@ -108,15 +109,122 @@
 				<anchored to="talents_iedit" position="lefthigh" offset="5,0" />
 				<target>talents</target>
 			</button_iadd>
+      
+      <basicnumber name="dexterity" source="talent.dexterity">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="talentframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+				<script>
+					function onValueChanged()
+						window.talents.update();
+					end
+				</script>
+      </basicnumber>
+      <basicnumber name="strength" source="talent.strength">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="talentframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+				<script>
+					function onValueChanged()
+						window.talents.update();
+					end
+				</script>
+      </basicnumber>
+      <basicnumber name="toughness" source="talent.toughness">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="talentframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+				<script>
+					function onValueChanged()
+						window.talents.update();
+					end
+				</script>
+      </basicnumber>
+      <basicnumber name="perception" source="talent.perception">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="talentframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+				<script>
+					function onValueChanged()
+						window.talents.update();
+					end
+				</script>
+      </basicnumber>
+      <basicnumber name="willpower" source="talent.willpower">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="talentframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+				<script>
+					function onValueChanged()
+						window.talents.update();
+					end
+				</script>
+      </basicnumber>
+      <basicnumber name="charisma" source="talent.charisma">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="talentframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+				<script>
+					function onValueChanged()
+						window.talents.update();
+					end
+				</script>
+      </basicnumber>
+      <basicnumber name="spellcastingTest" source="spell.casting.test">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="talentframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+      </basicnumber>
+      <basicnumber name="threadweavingTest" source="spell.weaving.test">
+				<anchored height="20">
+					<top offset="2" />
+					<left offset="30" />
+					<right parent="talentframe" anchor="left" relation="relative" offset="-5" />
+				</anchored>
+        <invisible />
+        <readonly />
+      </basicnumber>
 		</sheetdata>
 	</windowclass>
 
 	<windowclass name="char_talents">
 		<margins control="0,0,0,2" />
     <script>
+      function onInit()
+        onStatUpdate();
+        onUpdate();
+      end
       function onStatUpdate()
         stat.update(statname.getStringValue());
-      end
+      end      
       function onUpdate()
         local nodeTalent = getDatabaseNode();
         local chkTalentName = DB.getValue(nodeTalent, "talent.name");
@@ -142,7 +250,25 @@
           end
         end            
         DB.setValue(nodeTalent, "talent.total", "number", nTotal);
+        local nodeTalent = getDatabaseNode();
+        local nodeChar = DB.getParent(DB.getParent(nodeTalent));
+        local talentName = DB.getValue(nodeTalent, "talent.name");
+        if talentName == "Spellcasting" then
+          local talentSpellcasting = DB.getValue(nodeTalent, "talent.total");
+          if talentSpellcasting then
+            DB.setValue(nodeChar, "spell.casting.test", "number", talentSpellcasting);
+          end
+        end
+        local talentNameLower = string.lower(talentName);
+        local sName, sRemain = StringManager.extractPattern(talentNameLower, "weaving");
+        if sName == "weaving" then
+          local talentWeaving = DB.getValue(nodeTalent, "talent.total");
+          if talentWeaving then
+            DB.setValue(nodeChar, "spell.weaving.test", "number", talentWeaving);
+          end
+        end
       end
+      
       function getKarmaUse()
         local kValue = karmaUse.getValue();
         local kUse = false;
@@ -217,19 +343,20 @@
         <readonly />
         <rollable />
       </number_chartalentfield>
-      
 			<number_chartalentfield_static name="stat">
-				<anchored width="32" height="20">
+				<anchored parent="statname" width="32" height="20">
 					<top offset="2" />
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
 				</anchored>
 				<script>
+          function onInit()
+          end
 					function update(statname)
 						setValue(DB.getValue(window.getDatabaseNode(), "...abilities." .. statname .. ".step", 0));
 					end
 				</script>
 			</number_chartalentfield_static>
-			<cycler_chartalentability name="statname">
+			<cycler_charability name="statname" source="talent.statname">
 				<anchored width="40" height="20">
 					<top offset="2" />
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
@@ -240,12 +367,18 @@
             window.onUpdate();
 					end
 				</script>
-			</cycler_chartalentability>
+			</cycler_charability>
       <number_chartalentranks name="ranks" source="talent.rank">
 				<anchored width="32" height="20">
 					<top offset="2" />
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
 				</anchored>
+				<script>
+					function onValueChanged()
+						window.onStatUpdate();
+            window.onUpdate();
+					end
+				</script>
 				<tabtarget prev="name" />
       </number_chartalentranks>
       

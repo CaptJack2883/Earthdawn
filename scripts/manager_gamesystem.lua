@@ -13,13 +13,23 @@ actions = {
 	["heal"] = {sIcon = "iconHeal", sTargeting = "all", bUseModStack = true };
 	["damage"] = {sIcon = "iconDamage", sTargeting = "all", bUseModStack = true };
 	["stun"] = {sIcon = "iconDamage", sTargeting = "all", bUseModStack = true };
+	["effectRoll"] = {sIcon = "iconDamage", sTargeting = "all", bUseModStack = true };
 	["attack"] = {sIcon = "iconAttack", sTargeting = "each", bUseModStack = true };
+	["mysticattack"] = {sIcon = "iconAttack", sTargeting = "each", bUseModStack = true };
+	["socialattack"] = {sIcon = "iconAttack", sTargeting = "each", bUseModStack = true };
+	["spellcasting"] = {sIcon = "iconAttack", sTargeting = "each", bUseModStack = true };
+	["spell"] = {sIcon = "iconAttack", sTargeting = "each", bUseModStack = true };
   
 };
 
 targetactions = {
 	"effect",
 	"attack",
+	"mysticattack",
+	"socialattack",
+	"spellcasting",
+	"spell",
+	"effectRoll",
 	"damage",
 	"stun",
 	"heal",

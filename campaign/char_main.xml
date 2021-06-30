@@ -131,6 +131,7 @@
         </script>
         <description text="Dexterity Value" />
         <default>10</default>
+        <delaykeyupdate />
       </number_column>
       <number_column name="Dex_Bonus" source="abilities.dexterity.bonus">
 				<anchored width="30">
@@ -175,6 +176,7 @@
           end
         </script>
         <rollable />
+        <readonly />
         <default>5</default>
       </number_column>
       
@@ -192,6 +194,7 @@
 				</anchored>
         <description text="Strength Value" />
         <default>10</default>
+        <delaykeyupdate />
         <script>
           function onValueChanged()
             if not Global.cmUpdating then
@@ -244,8 +247,9 @@
             ActionManagerED4.pushRoll(sType, rStep, nodeChar);
           end
         </script>
-        <default>5</default>
         <rollable />
+        <readonly />
+        <default>5</default>
       </number_column>
       
       <label_column name="toughness">
@@ -271,6 +275,7 @@
         </script>
         <description text="Toughness Value" />
         <default>10</default>
+        <delaykeyupdate />
       </number_column>
       <number_column name="Tou_Bonus" source="abilities.toughness.bonus">
 				<anchored width="30">
@@ -315,6 +320,7 @@
           end
         </script>
         <rollable />
+        <readonly />
         <default>5</default>
       </number_column>
 
@@ -341,6 +347,7 @@
         </script>
         <description text="Perception Value" />
         <default>10</default>
+        <delaykeyupdate />
       </number_column>
       <number_column name="Per_Bonus" source="abilities.perception.bonus">
 				<anchored width="30">
@@ -385,6 +392,7 @@
           end
         </script>
         <rollable />
+        <readonly />
         <default>5</default>
       </number_column>
 
@@ -411,6 +419,7 @@
         </script>
         <description text="Willpower Value" />
         <default>10</default>
+        <delaykeyupdate />
       </number_column>
       <number_column name="Wil_Bonus" source="abilities.willpower.bonus">
 				<anchored width="30">
@@ -455,6 +464,7 @@
           end
         </script>
         <rollable />
+        <readonly />
         <default>5</default>
       </number_column>
 
@@ -481,6 +491,7 @@
         </script>
         <description text="Charisma Value" />
         <default>10</default>
+        <delaykeyupdate />
       </number_column>
       <number_column name="Cha_Bonus" source="abilities.charisma.bonus">
 				<anchored width="30">
@@ -525,6 +536,7 @@
           end
         </script>
         <rollable />
+        <readonly />
         <default>5</default>
       </number_column>
 
@@ -631,6 +643,7 @@
           end
         </script>
         <default>0</default>
+        <delaykeyupdate />
       </number_ED4>
       
       <label name="StunDamageLabel">
@@ -957,8 +970,8 @@
             ActionManagerED4.pushRoll(sType, rStep, rActor);
           end
         </script>
-        <default>5</default>
         <rollable />
+        <default>5</default>
       </number_ED4>
       <number_ED4 name="Knockdown_Step" source="defenses.knockdown.step">
         <anchored to="InitFrame" width="35" height="20">
