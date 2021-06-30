@@ -23,6 +23,7 @@ function onInit()
 	ActionsManager.registerResultHandler("recovery", onResult);
 	ActionsManager.registerResultHandler("heal", onResult);
 	ActionsManager.registerResultHandler("damage", onResult);
+	ActionsManager.registerResultHandler("mysticdamage", onResult);
 	ActionsManager.registerResultHandler("stun", onResult);
 	ActionsManager.registerResultHandler("attack", onResult);
 	ActionsManager.registerResultHandler("mysticattack", onResult);
@@ -92,6 +93,8 @@ function getRoll(sType, rStep, rActor, bKarma, bSecretRoll)
     rRoll.sDesc =  "Heal: " .. rRoll.sDesc;
   elseif rRoll.sType == "damage" then
     rRoll.sDesc =  "Damage: " .. rRoll.sDesc;
+  elseif rRoll.sType == "mysticdamage" then
+    rRoll.sDesc =  "Mystic Damage: " .. rRoll.sDesc;
   elseif rRoll.sType == "stun" then
     rRoll.sDesc =  "Stun Damage: " .. rRoll.sDesc;
   elseif rRoll.sType == "attack" then
