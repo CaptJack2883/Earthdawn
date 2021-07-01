@@ -107,16 +107,29 @@
 			<frame_char name="spellframe">
 				<bounds>15,100,-29,-5</bounds>
 			</frame_char>
+      <!-- Top Labels -->
 			<label_frametop>
 				<anchored to="spellframe" />
 				<static textres="char_label_spells" />
 			</label_frametop>
 			<label>
 				<anchored to="spellframe" position="insidetopleft" offset="40,30" />
+				<static textres="char_label_matrix" />
+			</label>
+			<label>
+				<anchored to="spellframe" position="insidetopleft" offset="45,40" />
+				<static textres="char_label_s" />
+			</label>
+			<label>
+				<anchored to="spellframe" position="insidetopleft" offset="65,40" />
+				<static textres="char_label_e" />
+			</label>
+			<label>
+				<anchored to="spellframe" position="insidetopleft" offset="85,30" />
 				<static textres="char_label_circle" />
 			</label>
 			<label>
-				<anchored to="spellframe" position="insidetopleft" offset="80,30" />
+				<anchored to="spellframe" position="insidetopleft" offset="125,30" />
 				<static textres="char_label_spellname" />
 			</label>
 			<label>
@@ -389,10 +402,12 @@
       <anchor_column name="columnanchor">
 				<anchored to="leftanchor" />
       </anchor_column>
+      
+      <!-- Main Line --> 
 			<linkfield name="shortcut">
-				<anchored to="leftanchor" width="20" height="20">
-					<top />
-					<left anchor="left" relation="relative" offset="5" />
+				<anchored width="20" height="20">
+					<top offset="5" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="5" />
 				</anchored>
 				<class>spells</class>
 				<description field="name" />
@@ -405,7 +420,36 @@
 				</anchored>
 			</button_idelete>
       
-      <!-- Main Line --> 
+      <button_checkbox name="matrixStandard" source="matrix.standard">
+				<anchored width="13" height="13">
+					<top offset="8" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="5" />
+				</anchored>
+        <script>
+          function onValueChanged()
+          end
+        </script>
+      </button_checkbox>
+      <button_checkbox name="matrixEnhanced" source="matrix.enhanced">
+				<anchored width="13" height="13">
+					<top offset="8" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="5" />
+				</anchored>
+        <script>
+          function onValueChanged()
+          end
+        </script>
+      </button_checkbox>
+			<number_charspellfield_static name="circle">
+				<anchored width="32" height="20">
+					<top offset="5" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="5" />
+				</anchored>
+				<script>
+          function onInit()
+          end
+				</script>
+			</number_charspellfield_static>
       <button_checkbox name="karmaUse" source="karma.use">
 				<anchored width="20" height="20">
 					<top offset="5" />
@@ -433,7 +477,6 @@
             if window.isHeal.getValue() > 0 then
               spellType = "heal";
             end
-            Debug.chat(spellType);
             local sType = spellType;
             local rStep = getValue();
             local nodeSpell = window.getDatabaseNode();
@@ -511,7 +554,7 @@
 			<stringu name="name" source="spell.name">
 				<anchored height="20">
 					<top offset="5" />
-					<left offset="65" />
+					<left parent="leftanchor" relation="relative" offset="110" />
 					<right parent="rightanchor" anchor="left" relation="relative" offset="-10" />
 				</anchored>
 				<script>
@@ -521,16 +564,6 @@
 					end
 				</script>
 			</stringu>
-			<number_charspellfield_static name="circle">
-				<anchored parent="statname" width="32" height="20">
-					<top offset="5" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-5" />
-				</anchored>
-				<script>
-          function onInit()
-          end
-				</script>
-			</number_charspellfield_static>
       
       <!-- Subframe line 1 --> 
 			<label name="rollsLabel">
@@ -635,14 +668,14 @@
 			<label name="EffectStepLabel">
 				<anchored>
 					<top parent="rollsLabel" anchor="bottomleft" offset="10" />
-					<left parent="leftanchor" anchor="right" relation="relative" offset="5" />
+					<left parent="leftanchor" anchor="right" offset="5" />
 				</anchored>
 				<static textres="char_label_effectStep" />
 			</label>
       <number_charspellranks name="effectStep" source="spell.effect.step">
 				<anchored width="42" height="20">
 					<top parent="rollsLabel" anchor="bottom" offset="10" />
-					<left parent="leftanchor" anchor="right" relation="relative" offset="18" />
+					<left parent="leftanchor" anchor="right" relation="relative" offset="-12" />
 				</anchored>
         <min>0</min>
       </number_charspellranks>

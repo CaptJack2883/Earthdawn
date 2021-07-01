@@ -9,25 +9,21 @@ CRITICALLY IMPORTANT
 
 **
 Added Spells Tab to charsheet.
-**Spellcasting Test, Thread Weaving Test, (calculate based on talents/stats)
-Bypass armor option for spells?
-Matrix checkbox?
+**Spellcasting Test, Thread Weaving Test, (calculate based on talents/stats) (any other stuff to add to the top?)
 Add custom mod to entries' spellcasting tests.
-Should Karma deduct one time per damage roll? or per target? How to accomplish if per roll, not target?
 **
 
-Fix recovery tests per day (check before rolling, deduct after roll, and reset on rest?)
-Fix attack/damage/etc messages to have hit/miss/dmg/etc icons.
-Check for extra successes in rolls?j
+Fix "spellcasting test" rolls to be separate type from "spell" rolls, so they don't try to target/multitarget.
+Create "Roll Step #" widget, (similar to the Mod window or the Dice Tower) that allows you to enter a step number and roll it.
+Fill empty space on charsheet_main. (Blood Magic items, Half-Magic tests?)
+Need to create a place for Talent Knacks. Subwindow on the talents page of charsheet?
+Check for extra successes in rolls?
 Move Karma Use checkbox in/near modifier box? Merge with Step Roll widget? (disallow/ignore skill rolls?)
 Fix Talents/skills to be targetable. (add targeting features from spell page? then we only need actions tab for custom actions?)
 Add Thread Items Tab(s) to charsheet.
-Create "Roll Step #" widget, (similar to the Mod window or the Dice Tower) that allows you to enter a step number and roll it.
 Can I make the CT call onInit or onUpdate for combatants?
 Add spellcasting info to the top of the spells page? e.g. Spellcasting Talent, Weaving, Step, Circle (things spells need for automation)
 Make Actions tab prettier? (not needed if only custom?)
-Fill empty space on charsheet_main. (Blood Magic items, Half-Magic tests?)
-Need to create a place for Talent Knacks. Subwindow on the talents page of charsheet?
 In Progress: Fix layout of main charsheet tab. Use correct label templates (<label> and <label_frametop> but not <label_column>)
 Possibly add Circle/Novice/Journeyman to skills/talents view.
 Get Combat Tracker working. In progress, mostly working? (Need to add effect automation, etc)
@@ -46,6 +42,9 @@ Fix damage rolls from displaying roll total for each target.
 Make NPC window narrower min width. (squish attributes closer)
 Update numbers in CT after rolls?
 Automate strain?
+Bypass armor option for spells?
+Leftover attribute points added to Max Karma.
+Add a script to the CT effects in ref_spells in order to separate the clauses before turning into an actual CT Effect.
 
 THEME/UI:
 FG Dark theme removes iedit buttons on client?
@@ -66,14 +65,22 @@ Get Disciplines reference to match definitions in book. (verify)
 QUALITY OF LIFE:
 Figure out LibraryDataED4 (data_library_ED4.lua) I think this is related to displaying races,disciplines, etc.
 Maybe we need a getStepFromDice function in Step_Action_Lookup? (reverse of getStepDice)
-Fix pronouns to use they/them instead of he/him or she/her. (talent descriptions, etc)
+Fix pronouns to use they/them instead of he/him or she/her. (talent descriptions, etc) (find/replace in campaign data)
 Do I need a legend worksheet?
 Fix exploded dice to show green bgcolor instead of green die graphic for better viewing. (same for red 1/s? probably not, we know they're 1 by the color alone?)
 Fix steps 40+ (we don't use d4's after step 3)
 
 FINISHED/FIXED:
 
+GitHub Update #11
+July 01, 2021
+Fixed karma rolls to only deduct once per action test. (not per target) Hopefully.
+Automated recovery tests per day.
+Added Matrix checkboxes to spells list, this is just for the player to keep track. (Standard, Enhanced)
+Fix attack/spell/damage/heal messages to have hit/miss/dmg/heal icons.
+
 GitHub Update #10
+June 30, 2021
 Fixed mystic damage rolls.
 
 GitHub Update #9

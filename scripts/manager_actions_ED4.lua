@@ -54,12 +54,19 @@ function getRoll(sType, rStep, rActor, bKarma, bSecretRoll)
     --rRoll.sDesc =  "(Step " .. rStep .. ") ";
   end
   if bKarma then
-    --First we need to see if the char has karma points left.
+    -- First we need to see if the char has karma points left.
     local karmaValue = CharacterManager.getKarmaValue(rActor);
     if karmaValue > 0 then
-    --We need to add dice equal to the karma step (default Step 4/d6)
+      -- We need to add dice equal to the karma step (default Step 4/d6)
       rRoll.aDice.expr = rRoll.aDice.expr.."+d6e"
       rRoll.sDesc = rRoll.sDesc.." (with Karma) "
+      -- If we calculate the new karma value here, and set it as part of the rRoll.
+      -- We only deduct one point, regardless how many times it targets?
+      karmaValue = karmaValue - 1;
+      if karmaValue < 1 then
+        karmaValue = 0;
+      end
+      rRoll.nKarmaLeft = karmaValue;
     end
   end
 	-- Action type.
@@ -240,13 +247,18 @@ function onResult(rSource, rTarget, rRoll, nTotal)
     local sDescLower = string.lower(rRoll.sDesc);
     sDesc, sRemainder = StringManager.extractPattern(sDescLower, "karma");
     if sDesc == "karma" then
-      --TODO: Deduct 1 karma point from the char.
+      --[[ TODO: If new karma deduction works, remove this.
+      -- Deducting 1 karma point, min 0.
       local kValue = CharacterManager.getKarmaValue(rActor);
       kValue = kValue - 1;
       if kValue < 1 then
         kValue = 0;
       end
-      CharacterManager.setKarmaValue(rActor, kValue);
+      ]]--
+      if rRoll.nKarmaLeft then
+        local kValue = rRoll.nKarmaLeft;
+        CharacterManager.setKarmaValue(rActor, kValue);
+      end
       sDesc = nil;
     end
   end
@@ -264,42 +276,46 @@ function onResult(rSource, rTarget, rRoll, nTotal)
     notifyApplyInit(rSource, nTotal);
   end
   if rRoll.sType == "recovery" then
-    -- check for damage/stun and heal it.
     local nodeChar = ActorManager.getCreatureNode(rSource);
-    local oldDamage = DB.getValue(nodeChar, "health.damage.value", 0);
-    local oldStun = DB.getValue(nodeChar, "health.damage.stun", 0);
-    local wounds = DB.getValue(nodeChar, "health.wounds.value", 0);
-    local healValue = 0;
-    
-    local nTotal = ActionsManager.total(rRoll);
-    if nTotal > 0 then
-      healValue = healValue + nTotal - wounds;
-    end
-    if healValue < 1 then
-      healValue = 1;
-    end
-    --[[
-    for _,v in ipairs(rRoll.aDice) do
-      if v.value then
-        --FGU
-        healValue = healValue + v.value;
-      elseif v.result then
-        --FGC
-        healValue = healValue + v.result;
+    -- First we need to see if the char has recovery tests left.
+    local recTests = CharacterManager.getRecoveryTests(nodeChar) or 0;
+    if recTests > 0 then
+      -- check for damage/stun and heal it.
+      local oldDamage = DB.getValue(nodeChar, "health.damage.value", 0);
+      local oldStun = DB.getValue(nodeChar, "health.damage.stun", 0);
+      local wounds = DB.getValue(nodeChar, "health.wounds.value", 0);
+      local healValue = 0;
+      local nTotal = ActionsManager.total(rRoll);
+      if nTotal > 0 then
+        healValue = healValue + nTotal - wounds;
       end
+      if healValue < 1 then
+        healValue = 1;
+      end
+      local newDamage = oldDamage - healValue;
+      local newStun = oldStun - healValue;
+      if newDamage < 0 then
+        newDamage = 0;
+      end
+      if newStun < 0 then
+        newStun = 0;
+      end
+      DB.setValue(nodeChar, "health.damage.value", "number", newDamage);
+      DB.setValue(nodeChar, "health.damage.stun", "number", newStun);
+      -- Now we deduct the point we just used.
+      recTests = recTests -1
+      if recTests < 1 then
+        recTests = 0;
+      end
+      CharacterManager.setRecoveryTests(nodeChar, recTests);
+    else
+      -- char had no recovery tests, let them know why they weren't healed.
+      local rMessage = ChatManager.createBaseMessage(rSource, rRoll.sUser);
+      rMessage.text = rSource.sName.." tried to use a recovery test, but had none available.";
+      Comm.deliverChatMessage(rMessage);
     end
-    ]]--
-    local newDamage = oldDamage - healValue;
-    local newStun = oldStun - healValue;
-    if newDamage < 0 then
-      newDamage = 0;
-    end
-    if newStun < 0 then
-      newStun = 0;
-    end
-    DB.setValue(nodeChar, "health.damage.value", "number", newDamage);
-    DB.setValue(nodeChar, "health.damage.stun", "number", newStun);
   end
+  
   if rRoll.sType == "heal" then
     -- rSource is a creatureNode, and we need the CT node if there is one. 
     local ctActor = ActorManager.resolveActor(rSource);
@@ -461,8 +477,10 @@ function resolveAttack(rSource, rTarget, rRoll)
 	local rMessage = ChatManager.createBaseMessage(rSource, rRoll.sUser);
   local targetDefense = DB.getValue(nodeTarget, "defenses.physical.value", 0);
   local hitOrMiss = "missed.";
+  rMessage.icon = "poll_negative";
   if nTotal >= targetDefense then
     hitOrMiss = "hits.";
+    rMessage.icon = "iconSword";
   end
   rMessage.text = "Attacking "..rTarget.sName.." with a physical attack. The attack "..hitOrMiss;
 	Comm.deliverChatMessage(rMessage);
@@ -475,8 +493,10 @@ function resolveMysticAttack(rSource, rTarget, rRoll)
 	local rMessage = ChatManager.createBaseMessage(rSource, rRoll.sUser);
   local targetDefense = DB.getValue(nodeTarget, "defenses.mystic.value", 0);
   local hitOrMiss = "missed.";
+  rMessage.icon = "poll_negative";
   if nTotal >= targetDefense then
     hitOrMiss = "hits.";
+    rMessage.icon = "iconSword";
   end
   rMessage.text = "Attacking "..rTarget.sName.." with a mystic attack. The attack "..hitOrMiss;
 	Comm.deliverChatMessage(rMessage);
@@ -489,8 +509,10 @@ function resolveSocialAttack(rSource, rTarget, rRoll)
 	local rMessage = ChatManager.createBaseMessage(rSource, rRoll.sUser);
   local targetDefense = DB.getValue(nodeTarget, "defenses.social.value", 0);
   local hitOrMiss = "missed.";
+  rMessage.icon = "poll_negative";
   if nTotal >= targetDefense then
     hitOrMiss = "hits.";
+    rMessage.icon = "iconSword";
   end
   rMessage.text = "Attacking "..rTarget.sName.." with a social attack. The attack "..hitOrMiss;
 	Comm.deliverChatMessage(rMessage);
@@ -500,34 +522,38 @@ function resolveSpellcasting(rSource, rTarget, rRoll)
   local rActor = ActorManager.resolveActor(rSource);
   local nodeTarget = ActorManager.getCreatureNode(rTarget);
   local nTotal = ActionsManager.total(rRoll);
-	local rMessage = ChatManager.createBaseMessage(rSource, rRoll.sUser);
-  local sVS = rRoll.vs;
-  local versusLower = string.lower(sVS);
-  local defenseVS = nil
-  local vsDefense, sRemain;
-  vsDefense, sRemain = StringManager.extractPattern(versusLower, "phys");
-  if vsDefense and vsDefense == "phys" then
-    defenseVS = "physical";
-    vsDefense = nil;
-  end
-  vsDefense, sRemain = StringManager.extractPattern(versusLower, "myst");
-  if vsDefense and vsDefense == "myst" then
-    defenseVS = "mystic";
-    vsDefense = nil;
-  end
-  vsDefense, sRemain = StringManager.extractPattern(versusLower, "soci");
-  if vsDefense and vsDefense == "soci" then
-    defenseVS = "social";
-    vsDefense = nil;
-  end
-  if defenseVS then
-    local targetDefense = DB.getValue(nodeTarget, "defenses."..defenseVS..".value", 0);
-    local hitOrMiss = "missed.";
-    if nTotal >= targetDefense then
-      hitOrMiss = "hits.";
+  if rRoll.vs then
+    local rMessage = ChatManager.createBaseMessage(rSource, rRoll.sUser);
+    local sVS = rRoll.vs;
+    local versusLower = string.lower(sVS);
+    local defenseVS = nil
+    local vsDefense, sRemain;
+    vsDefense, sRemain = StringManager.extractPattern(versusLower, "phys");
+    if vsDefense and vsDefense == "phys" then
+      defenseVS = "physical";
+      vsDefense = nil;
     end
-    rMessage.text = "Attacking "..rTarget.sName.." with a "..defenseVS.." spell. The spell "..hitOrMiss;
-    Comm.deliverChatMessage(rMessage);
+    vsDefense, sRemain = StringManager.extractPattern(versusLower, "myst");
+    if vsDefense and vsDefense == "myst" then
+      defenseVS = "mystic";
+      vsDefense = nil;
+    end
+    vsDefense, sRemain = StringManager.extractPattern(versusLower, "soci");
+    if vsDefense and vsDefense == "soci" then
+      defenseVS = "social";
+      vsDefense = nil;
+    end
+    if defenseVS then
+      local targetDefense = DB.getValue(nodeTarget, "defenses."..defenseVS..".value", 0);
+      local hitOrMiss = "missed.";
+      rMessage.icon = "poll_negative";
+      if nTotal >= targetDefense then
+        hitOrMiss = "hits.";
+      rMessage.icon = "iconSword";
+      end
+      rMessage.text = "Attacking "..rTarget.sName.." with a "..defenseVS.." spell. The spell "..hitOrMiss;
+      Comm.deliverChatMessage(rMessage);
+    end
   end
 end
 
@@ -572,6 +598,7 @@ function resolveDamage(rSource, rTarget, rRoll)
       rMessage.text = rMessage.text.." (partially absorbed) ";
     end
   end
+  rMessage.icon = "iconDamage";
 	Comm.deliverChatMessage(rMessage);  
 end
 
@@ -588,10 +615,12 @@ function resolveMysticDamage(rSource, rTarget, rRoll)
   end
   local newDamage = targetDamage + newTotal;
   DB.setValue(nodeTarget, "health.damage.value", "number", newDamage);
+  rMessage.icon = "iconDamage";
   rMessage.text = "Damaging "..rTarget.sName.." for "..newTotal.." Mystic Damage.";
   if newTotal < nTotal then
     if newTotal == 0 then
       rMessage.text = rMessage.text.." (fully absorbed) ";
+      rMessage.icon = "poll_negative";
     else
       rMessage.text = rMessage.text.." (partially absorbed) ";
     end
@@ -612,10 +641,12 @@ function resolveStunDamage(rSource, rTarget, rRoll)
   end
   local newDamage = targetDamage + newTotal;
   DB.setValue(nodeTarget, "health.damage.stun", "number", newDamage);
+  rMessage.icon = "iconDamage";
   rMessage.text = "Damaging "..rTarget.sName.." for "..newTotal.." Stun Damage.";
   if newTotal < nTotal then
     if newTotal == 0 then
       rMessage.text = rMessage.text.." (fully absorbed) ";
+      rMessage.icon = "poll_negative";
     else
       rMessage.text = rMessage.text.." (partially absorbed) ";
     end
@@ -641,6 +672,7 @@ function resolveHeal(rSource, rTarget, rRoll)
   DB.setValue(nodeTarget, "health.damage.value", "number", newDamage);
   DB.setValue(nodeTarget, "health.damage.stun", "number", newStun);
   rMessage.text = "Healing "..rTarget.sName.." for "..nTotal;
+  rMessage.icon = "iconHeal";
 	Comm.deliverChatMessage(rMessage);
 end
 
