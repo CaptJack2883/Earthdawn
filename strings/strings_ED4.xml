@@ -438,6 +438,9 @@
   <string name="char_attr_step">Step</string>
     
 	<!-- Spells -->
+  <string name="char_label_matrix">Matrix</string>
+  <string name="char_label_s">S</string>
+  <string name="char_label_e">E</string>
   <string name="char_label_threads">Threads</string>
   <string name="char_label_weaving">Weaving Difficulty</string>
   <string name="char_label_reattune">Reattune Difficulty</string>

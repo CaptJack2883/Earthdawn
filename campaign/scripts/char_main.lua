@@ -34,7 +34,7 @@ function onUpdate()
   Initiative_Step.setValue(Dex_Step.getValue());
   Knockdown_Step.setValue(Str_Step.getValue());
   Recovery_Step.setValue(Tou_Step.getValue());
-  Recovery_max.setValue(math.ceil(Tou_Value.getValue()/6));
+  Recovery_max.setValue(math.ceil(Tou_Value.getValue()/6)); --Need to use new function in CharacterManager to account for bonuses?
   
   --Other updating functions.
   updateKarma();

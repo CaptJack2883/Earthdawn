@@ -1,7 +1,10 @@
 --External functions for managing characters.
 
 function overnightRest(nodeChar)
+  --First we update the new karma and recovery tests.
   updateKarma(nodeChar);
+  updateRecoveryTests(nodeChar);
+  -- Now we use one of the new recovery tests if the character is still hurt.
   recoveryTest(nodeChar);
 end
 
@@ -12,6 +15,16 @@ function updateTalents(nodeChar)
     --We found a character, now we notify the talent window
     ActionManagerED4.notifyUpdateStat(nodeChar);
   end
+end
+
+function updateRecoveryTests(nodeChar)
+  local newRecTests = getMaxRecoveryTests(nodeChar);
+  DB.setValue(nodeChar, "health.recovery.tests", "number", newRecTests);
+end
+
+function getMaxRecoveryTests(nodeChar)
+  local maxRecTests = DB.getValue(nodeChar, "health.recovery.max", 0);
+  return maxRecTests;
 end
 
 function updateKarma(nodeChar)
@@ -62,6 +75,33 @@ function rollInit(nodeChar, bSecretRoll)
   local rStep = DB.getValue(nodeChar, "initiative.step", 0);
   local sType = "initroll";
   ActionManagerED4.pushRoll(sType, rStep, nodeChar, bSecretRoll);
+end
+
+function getRecoveryTests(nodeChar)
+  local recTests = 0;
+  --Check to see if we're inside a talent/spell/action
+  nodeChar = CharacterManager.verifyActor(nodeChar);
+  nodeChar = ActorManager.resolveActor(nodeChar);
+  if nodeChar and nodeChar.sCreatureNode then
+    local rActor = ActorManager.getCreatureNode(nodeChar);
+    --Invalid Parameter for client? but only sometimes?? I hope this is fixed?
+    recTests = DB.getValue(rActor, "health.recovery.tests", 0);
+  end
+  return recTests;
+end
+
+function setRecoveryTests(nodeChar, recTests)
+  --Check to see if we're inside a talent/spell/action
+  nodeChar = CharacterManager.verifyActor(nodeChar);
+  nodeChar = ActorManager.resolveActor(nodeChar);
+  if nodeChar and nodeChar.sCreatureNode then
+    local rActor = ActorManager.getCreatureNode(nodeChar);
+    recTests = tonumber(recTests);
+    if recTests < 1 then
+      recTests = 0;
+    end
+    DB.setValue(rActor, "health.recovery.tests", "number", recTests);
+  end
 end
 
 function getKarmaValue(nodeChar)
