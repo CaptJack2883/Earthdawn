@@ -9,6 +9,9 @@
 	<!-- Testing -->
 	<string name="test">Testing</string>
   
+	<!-- Widgets -->
+	<string name="step_roller_widget">Step Roll</string>
+  
 	<!-- General -->
 	<string name="color_edit">Click to edit color</string>
 	<string name="ft_empty">Click to enter text</string>

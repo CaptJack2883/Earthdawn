@@ -6,6 +6,7 @@
 -- Ruleset action types
 actions = {
 	["dice"] = { bUseModStack = "true" },
+	["stepRoll"] = { bUseModStack = "false" },
 	["table"] = { },
 	["effect"] = { sIcon = "action_effect", sTargeting = "all" },
 	["initroll"] = { bUseModStack = true };
@@ -17,7 +18,7 @@ actions = {
 	["attack"] = {sIcon = "iconAttack", sTargeting = "each", bUseModStack = true };
 	["mysticattack"] = {sIcon = "iconAttack", sTargeting = "each", bUseModStack = true };
 	["socialattack"] = {sIcon = "iconAttack", sTargeting = "each", bUseModStack = true };
-	["spellcasting"] = {sIcon = "iconAttack", sTargeting = "each", bUseModStack = true };
+	["spellcasting"] = {sIcon = "iconAttack", bUseModStack = true };
 	["spell"] = {sIcon = "iconAttack", sTargeting = "each", bUseModStack = true };
   
 };
@@ -27,7 +28,6 @@ targetactions = {
 	"attack",
 	"mysticattack",
 	"socialattack",
-	"spellcasting",
 	"spell",
 	"effectRoll",
 	"damage",
