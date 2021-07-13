@@ -36,6 +36,7 @@ function onInit()
 	ActionsManager.registerResultHandler("effectRoll", onResult);
 	ActionsManager.registerResultHandler("spellcasting", onResult);
 	ActionsManager.registerResultHandler("threadweaving", onResult);
+	ActionsManager.registerResultHandler("stepRoll", onResult);
 	ActionsManager.registerResultHandler("dice", onResult);
 end
 
@@ -122,6 +123,8 @@ function getRoll(sType, rStep, rActor, bKarma, bSecretRoll)
     rRoll.sDesc =  "Spellcasting Test: " .. rRoll.sDesc;
   elseif rRoll.sType == "threadweaving" then
     rRoll.sDesc =  "Thread Weaving Test: " .. rRoll.sDesc;
+  elseif rRoll.sType == "stepRoll" then
+    rRoll.sDesc =  "Manual Step Roll: " .. rRoll.sDesc;
   else
     rRoll.sDesc =  "Default Roll Description";
   end
@@ -133,14 +136,20 @@ function getRoll(sType, rStep, rActor, bKarma, bSecretRoll)
 end
 
 function dragRoll(draginfo, sType, rStep, rActor, rRoll, bKarma, bSecretRoll)
-  rSource, _, vTargets = ActionsManager.decodeActionFromDrag(draginfo, false);
+  --[[
+  if draginfo then
+    rActor, _, vTargets = ActionsManager.decodeActionFromDrag(draginfo, false);
+  end
+  ]]--
   if not rRoll then
     rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma, bSecretRoll);
   end
   if rRoll.sType == "dice" then
     rRoll = ActionManagerED4.checkDescType(rRoll);
   end
-  rActor, rRoll = CharacterManager.verifyActor(rActor, rRoll);
+  if rActor then
+    rActor, rRoll = CharacterManager.verifyActor(rActor, rRoll);
+  end
   ActionsManager.performAction(draginfo, rActor, rRoll);
 end
 
@@ -424,7 +433,7 @@ function onResult(rSource, rTarget, rRoll, nTotal)
       resolveSocialAttack(ctActor, ctTarget, rRoll);
     end
   end
-  if rRoll.sType == "spellcasting" then
+  if rRoll.sType == "spell" then
     local nTotal = ActionsManager.total(rRoll);
     -- rSource is a creatureNode, and we need the CT node if there is one. 
     local ctActor = ActorManager.resolveActor(rSource);

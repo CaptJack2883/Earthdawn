@@ -183,8 +183,8 @@ function updateDamage(rActor, dmgValue)
 end
 
 function verifyActor(rSource, rRoll)
+  rSource = ActorManager.resolveActor(rSource);
   if rSource then
-    rSource = ActorManager.resolveActor(rSource);
     if rSource.sCreatureNode then
       nodeString = tostring(rSource.sCreatureNode);
       local nStart, nEnd = nodeString:find("talent");

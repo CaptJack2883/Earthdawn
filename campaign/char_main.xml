@@ -1067,7 +1067,11 @@
               local sType = "karma";
               local rActor = ActorManager.resolveActor(window.getDatabaseNode());
               karmaStep = CharacterManager.getKarmaStep(rActor);
-              ActionManagerED4.dragRoll(draginfo, sType, karmaStep, rActor);
+              local rStep = karmaStep;
+              local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor);
+              kValue = kValue - 1;
+              rRoll.nKarmaLeft = kValue;
+              ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor, rRoll);
             end
             return true;
           end
@@ -1078,7 +1082,11 @@
               local sType = "karma";
               local rActor = ActorManager.resolveActor(window.getDatabaseNode());
               karmaStep = CharacterManager.getKarmaStep(rActor);
-              ActionManagerED4.pushRoll(sType, karmaStep, rActor);
+              local rStep = karmaStep;
+              local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor);
+              kValue = kValue - 1;
+              rRoll.nKarmaLeft = kValue;
+              ActionManagerED4.pushRoll(sType, rStep, rActor, rRoll);
             end
           end
         </script>

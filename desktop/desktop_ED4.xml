@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+
+	<panel name="karmaWidget" modes="host,client">
+		<class>karmaWidget</class>
+		<bounds>150,-100,64,57</bounds>
+		<dynamic />
+		<locked />
+	</panel>
+
+	<panel name="stepRollerWidget" modes="host,client">
+		<class>stepRollerWidget</class>
+		<bounds>100,-100,64,57</bounds>
+		<dynamic />
+		<locked />
+	</panel>
+
+	<windowclass name="karmaWidget">
+		<sizelimits>
+			<minimum width="64" height="57" />
+		</sizelimits>
+		<noclose />
+    <script file="desktop/scripts/karma_widget.lua" />
+		<sheetdata>
+		</sheetdata>
+  </windowclass>
+
+	<windowclass name="stepRollerWidget">
+		<sizelimits>
+			<minimum width="64" height="57" />
+		</sizelimits>
+		<noclose />
+    <script file="desktop/scripts/step_roller_widget.lua" />
+		<sheetdata>
+			<genericcontrol name="base">
+				<bounds>5,5,64,52</bounds>
+				<icon>modcollector</icon>
+				<counters>
+					<icon>modcollector_counter</icon>
+					<offset>
+						<x>9</x>
+						<y>47</y>
+					</offset>
+					<spacing>9</spacing>
+					<hoversize>4</hoversize>
+				</counters>
+				<acceptdrop>
+					<type>dice</type>
+					<type>number</type>
+				</acceptdrop>
+				<script>
+					function onDrop(x, y, draginfo)
+						return window.onDrop(x, y, draginfo);
+					end
+				</script>
+			</genericcontrol>
+			<numbercontrol name="steproll">
+				<bounds>15,12,42,22</bounds>
+				<stateframe>
+					<keyedit name="steprollfocus" />
+					<hover name="steprollfocus" />
+					<drophilight name="steprollfocus" />
+				</stateframe>
+				<font>modcollector</font>
+				<droptypes>
+					<type>number</type>
+				</droptypes>
+				<script>
+					function onDrop(x, y, draginfo)
+						return window.onDrop(x, y, draginfo);
+					end
+          function onDoubleClick(button, x, y, draginfo)
+            local sType = "stepRoll";
+            local rStep = getValue();
+            ActionManagerED4.pushRoll(sType, rStep);
+          end
+          function onDragStart(button, x, y, draginfo)
+            rActor = User.getUsername();
+            local sType = "stepRoll";
+            local rStep = getValue();
+            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor)
+            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor, rRoll);
+            return true;
+          end
+				</script>
+        <rollable />
+			</numbercontrol>
+			<stringcontrol name="label">
+				<bounds>9,34,54,12</bounds>
+				<font>modcollectorlabel</font>
+				<static textres="step_roller_widget" />
+				<center />
+				<script>
+					function onDrop(x, y, draginfo)
+						return window.onDrop(x, y, draginfo);
+					end
+				</script>
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+
+</root>

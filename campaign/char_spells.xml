@@ -516,7 +516,7 @@
 				</anchored>
         <script>
           function onDragStart(button, x, y, draginfo)
-            local sType = "spellcasting";
+            local sType = "spell";
             local rStep = getValue();
             local nodeSpell = window.getDatabaseNode();
             local nodeChar = DB.getParent(DB.getParent(nodeSpell));
@@ -529,7 +529,7 @@
             return true;
           end
           function onDoubleClick()
-            local sType = "spellcasting";
+            local sType = "spell";
             local rStep = getValue();
             local nodeSpell = window.getDatabaseNode();
             local nodeChar = DB.getParent(DB.getParent(nodeSpell));
@@ -586,7 +586,7 @@
 				</anchored>
         <script>
           function onDragStart(button, x, y, draginfo)
-            local sType = "spellcasting";
+            local sType = "spell";
             local rStep = getValue();
             local nodeSpell = window.getDatabaseNode();
             local nodeChar = DB.getParent(DB.getParent(nodeSpell));
@@ -599,7 +599,7 @@
             return true;
           end
           function onDoubleClick()
-            local sType = "spellcasting";
+            local sType = "spell";
             local rStep = getValue();
             local nodeSpell = window.getDatabaseNode();
             local nodeChar = DB.getParent(DB.getParent(nodeSpell));

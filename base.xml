@@ -7,18 +7,10 @@ This means that I will no longer be testing this ruleset in FGC. I can only guar
 
 CRITICALLY IMPORTANT
 
-**
-Added Spells Tab to charsheet.
-**Spellcasting Test, Thread Weaving Test, (calculate based on talents/stats) (any other stuff to add to the top?)
-Add custom mod to entries' spellcasting tests.
-**
-
-Fix "spellcasting test" rolls to be separate type from "spell" rolls, so they don't try to target/multitarget.
-Create "Roll Step #" widget, (similar to the Mod window or the Dice Tower) that allows you to enter a step number and roll it.
+Move Karma Use checkbox in/near modifier box? Merge with Step Roll widget? (disallow/ignore skill rolls?)
 Fill empty space on charsheet_main. (Blood Magic items, Half-Magic tests?)
 Need to create a place for Talent Knacks. Subwindow on the talents page of charsheet?
 Check for extra successes in rolls?
-Move Karma Use checkbox in/near modifier box? Merge with Step Roll widget? (disallow/ignore skill rolls?)
 Fix Talents/skills to be targetable. (add targeting features from spell page? then we only need actions tab for custom actions?)
 Add Thread Items Tab(s) to charsheet.
 Can I make the CT call onInit or onUpdate for combatants?
@@ -30,6 +22,7 @@ Get Combat Tracker working. In progress, mostly working? (Need to add effect aut
 Add Racial Stats to Race records, so they can be added to character sheet by dragging. (Create New Tab?)
 In Progress: Allow Drag/Drop Character Creation. Race/Discipline/Talents/Skills are now working.
 Add Custom Ability Modifier Fields to NPC and Charsheet, to allow custom bonuses/flaws. (Other computations, such as Race, Attribute Points, Half-Magic, etc.)
+Add custom mod to entries' spellcasting tests.
 Fix layout of main charsheet tab. Use correct label templates (not label_column?)
 In Progress: Get CT Menu working (rest, etc.) Menu is working, any new nodes to add?
 Add support for new lighting features. Default visions work without modification. Possibly need to add new visions?
@@ -71,6 +64,11 @@ Fix exploded dice to show green bgcolor instead of green die graphic for better 
 Fix steps 40+ (we don't use d4's after step 3)
 
 FINISHED/FIXED:
+
+GitHub Update #12
+July 13, 2021
+Created "Step Roll" widget, (similar to the Mod window) that allows you to enter a step number and roll it.
+Fixed "spellcasting test" rolls to be separate type from "spell" rolls, so they don't try to target/multitarget.
 
 GitHub Update #11
 July 01, 2021
@@ -259,6 +257,9 @@ Unused Files:
   <importruleset source="CoreRPG" />
   <includefile source="gameelements.xml" />
     
+  <!-- Desktop -->
+  <includefile source="desktop/desktop_ED4.xml" />
+  
   <!-- Graphics -->
   <includefile source="graphics/graphics_decals.xml" />
   <includefile source="graphics/graphics_fonts_ED4.xml" />
