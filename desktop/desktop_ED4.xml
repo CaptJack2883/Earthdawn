@@ -63,9 +63,9 @@
 			<numbercontrol name="steproll">
 				<bounds>15,12,42,22</bounds>
 				<stateframe>
-					<keyedit name="steprollfocus" />
-					<hover name="steprollfocus" />
-					<drophilight name="steprollfocus" />
+					<keyedit name="modstackfocus" />
+					<hover name="modstackfocus" />
+					<drophilight name="modstackfocus" />
 				</stateframe>
 				<font>modcollector</font>
 				<droptypes>
