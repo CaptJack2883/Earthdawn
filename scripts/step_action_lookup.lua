@@ -10,11 +10,17 @@ function getStep(attribute)
 end
 
 function getRoll(stepNum)
-  local stepDice, nMod, newStep = getStepDice(stepNum)
+  local stepDice, nMod, newStep, stepMod = getStepDice(stepNum)
   --local stepDice = "d8e+d6e";
   --local nMod = 0;
   local stepExpr = { expr = stepDice };
-  local rRoll = { sType = "dice", sDesc = " (Step "..newStep..") ", aDice = stepExpr, nMod = nMod };
+  local rRoll = { sType = "dice", sDesc = " (Step "..newStep..") ", aDice = stepExpr, nMod = nMod, stepMod = stepMod };
+  if rRoll.stepMod > 0 then
+    rRoll.sDesc = rRoll.sDesc.."("..stepNum.."+"..stepMod..") ";
+  end
+  if rRoll.stepMod < 0 then
+    rRoll.sDesc = rRoll.sDesc.."("..stepNum.."-"..stepMod..") ";
+  end
   return rRoll;
 end
 
@@ -33,50 +39,32 @@ function getStepFromString(sInput)
 end
 
 function getStepDice(stepNum)
-  local nMod = 0;
-	stepNum = stepNum + ModifierStack.getSum();
-  ModifierStack.reset();
   local stepDice = "";
+  local nMod = 0;
+  -- Check modifierstack to see if we need to modify the step number before rolling.
+  local stepMod = ModifierStack.getSum();
+	stepNum = stepNum + stepMod;
+  --ModifierStack.reset();
+  
+  -- Make sure we're only retrieving positive integers. (stepNum can't be 0 or negative)
 	if stepNum < 1 then
 		stepNum = 1
 	end
-	if stepNum > 100 then
-		stepNum = 100;
-    stepDice = getStepsHundreds(stepNum);
-  return stepDice, nMod, stepNum;
-	end
-  if stepNum <=9 then
-  --Step is Less than or equal to 9.
-    stepDice, nMod = getStepsSingles(stepNum);
-  elseif stepNum <=19 then
-  --Step is Less than or equal to 19.
-    stepDice = getStepsTens(stepNum);
-  elseif stepNum <=29 then
-  --Step is Less than or equal to 29.
-    stepDice = getStepsTwenties(stepNum);
-  elseif stepNum <=39 then
-  --Step is Less than or equal to 39.
-    stepDice = getStepsThirties(stepNum);
-  elseif stepNum <=49 then
-  --Step is Less than or equal to 49.
-    stepDice = getStepsForties(stepNum);
-  elseif stepNum <=59 then
-  --Step is Less than or equal to 59.
-    stepDice = getStepsFifties(stepNum);
-  elseif stepNum <=69 then
-  --Step is Less than or equal to 69.
-    stepDice = getStepsSixties(stepNum);
-  elseif stepNum <=79 then
-  --Step is Less than or equal to 79.
-    stepDice = getStepsSeventies(stepNum);
-  elseif stepNum <=89 then
-  --Step is Less than or equal to 89.
-    stepDice = getStepsEighties(stepNum);
-  elseif stepNum <=99 then
-  --Step is Less than or equal to 99.
-    stepDice = getStepsNineties(stepNum);
+  
+  -- Get dice based on new formulaic step lookup.
+  --Debug.chat("getFormulaicStep(stepNum)");
+  --Debug.chat(getFormulaicStep(stepNum));
+  stepDice = getFormulaicStep(stepNum);
+  
+  -- set modifiers for steps 1 and 2.
+  if stepNum == 1 then
+    nMod = -2;
   end
-  return stepDice, nMod, stepNum;
+  if stepNum == 2 then
+    nMod = -1;
+  end
+  
+  return stepDice, nMod, stepNum, stepMod;
 end
 
 function getStepsSingles(stepNum)
@@ -101,228 +89,59 @@ function getStepsSingles(stepNum)
   end
 end
 
-function getStepsTens(stepNum)
-  if stepNum == 10 then 
-		return "2d8e", 0;
-	elseif stepNum == 11 then 
-		return "d10e+d8e", 0;
-	elseif stepNum == 12 then 
-		return "2d10e", 0;
-	elseif stepNum == 13 then 
-		return "d12e+d10e", 0;
-	elseif stepNum == 14 then 
-		return "2d12e", 0;
-	elseif stepNum == 15 then 
-		return "d12e+2d6e", 0;
-	elseif stepNum == 16 then 
-		return "d12e+d8e+d6e", 0;
-	elseif stepNum == 17 then 
-		return "d12e+2d8e", 0;
-	elseif stepNum == 18 then 
-		return "d12e+d10e+d8e", 0;
-	elseif stepNum == 19 then 
-		return "d20e+2d6e", 0;
+function getFormulaicStep(stepNum)
+  local stepDice = "";
+  local d20Dice = "";
+  if stepNum < 8 then
+    stepDice = getStepsSingles(stepNum)
+  else
+    -- (Subtract 7, mod 11, plus Floor(d20/11, -1)
+    -- First check for the number of d20's
+    local numD20s = math.floor((stepNum-8)/11);
+    --Debug.chat("numD20s");
+    --Debug.chat(numD20s);
+    if numD20s > 0 then
+      d20Dice = numD20s.."d20e+";
+    end
+    --Now check for remaining pattern of dice.
+    local patternDice = getPatternDice(stepNum);
+    --Debug.chat("patternDice");
+    --Debug.chat(patternDice);
+    stepDice = d20Dice..patternDice
   end
+  return stepDice;
 end
 
-
-function getStepsTwenties(stepNum)
-  if stepNum == 20 then 
-		return "d20e+d8e+d6e", 0;
-	elseif stepNum == 21 then 
-		return "d20e+2d8e", 0;
-	elseif stepNum == 22 then 
-		return "d20e+d10e+d8e", 0;
-	elseif stepNum == 23 then 
-		return "d20e+2d10e", 0;
-	elseif stepNum == 24 then 
-		return "d20e+d12e+d10e", 0;
-	elseif stepNum == 25 then 
-		return "d20e+2d12e", 0;
-	elseif stepNum == 26 then 
-		return "d20e+d12e+2d6e", 0;
-	elseif stepNum == 27 then 
-		return "d20e+d12e+d8e+d6e", 0;
-	elseif stepNum == 28 then 
-		return "d20e+d12e+2d8e", 0;
-	elseif stepNum == 29 then 
-		return "d20e+d12e+d10e+d8e", 0;
-  end
-end
+function getPatternDice(stepNum)
+  local patternDice = "";
+  local pStep = (stepNum-7)%11;
+  --Debug.chat("pStep");
+  --Debug.chat(pStep);
   
-function getStepsThirties(stepNum)
-  if stepNum == 30 then 
-		return "2d20e+2d6e", 0;
-	elseif stepNum == 31 then 
-		return "2d20e+d8e+d6e", 0;
-	elseif stepNum == 32 then 
-		return "2d20e+2d8e", 0;
-	elseif stepNum == 33 then 
-		return "2d20e+d10e+d8e", 0;
-	elseif stepNum == 34 then 
-		return "2d20e+2d10e", 0;
-	elseif stepNum == 35 then 
-		return "2d20e+d12e+d10e", 0;
-	elseif stepNum == 36 then 
-		return "2d20e+2d12e", 0;
-	elseif stepNum == 37 then 
-		return "2d20e+d12e+2d6e", 0;
-	elseif stepNum == 38 then 
-		return "2d20e+d12e+d8e+d6e", 0;
-	elseif stepNum == 39 then 
-		return "2d20e+d12e+2d8e", 0;
+	if pStep == 1 then
+		patternDice = "2d6e", 0;
+	elseif pStep == 2 then
+		patternDice = "d8e+d6e", 0;
+	elseif pStep == 3 then
+		patternDice = "2d8e", 0;
+	elseif pStep == 4 then
+		patternDice = "d10e+d8e", 0;
+	elseif pStep == 5 then
+		patternDice = "2d10e", 0;
+	elseif pStep == 6 then
+		patternDice = "d12e+d10e", 0;
+	elseif pStep == 7 then
+		patternDice = "2d12e", 0;
+	elseif pStep == 8 then
+		patternDice = "d12e+2d6e", 0;
+	elseif pStep == 9 then
+		patternDice = "d12e+d8e+d6e", 0;
+	elseif pStep == 10 then
+		patternDice = "d12e+2d8e", 0;
+	elseif pStep == 0 then
+		patternDice = "d12e+d10e+d8e", 0;
   end
-end
-  
-function getStepsForties(stepNum)
-  if stepNum == 40 then 
-		return "2d20e+d12e+d10e+d8e", 0;
-	elseif stepNum == 41 then 
-		return "2d20e+d10e+d8e+2d6e", 0;
-	elseif stepNum == 42 then 
-		return "2d20e+d10e+2d8e+d6e", 0;
-	elseif stepNum == 43 then 
-		return "2d20e+2d10e+d8e+d6e", 0;
-	elseif stepNum == 44 then 
-		return "2d20e+2d10e+2d8e", 0;
-	elseif stepNum == 45 then 
-		return "2d20e+3d10e+d8e", 0;
-	elseif stepNum == 46 then 
-		return "2d20e+d12e+2d10e+d8e", 0;
-	elseif stepNum == 47 then 
-		return "2d20e+2d10e+2d8e+d4e", 0;
-	elseif stepNum == 48 then 
-		return "2d20e+2d10e+2d8e+d6e", 0;
-	elseif stepNum == 49 then 
-		return "2d20e+2d10e+3d8e", 0;
-  end
-end
-  
-function getStepsFifties(stepNum)
-  if stepNum == 50 then 
-		return "2d20e+3d10e+2d8e", 0;
-	elseif stepNum == 51 then 
-		return "2d20e+d12e+2d10e+2d8e", 0;
-	elseif stepNum == 52 then 
-		return "2d20e+2d10e+2d8e+2d6e", 0;
-	elseif stepNum == 53 then 
-		return "2d20e+2d10e+3d8e+d6e", 0;
-	elseif stepNum == 54 then 
-		return "2d20e+3d10e+2d8e+d6e", 0;
-	elseif stepNum == 55 then 
-		return "2d20e+3d10e+3d8e", 0;
-	elseif stepNum == 56 then 
-		return "2d20e+4d10e+2d8e", 0;
-	elseif stepNum == 57 then 
-		return "2d20e+d12e+3d10e+2d8e", 0;
-	elseif stepNum == 58 then 
-		return "3d20e+2d10e+2d8e+d4e", 0;
-	elseif stepNum == 59 then 
-		return "3d20e+2d10e+2d8e+d6e", 0;
-  end
-end
-  
-function getStepsSixties(stepNum)
-  if stepNum == 60 then 
-		return "3d20e+2d10e+3d8e", 0;
-	elseif stepNum == 61 then 
-		return "3d20e+3d10e+2d8e", 0;
-	elseif stepNum == 62 then 
-		return "3d20e+d12e+2d10e+2d8e", 0;
-	elseif stepNum == 63 then 
-		return "3d20e+2d10e+2d8e+2d6e", 0;
-	elseif stepNum == 64 then 
-		return "3d20e+2d10e+3d8e+d6e", 0;
-	elseif stepNum == 65 then 
-		return "3d20e+3d10e+2d8e+d6e", 0;
-	elseif stepNum == 66 then 
-		return "3d20e+3d10e+3d8e", 0;
-	elseif stepNum == 67 then 
-		return "3d20e+4d10e+2d8e", 0;
-	elseif stepNum == 68 then 
-		return "3d20e+d12e+3d10e+2d8e", 0;
-	elseif stepNum == 69 then 
-		return "3d20e+3d10e+3d8e+d4e", 0;
-  end
-end
-  
-function getStepsSeventies(stepNum)
-  if stepNum == 70 then 
-		return "3d20e+3d10e+3d8e+d6e", 0;
-	elseif stepNum == 71 then 
-		return "3d20e+3d10e+4d8e", 0;
-	elseif stepNum == 72 then 
-		return "3d20e+4d10e+3d8e", 0;
-	elseif stepNum == 73 then 
-		return "3d20e+d12e+3d10e+3d8e", 0;
-	elseif stepNum == 74 then 
-		return "3d20e+3d10e+3d8e+2d6e", 0;
-	elseif stepNum == 75 then 
-		return "3d20e+3d10e+4d8e+d6e", 0;
-	elseif stepNum == 76 then 
-		return "3d20e+4d10e+3d8e+d6e", 0;
-	elseif stepNum == 77 then 
-		return "3d20e+4d10e+4d8e", 0;
-	elseif stepNum == 78 then 
-		return "3d20e+5d10e+3d8e", 0;
-	elseif stepNum == 79 then 
-		return "3d20e+d12e+4d10e+3d8e", 0;
-  end
-end
-  
-function getStepsEighties(stepNum)
-  if stepNum == 80 then 
-		return "4d20e+3d10e+3d8e+d4e", 0;
-	elseif stepNum == 81 then 
-		return "4d20e+3d10e+3d8e+d6e", 0;
-	elseif stepNum == 82 then 
-		return "4d20e+3d10e+4d8e", 0;
-	elseif stepNum == 83 then 
-		return "4d20e+4d10e+3d8e", 0;
-	elseif stepNum == 84 then 
-		return "4d20e+d12e+3d10e+3d8e", 0;
-	elseif stepNum == 85 then 
-		return "4d20e+3d10e+3d8e+2d6e", 0;
-	elseif stepNum == 86 then 
-		return "4d20e+3d10e+4d8e+d6e", 0;
-	elseif stepNum == 87 then 
-		return "4d20e+4d10e+3d8e+d6e", 0;
-	elseif stepNum == 88 then 
-		return "4d20e+4d10e+4d8e", 0;
-	elseif stepNum == 89 then 
-		return "4d20e+5d10e+3d8e", 0;
-  end
-end
-  
-function getStepsNineties(stepNum)
-  if stepNum == 90 then 
-		return "4d20e+d12e+4d10e+3d8e", 0;
-	elseif stepNum == 91 then 
-		return "4d20e+4d10e+4d8e+d4e", 0;
-	elseif stepNum == 92 then 
-		return "4d20e+4d10e+4d8e+d6e", 0;
-	elseif stepNum == 93 then 
-		return "4d20e+4d10e+5d8e", 0;
-	elseif stepNum == 94 then 
-		return "4d20e+5d10e+4d8e", 0;
-	elseif stepNum == 95 then 
-		return "4d20e+d12e+4d10e+4d8e", 0;
-	elseif stepNum == 96 then 
-		return "4d20e+4d10e+4d8e+2d6e", 0;
-	elseif stepNum == 97 then 
-		return "4d20e+4d10e+5d8e+d6e", 0;
-	elseif stepNum == 98 then 
-		return "4d20e+5d10e+4d8e+d6e", 0;
-	elseif stepNum == 99 then 
-		return "4d20e+5d10e+5d8e", 0;
-  end
-end
-
-function getStepsHundreds(stepNum)
-  if stepNum == 100 then
-    Debug.console("Step is equal to 100.");
-		return "4d20e+4d10e+2d10e+4d8e", 0;
-  end
+  return patternDice
 end
 
 function getMaxCarry(nStrength)

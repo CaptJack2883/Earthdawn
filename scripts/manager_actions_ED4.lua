@@ -12,7 +12,6 @@ function onInit()
 	-- Register the result handlers - called after the dice have stopped rolling
   -- ActionStep.onResult(rSource, rTarget, rRoll); (from combo)
 	-- ActionsManager.registerResultHandler("mytestaction", onRoll);
-	ActionsManager.registerResultHandler("explode", onResult);
 	ActionsManager.registerResultHandler("initroll", onResult);
 	ActionsManager.registerResultHandler("strength", onResult);
 	ActionsManager.registerResultHandler("dexterity", onResult);
@@ -51,8 +50,6 @@ function getRoll(sType, rStep, rActor, bKarma, bSecretRoll)
   end
   if rStep then
     rRoll = StepLookup.getRoll(rStep);
-    --rRoll.aDice, rRoll.nMod, rStep = StepLookup.getStepDice(rStep);
-    --rRoll.sDesc =  "(Step " .. rStep .. ") ";
   end
   if bKarma then
     -- First we need to see if the char has karma points left.
@@ -77,8 +74,6 @@ function getRoll(sType, rStep, rActor, bKarma, bSecretRoll)
 	-- The description to show in the chat window
   if rRoll.sType == "initroll" then
     rRoll.sDesc = "Initiative: " .. rRoll.sDesc;
-  elseif rRoll.sType == "explode" then
-    rRoll.sDesc =  "Explode: " .. rRoll.sDesc;
   elseif rRoll.sType == "strength" then
     rRoll.sDesc =  "Strength Check: " .. rRoll.sDesc;
   elseif rRoll.sType == "dexterity" then
@@ -219,9 +214,8 @@ function checkDescType(rRoll)
 end
 
 function onResult(rSource, rTarget, rRoll, nTotal)
-  -- Before we display, make sure the sDesc has the charName in it. (this is for talents, skills, etc.)
-  -- This is too late, we need to do this before rolling, in pushRoll/dragRoll
-  --rSource, rRoll = CharacterManager.verifyActor(rSource, rRoll);
+  -- First, make sure the modifierstack is cleared.
+  ModifierStack.reset();
   
   --Look for targets after confirming rSource has character/CT node.
   local rActor = ActorManager.resolveActor(rSource);
@@ -244,7 +238,6 @@ function onResult(rSource, rTarget, rRoll, nTotal)
 			rRoll.aTargets = table.concat(aTargetNodes, "|");
 		end
   end
-  
   
   --We need to make sure that rRoll.sType has the correct info for the below functions to work.
   --We also need to check if karma was added to the roll so that we can deduct a karma point.

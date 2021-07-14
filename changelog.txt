@@ -1,0 +1,167 @@
+
+IMPORTANT NOTE: Development of FGC has been discontinued due to sunset phase starting on June 24, 2021. 
+This means that I will no longer be testing this ruleset in FGC. I can only guarantee that it works in FGU.
+
+FINISHED/FIXED:
+
+GitHub Update #13
+July 14, 2021
+Moved the changelog and TODO list to separate files due to their growing sizes. (previously was located inside comment block of base.xml)
+Changed modifierstack to only reset on result. 
+  This is to prevent stack from being cleared if the player picks up dice, but doesn't roll them.
+Updated getRoll to show modified step numbers.
+Updated StepLookup to use new formulaic method. (Yes, there is a formula for step numbers. No, it's not pretty or official.)
+  This fixed using wrong step dice for steps 40+ as well as optimized code. This also removed the max step # limitation.
+
+GitHub Update #12
+July 13, 2021
+Created "Step Roll" widget, (similar to the Mod window) that allows you to enter a step number and roll it.
+Fixed "spellcasting test" rolls to be separate type from "spell" rolls, so they don't try to target/multitarget.
+
+GitHub Update #11
+July 01, 2021
+Fixed karma rolls to only deduct once per action test. (not per target) Hopefully.
+Automated recovery tests per day.
+Added Matrix checkboxes to spells list, this is just for the player to keep track. (Standard, Enhanced)
+Fix attack/spell/damage/heal messages to have hit/miss/dmg/heal icons.
+
+GitHub Update #10
+June 30, 2021
+Fixed mystic damage rolls.
+
+GitHub Update #9
+June 30, 2021:
+Added spells tab to character sheet. This is for storing spells known/prepared, and rolling spellcasting rolls.
+Fixed attack rolls to roll separately for each target.
+Consolidated cyclers.
+Fixed spelldata fields in module (threads, weaving)
+Fixed talents and skills to automatically update when stats are changed in main tab.
+Fixed physical armor to account for Obsidimen's Natural Armor (3).
+Updated damage functions to account for physical/mystic armor.
+Fixed rolls dropped on CT from sometimes rolling too many times or not enough times.
+
+GitHub Update #8
+June 20, 2021:
+Updating ActionManagerED4 to check for karma use in talents and character action rolls. 
+To use karma with a talent, just check the box marked "Karma"
+To use a PC action with karma, just put "with karma" after the Step #.
+If the PC is out of karma, it will not be added to the roll.
+If you have an NPC that is a 'Name Giver' and therefore uses karma, you'll need to use a PC sheet for them.
+Added basic conditions to the effects sidebar. (no automation yet)
+Added functionality to drop rolls on map token.
+Added options for mystic attacks and social attacks. (Use "Mystic Attack" or "Social Attack" in ability description)
+Fixed NPC to allow stun damage.
+Fixed spells reference to be filtered by source, or circle.
+Imported all the spells from the ED4E Player's Guide.
+Exported ED4E Player's Guide module.
+
+GitHub Update #7
+June 17, 2021:
+Added an Actions tab to the charsheet, right now it's using the NPC action script. (Attack, Damage, Stun, Heal, misc.)  (WIP)
+Fixed an issue with targets still disappearing sometimes.
+Removed temporary "testing" button. This wasn't supposed to stay where it was.
+
+GitHub Update #6
+June 16, 2021:
+Fixed targeted rolls losing their targets on explosion of dice.
+FINALLY!! I figured out how to make all step dice explode. THANKS Moon Wizard, damned, and psicodelix.
+The easier way of exploding dice unfortunately doesn't allow desktop dice to explode. 
+Removed borrowed code from DarkPaladin3. Thanks for the interrim solution!
+Added ability to drop rolls on CT. (Attack, Damage, Heal, Stun)
+Fixed healing rolls causing stun damage.
+Reorganized graphics xmls.
+Started working on Actions tab for Charsheet. (WIP)
+
+GitHub Update #5
+June 13, 2021:
+Fixed "Script Execution error: {string "skills"]:23: attempt to index field 'label' (a nil value)"
+Added Armor values to CT Defensive frame.
+
+GitHub Update #4
+June 12, 2021:
+Rolls can now be targeted.
+onResult now recognizes rolls that have "attack", "damage", or "heal" as part of the rRoll.sDesc.
+Attack rolls now report hit or miss on physical defense.
+Heal rolls now heal the target.
+Damage rolls now damage the target. (normal damage only for now).
+ActionManagerED4.pushRoll and ActionManagerED4.dragRoll now optionally accept a previously built rRoll.
+Fixed rSource being kept from previous rolls to NPC action rolls, nil if otherwise.
+
+GitHub Update #3
+June 10, 2021: 
+Updated CT to show Total Damage instead of Current.
+
+Add tracker for current number of recovery tests?
+Updates below this line were finished on June 9, 2021 or earlier, prior to FGC sunset.
+Updated dice explosion function to roll new dice. 
+Updated Recovery Tests and Overnight Rests to account for stun damage.
+Updated Total Damage script to include Current, Stun, and BloodMagic.
+Fixed Spell Descriptions to include Area of Effect.
+Fixed additional parent info for Talent/Skill rolls.
+Added Description info for Stats onDragStart
+Fixed Talent/Skill onUpdate to make sure the shortcut exists before overwriting the name.
+Fixed languages on FGU. I think.
+Added new action types for Attack, Damage, Heal
+Borrowed Code from DarkPaladin3 to update the exploding rolls.
+Updated Talents/Skills tabs on char sheet to show rank/step.
+Added defenses to CT.
+Color Dice results when they explode! Or hit the "Rule of One"!
+Added language font files for main languages.
+Added system specific effects.
+Updated GameSystem to show Grid Distance of 2. This means each hex/square is 2 yd.
+Got Spells reference to match definitions in book. Also added traits and ct effects fields for automation.
+Added max carry capacity functionality.
+Updated Skills and Talents descriptions to include dropdowns for action/cost/skilluse.
+Finished importing Talents and Skills.
+Finished updating Races and Disciplines with linked abilities.
+Added Blood Magic and Stun damage fields.
+Added Racial Abilities reference, similar to Talents/Skills to allow Drag/Drop to Races reference and Charsheet.
+Got Talents reference to match definitions in book.
+Got Skills reference to match definitions in book.
+Fixed karmaStep inside char_main.xml to be a number field, so that we can update it.
+Update MaxKarma on resting. 
+Updated Reference Sheets (Races, Talents, etc) to not use separate script files.
+Added detection of 'Step #' rolls in NPC skills.
+Fixed adding multiples of nMod. (Steps 1 and 2 only subtract their penalty once, despite explosions.)
+Fixed ModifierStack to reset upon adding to step number. This prevents adding static numbers to rolls in addition to increasing step #.
+Updated roll descriptions to include modified step numbers. 
+Verified custom templates, renamed some to add ED4. (template_ED4, ActionManagerED4, CombatManagerED4)
+Fixed overridden files to not include non-overridden content. (templates, etc)
+Added 'Senses' field for Charsheet.
+Make all Character Sheet Main tab rolls work, including doubleclicks.
+Allow doubleclick to open map where character token is currently located.
+Don't allow negative Damage/Wound values for Chars/NPCs/CT.
+Don't allow negative Karma values for Chars.
+Fixed Karma rolls to properly deduct only on valid rolls.
+Automagically heal characters based on Recovery Rolls.
+Fixed Tab Order in CT.
+Make HP boxes (current damage) allow add/drop for Charsheet and NPCs. (plus CT)
+Fixed CT Menu for Resting.
+Fixed CharacterManager.recoveryTest function.
+Created ActionManagerED4.pushRoll to make rolls without draginfo.
+Renamed ActionManagerED4.performRoll to ActionManagerED4.dragRoll
+Initiative Menu in CT now works for all types. NPCs must have their window opened before rolling initiative.
+Fix rSource on NPC rolls.
+Fixed "Script Error: [string "scripts/manager_image.lua"]:208: attempt to call field 'getDatabaseNode' (a nil value)"
+Reorganized the scripts files.
+Figure out how to get rSource from draginfo. SERIOUSLY!! ActionManager.decodeActors(draginfo)
+Add Current Damage and Wounds Fields to NPC records.
+Link NPC fields in CT to matching fields in NPC records.
+Fix recursive call from Charsheet Main "Stat_Step" fields.
+Update NPC Statistics to reflect stats automatically (Unconcious, Death, etc..)
+Optimize getStepDice to be formulaic.
+Remove Dice elements under Attributes, as they are no longer needed.
+Update NPC records to reflect stat blocks of monsters.
+Update numberColumn to show rollable property.
+All dice are exploding properly.
+AutoUpdate Attribute Step Values and Dice. (window.onUpdate();)
+Fixed Datasource of Skills.
+'locked' state actually locking the window for Races, Disciplines, Talents, Skills, Spells.
+Add OnUpdate to Lock button so that it locks instantly instead of after reload.
+Make all appropriate fields update based on attributes. (Characteristics Table)
+Create Step Table, ensure it matches with ED4.
+Make sure that steps 1 and 2 have the correct modifiers (1d4-2 and 1d4-1)
+Allow modifier box to increase the step number before rolling.
+Include ED4 logo for decal options.
+Add Legend Points(XP) to Party Sheet.
+Fixed spelling of Obsidimen vs Obsidiman in race descriptions. (Obsidiman is singular, Obsidimen is plural.)

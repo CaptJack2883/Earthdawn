@@ -5,21 +5,33 @@
 
 -- Ruleset action types
 actions = {
-	["dice"] = { bUseModStack = "true" },
-	["stepRoll"] = { bUseModStack = "false" },
+	["dice"] = { bUseModStack = true },
+	["stepRoll"] = { bUseModStack = false },
+	["karma"] = { bUseModStack = false },
+	["dexterity"] = { bUseModStack = false },
+	["strength"] = { bUseModStack = false },
+	["toughness"] = { bUseModStack = false },
+	["perception"] = { bUseModStack = false },
+	["willpower"] = { bUseModStack = false },
+	["charisma"] = { bUseModStack = false },
+	["talent"] = { bUseModStack = false },
+	["skill"] = { bUseModStack = false },
 	["table"] = { },
 	["effect"] = { sIcon = "action_effect", sTargeting = "all" },
-	["initroll"] = { bUseModStack = true };
-	["recovery"] = {sIcon = "iconHeal", bUseModStack = true };
-	["heal"] = {sIcon = "iconHeal", sTargeting = "all", bUseModStack = true };
-	["damage"] = {sIcon = "iconDamage", sTargeting = "all", bUseModStack = true };
-	["stun"] = {sIcon = "iconDamage", sTargeting = "all", bUseModStack = true };
-	["effectRoll"] = {sIcon = "iconDamage", sTargeting = "all", bUseModStack = true };
-	["attack"] = {sIcon = "iconAttack", sTargeting = "each", bUseModStack = true };
-	["mysticattack"] = {sIcon = "iconAttack", sTargeting = "each", bUseModStack = true };
-	["socialattack"] = {sIcon = "iconAttack", sTargeting = "each", bUseModStack = true };
-	["spellcasting"] = {sIcon = "iconAttack", bUseModStack = true };
-	["spell"] = {sIcon = "iconAttack", sTargeting = "each", bUseModStack = true };
+	["initroll"] = { bUseModStack = false };
+	["recovery"] = {sIcon = "iconHeal", bUseModStack = false };
+	["heal"] = {sIcon = "iconHeal", sTargeting = "all", bUseModStack = false };
+	["damage"] = {sIcon = "iconDamage", sTargeting = "all", bUseModStack = false };
+	["mysticdamage"] = { bUseModStack = false },
+	["stun"] = {sIcon = "iconDamage", sTargeting = "all", bUseModStack = false };
+	["knockdown"] = { bUseModStack = false },
+	["effectRoll"] = {sIcon = "iconDamage", sTargeting = "all", bUseModStack = false };
+	["attack"] = {sIcon = "iconAttack", sTargeting = "each", bUseModStack = false };
+	["mysticattack"] = {sIcon = "iconAttack", sTargeting = "each", bUseModStack = false };
+	["socialattack"] = {sIcon = "iconAttack", sTargeting = "each", bUseModStack = false };
+	["spellcasting"] = {sIcon = "iconAttack", bUseModStack = false };
+	["spell"] = {sIcon = "iconAttack", sTargeting = "each", bUseModStack = false };
+	["threadweaving"] = { bUseModStack = false },
   
 };
 
