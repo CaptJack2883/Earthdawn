@@ -482,11 +482,10 @@
             local nodeSpell = window.getDatabaseNode();
             local nodeChar = DB.getParent(DB.getParent(nodeSpell));
             local rActor = ActorManager.resolveActor(nodeSpell);
-            local bKarma = window.getKarmaUse();
-            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma);
+            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor);
             local versArmor = window.vsarmor.getValue();
             rRoll.vs = "VS: "..versArmor;
-            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor, rRoll, bKarma);
+            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor, rRoll);
             return true;
           end
           function onDoubleClick()
@@ -499,11 +498,10 @@
             local nodeSpell = window.getDatabaseNode();
             local nodeChar = DB.getParent(DB.getParent(nodeSpell));
             local rActor = ActorManager.resolveActor(nodeSpell);
-            local bKarma = window.getKarmaUse();
-            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma);
+            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor);
             local versArmor = window.vsarmor.getValue();
             rRoll.vs = "VS: "..versArmor;
-            ActionManagerED4.pushRoll(sType, rStep, rActor, rRoll, bKarma);
+            ActionManagerED4.pushRoll(sType, rStep, rActor, rRoll);
           end
         </script>
         <readonly />
@@ -521,11 +519,10 @@
             local nodeSpell = window.getDatabaseNode();
             local nodeChar = DB.getParent(DB.getParent(nodeSpell));
             local rActor = ActorManager.resolveActor(nodeSpell);
-            local bKarma = window.getKarmaUse();
-            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma);
+            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor);
             local versDef = window.vsdefense.getValue();
             rRoll.vs = "VS: "..versDef;
-            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor, rRoll, bKarma);
+            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor, rRoll);
             return true;
           end
           function onDoubleClick()
@@ -534,11 +531,10 @@
             local nodeSpell = window.getDatabaseNode();
             local nodeChar = DB.getParent(DB.getParent(nodeSpell));
             local rActor = ActorManager.resolveActor(nodeSpell);
-            local bKarma = window.getKarmaUse();
-            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma);
+            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor);
             local versDef = window.vsdefense.getValue();
             rRoll.vs = "VS: "..versDef;
-            ActionManagerED4.pushRoll(sType, rStep, rActor, rRoll, bKarma);
+            ActionManagerED4.pushRoll(sType, rStep, rActor, rRoll);
           end
           function onValueChanged()
             if not Global.cmUpdating then
@@ -591,11 +587,10 @@
             local nodeSpell = window.getDatabaseNode();
             local nodeChar = DB.getParent(DB.getParent(nodeSpell));
             local rActor = ActorManager.resolveActor(nodeSpell);
-            local bKarma = window.getKarmaUse();
-            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma);
+            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor);
             local versDef = window.vsdefense.getValue();
             rRoll.vs = "VS: "..versDef;
-            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor, rRoll, bKarma);
+            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor, rRoll);
             return true;
           end
           function onDoubleClick()
@@ -604,11 +599,10 @@
             local nodeSpell = window.getDatabaseNode();
             local nodeChar = DB.getParent(DB.getParent(nodeSpell));
             local rActor = ActorManager.resolveActor(nodeSpell);
-            local bKarma = window.getKarmaUse();
-            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma);
+            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor);
             local versDef = window.vsdefense.getValue();
             rRoll.vs = "VS: "..versDef;
-            ActionManagerED4.pushRoll(sType, rStep, rActor, rRoll, bKarma);
+            ActionManagerED4.pushRoll(sType, rStep, rActor, rRoll);
           end
           function onValueChanged()
             if not Global.cmUpdating then
@@ -731,11 +725,10 @@
             local nodeSpell = window.getDatabaseNode();
             local nodeChar = DB.getParent(DB.getParent(nodeSpell));
             local rActor = ActorManager.resolveActor(nodeSpell);
-            local bKarma = window.getKarmaUse();
-            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma);
+            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor);
             local versArmor = window.vsarmor.getValue();
             rRoll.vs = "VS: "..versArmor;
-            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor, rRoll, bKarma);
+            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor, rRoll);
             return true;
           end
           function onDoubleClick()
@@ -744,11 +737,10 @@
             local nodeSpell = window.getDatabaseNode();
             local nodeChar = DB.getParent(DB.getParent(nodeSpell));
             local rActor = ActorManager.resolveActor(nodeSpell);
-            local bKarma = window.getKarmaUse();
-            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma);
+            local rRoll = ActionManagerED4.getRoll(sType, rStep, rActor);
             local versArmor = window.vsarmor.getValue();
             rRoll.vs = "VS: "..versArmor;
-            ActionManagerED4.pushRoll(sType, rStep, rActor, rRoll, bKarma);
+            ActionManagerED4.pushRoll(sType, rStep, rActor, rRoll);
           end
         </script>
         <readonly />

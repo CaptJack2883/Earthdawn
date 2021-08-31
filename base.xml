@@ -51,6 +51,7 @@
   <script name="ActionManagerED4" file="scripts/manager_actions_ED4.lua" />
   <script name="CharacterManager" file="scripts/manager_character.lua" />
   <script name="CombatManagerED4" file="scripts/manager_combat_ED4.lua" />
+  <script name="WidgetManager" file="scripts/manager_widgets.lua" />
 	<script name="GameSystem" file="scripts/manager_gamesystem.lua" />
   <script name="StepLookup" file="scripts/step_action_lookup.lua" />
   

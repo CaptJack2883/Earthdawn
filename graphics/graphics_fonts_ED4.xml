@@ -6,42 +6,34 @@
   
 	<!-- Languages ("Throalic", "Sperethiel", "Human", "Obsidiman", "Or'zet", "Troll", "T'skrang", "Windling") -->
 	<font name="Throalic">
-		<fgffile name="graphics/fonts/LovecraftDiary-20pt.fgf" />
 		<ttf file="graphics/fonts/Lovecraft's Diary.ttf" name="Throalic Bold" size="20" />
 		<color value="#000000" />
 	</font>
 	<font name="Sperethiel">
-		<fgffile name="graphics/fonts/Miskatonic-20pt.fgf" />
 		<ttf file="graphics/fonts/Miskatonic.ttf" name="Sperethiel Bold" size="20" />
 		<color value="#000000" />
 	</font>
 	<font name="Human">
-		<fgffile name="graphics/fonts/TheCalling-20pt.fgf" />
 		<ttf file="graphics/fonts/TheCalling.ttf" name="Human Bold" size="20" />
 		<color value="#000000" />
 	</font>
 	<font name="Obsidiman">
-		<fgffile name="graphics/fonts/Echolot-20pt.fgf" />
 		<ttf file="graphics/fonts/Echolot.ttf" name="Obsidiman Bold" size="20" />
 		<color value="#000000" />
 	</font>
 	<font name="Or'zet">
-		<fgffile name="graphics/fonts/RoswellWreck-20pt.fgf" />
 		<ttf file="graphics/fonts/roswreck.ttf" name="Or'zet Bold" size="20" />
 		<color value="#000000" />
 	</font>
 	<font name="Troll">
-		<fgffile name="graphics/fonts/SF-Fedora-Symbol-20pt.fgf" />
 		<ttf file="graphics/fonts/SFFedoraSymbols.ttf" name="Troll Bold" size="20" />
 		<color value="#000000" />
 	</font>
 	<font name="T'skrang">
-		<fgffile name="graphics/fonts/MatrixCode-20pt.fgf" />
 		<ttf file="graphics/fonts/matrix code nfi.ttf" name="T'skrang Bold" size="20" />
 		<color value="#000000" />
 	</font>
 	<font name="Windling">
-		<fgffile name="graphics/fonts/DarkArts-20pt.fgf" />
 		<ttf file="graphics/fonts/DARKAB__.TTF" name="Windling Bold" size="20" />
 		<color value="#000000" />
 	</font>

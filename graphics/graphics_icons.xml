@@ -40,5 +40,8 @@
   <icon name="iconKnight" file="graphics/icons/knight_armor.png" />
   <icon name="iconKnightSmall" file="graphics/icons/knight_armor_small.png" />
   
+  <!-- Desktop Icons -->
+  <icon name="stepRollerIcon" file="graphics/icons/steproller.png" />
+  
   
 </root>

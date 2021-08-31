@@ -39,7 +39,7 @@ function onInit()
 	ActionsManager.registerResultHandler("dice", onResult);
 end
 
-function getRoll(sType, rStep, rActor, bKarma, bSecretRoll)
+function getRoll(sType, rStep, rActor, bSecretRoll)
 	-- Initialise a blank rRoll record
 	local rRoll = {};
   rRoll.sDesc = "";
@@ -49,22 +49,34 @@ function getRoll(sType, rStep, rActor, bKarma, bSecretRoll)
     rStep = 1;
   end
   if rStep then
-    rRoll = StepLookup.getRoll(rStep);
+    rRoll = StepLookup.getRoll(rStep, sType);
   end
-  if bKarma then
-    -- First we need to see if the char has karma points left.
-    local karmaValue = CharacterManager.getKarmaValue(rActor);
-    if karmaValue > 0 then
-      -- We need to add dice equal to the karma step (default Step 4/d6)
-      rRoll.aDice.expr = rRoll.aDice.expr.."+d6e"
-      rRoll.sDesc = rRoll.sDesc.." (with Karma) "
-      -- If we calculate the new karma value here, and set it as part of the rRoll.
-      -- We only deduct one point, regardless how many times it targets?
-      karmaValue = karmaValue - 1;
-      if karmaValue < 1 then
-        karmaValue = 0;
+  
+  --Check KarmaWidget to see if we need to add Karma.
+  if Global.KarmaWidgetValue then
+    -- Make sure it's not a pure karma roll
+    local useKarma = true;
+    if sType == "karma" then
+      useKarma = false;
+    end
+    if sType == "skill" then
+      useKarma = false;
+    end
+    if useKarma then
+      -- We need to see if the char has karma points left.
+      local karmaValue = CharacterManager.getKarmaValue(rActor);
+      if karmaValue > 0 then
+        -- We need to add dice equal to the karma step (default Step 4/d6)
+        rRoll.aDice.expr = rRoll.aDice.expr.."+d6e"
+        rRoll.sDesc = rRoll.sDesc.." (with Karma) "
+        -- If we calculate the new karma value here, and set it as part of the rRoll.
+        -- We only deduct one point, regardless how many times it targets?
+        karmaValue = karmaValue - 1;
+        if karmaValue < 1 then
+          karmaValue = 0;
+        end
+        rRoll.nKarmaLeft = karmaValue;
       end
-      rRoll.nKarmaLeft = karmaValue;
     end
   end
 	-- Action type.
@@ -130,14 +142,14 @@ function getRoll(sType, rStep, rActor, bKarma, bSecretRoll)
 	return rRoll;
 end
 
-function dragRoll(draginfo, sType, rStep, rActor, rRoll, bKarma, bSecretRoll)
+function dragRoll(draginfo, sType, rStep, rActor, rRoll, bSecretRoll)
   --[[
   if draginfo then
     rActor, _, vTargets = ActionsManager.decodeActionFromDrag(draginfo, false);
   end
   ]]--
   if not rRoll then
-    rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma, bSecretRoll);
+    rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bSecretRoll);
   end
   if rRoll.sType == "dice" then
     rRoll = ActionManagerED4.checkDescType(rRoll);
@@ -148,9 +160,9 @@ function dragRoll(draginfo, sType, rStep, rActor, rRoll, bKarma, bSecretRoll)
   ActionsManager.performAction(draginfo, rActor, rRoll);
 end
 
-function pushRoll(sType, rStep, rActor, rRoll, bKarma, bSecretRoll)
+function pushRoll(sType, rStep, rActor, rRoll, bSecretRoll)
   if not rRoll then
-    rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bKarma, bSecretRoll)
+    rRoll = ActionManagerED4.getRoll(sType, rStep, rActor, bSecretRoll)
   end
   if rRoll.sType == "dice" then
     rRoll = ActionManagerED4.checkDescType(rRoll);
@@ -214,8 +226,10 @@ function checkDescType(rRoll)
 end
 
 function onResult(rSource, rTarget, rRoll, nTotal)
-  -- First, make sure the modifierstack is cleared.
+  -- Make sure the modifierstack is cleared.
   ModifierStack.reset();
+  -- Reset the Karma Widget
+  WidgetManager.reset();
   
   --Look for targets after confirming rSource has character/CT node.
   local rActor = ActorManager.resolveActor(rSource);
@@ -249,14 +263,6 @@ function onResult(rSource, rTarget, rRoll, nTotal)
     local sDescLower = string.lower(rRoll.sDesc);
     sDesc, sRemainder = StringManager.extractPattern(sDescLower, "karma");
     if sDesc == "karma" then
-      --[[ TODO: If new karma deduction works, remove this.
-      -- Deducting 1 karma point, min 0.
-      local kValue = CharacterManager.getKarmaValue(rActor);
-      kValue = kValue - 1;
-      if kValue < 1 then
-        kValue = 0;
-      end
-      ]]--
       if rRoll.nKarmaLeft then
         local kValue = rRoll.nKarmaLeft;
         CharacterManager.setKarmaValue(rActor, kValue);

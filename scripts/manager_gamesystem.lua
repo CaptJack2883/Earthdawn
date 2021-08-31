@@ -5,7 +5,7 @@
 
 -- Ruleset action types
 actions = {
-	["dice"] = { bUseModStack = true },
+	["dice"] = { bUseModStack = false },
 	["stepRoll"] = { bUseModStack = false },
 	["karma"] = { bUseModStack = false },
 	["dexterity"] = { bUseModStack = false },

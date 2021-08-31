@@ -3,9 +3,8 @@ TODO List
 
 CRITICALLY IMPORTANT
 
-Fix PC Actions tab adding multiples of descriptions.
-Fix NPC rolls to correctly use modifier widget?
-Move Karma Use checkbox in/near modifier box? Merge with Step Roll widget? (disallow/ignore skill rolls?)
+Don't increase karma roll with step modifier box?
+Disallow/ignore Karma on skill rolls?
 Fill empty space on charsheet_main. (Blood Magic items, Half-Magic tests?)
 Need to create a place for Talent Knacks. Subwindow on the talents page of charsheet?
 Check for extra successes in rolls?
@@ -36,6 +35,7 @@ Bypass armor option for spells?
 Leftover attribute points added to Max Karma.
 Add a script to the CT effects in ref_spells in order to separate the clauses before turning into an actual CT Effect.
 steprollfocus frame not found.
+Fix right-click-added dice not exploding?
 
 THEME/UI:
 FG Dark theme removes iedit buttons on client?
@@ -54,7 +54,7 @@ Get Races reference to match definitions in book. (verify)
 Get Disciplines reference to match definitions in book. (verify)
 
 QUALITY OF LIFE:
-Figure out LibraryDataED4 (data_library_ED4.lua) I think this is related to displaying races,disciplines, etc.
+Figure out LibraryDataED4 (data_library_ED4.lua) I think this is related to displaying races, disciplines, etc.
 Maybe we need a getStepFromDice function in Step_Action_Lookup? (reverse of getStepDice) (WIP)
 Fix pronouns to use they/them instead of he/him or she/her. (talent descriptions, etc) (find/replace in campaign data)
 Do I need a legend worksheet?

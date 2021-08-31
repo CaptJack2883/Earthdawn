@@ -103,8 +103,10 @@ function updateKarma()
   if playerCircle and karmaMod > 0 then
     MaxKarma.setValue(karmaMod * playerCircle);
   end
+  -- Fix this to allow new values of karma step?
   local karmaStep = KarmaStep.getValue();
-  if not karmaStep == 4 then
+  if karmaStep == 4 then
+  else
     karmaStep = 4;
   end
 end

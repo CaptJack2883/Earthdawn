@@ -1,4 +1,4 @@
--- Separated sets of 10 steps into separate functions to improve performance. (i.e. getStepNumTens, getStepNumTwentys, etc.)
+-- Updated to use formulaic step calculations to improve performance.
 
 function getStep(attribute)
   local step = math.ceil(attribute/3)+1;
@@ -9,8 +9,8 @@ function getStep(attribute)
   end
 end
 
-function getRoll(stepNum)
-  local stepDice, nMod, newStep, stepMod = getStepDice(stepNum)
+function getRoll(stepNum, sType)
+  local stepDice, nMod, newStep, stepMod = getStepDice(stepNum, sType)
   --local stepDice = "d8e+d6e";
   --local nMod = 0;
   local stepExpr = { expr = stepDice };
@@ -38,22 +38,24 @@ function getStepFromString(sInput)
   end
 end
 
-function getStepDice(stepNum)
+function getStepDice(stepNum, sType)
   local stepDice = "";
   local nMod = 0;
+  local stepMod = 0;
   -- Check modifierstack to see if we need to modify the step number before rolling.
-  local stepMod = ModifierStack.getSum();
-	stepNum = stepNum + stepMod;
-  --ModifierStack.reset();
-  
+  -- Don't add to karma rolls
+  if sType == "karma" then
+    stepMod = 0;
+  else
+    stepMod = ModifierStack.getSum();
+  end
+  stepNum = stepNum + stepMod;
   -- Make sure we're only retrieving positive integers. (stepNum can't be 0 or negative)
 	if stepNum < 1 then
 		stepNum = 1
 	end
   
   -- Get dice based on new formulaic step lookup.
-  --Debug.chat("getFormulaicStep(stepNum)");
-  --Debug.chat(getFormulaicStep(stepNum));
   stepDice = getFormulaicStep(stepNum);
   
   -- set modifiers for steps 1 and 2.
@@ -98,15 +100,11 @@ function getFormulaicStep(stepNum)
     -- (Subtract 7, mod 11, plus Floor(d20/11, -1)
     -- First check for the number of d20's
     local numD20s = math.floor((stepNum-8)/11);
-    --Debug.chat("numD20s");
-    --Debug.chat(numD20s);
     if numD20s > 0 then
       d20Dice = numD20s.."d20e+";
     end
     --Now check for remaining pattern of dice.
     local patternDice = getPatternDice(stepNum);
-    --Debug.chat("patternDice");
-    --Debug.chat(patternDice);
     stepDice = d20Dice..patternDice
   end
   return stepDice;
@@ -115,8 +113,6 @@ end
 function getPatternDice(stepNum)
   local patternDice = "";
   local pStep = (stepNum-7)%11;
-  --Debug.chat("pStep");
-  --Debug.chat(pStep);
   
 	if pStep == 1 then
 		patternDice = "2d6e", 0;
