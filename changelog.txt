@@ -4,7 +4,11 @@ This means that I will no longer be testing this ruleset in FGC. I can only guar
 
 FINISHED/FIXED:
 
-GitHub Update #14 (not uploaded yet)
+GitHub Update #15
+August 31, 2021
+Updated Git authentication.
+
+GitHub Update #14
 August 31, 2021
 Fixed PC Actions tab adding multiples of descriptions on roll.
 Fixed NPC rolls to correctly use modifier widget.
