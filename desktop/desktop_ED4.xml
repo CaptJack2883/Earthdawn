@@ -9,14 +9,14 @@
 
 	<panel name="karmaWidget" modes="host,client">
 		<class>karmaWidget</class>
-		<bounds>150,-100,64,57</bounds>
+		<bounds>160,-100,64,57</bounds>
 		<dynamic />
 		<locked />
 	</panel>
 
 	<panel name="stepRollerWidget" modes="host,client">
 		<class>stepRollerWidget</class>
-		<bounds>100,-100,64,57</bounds>
+		<bounds>80,-100,64,57</bounds>
 		<dynamic />
 		<locked />
 	</panel>
@@ -28,6 +28,31 @@
 		<noclose />
     <script file="desktop/scripts/karma_widget.lua" />
 		<sheetdata>
+			<genericcontrol name="base">
+				<bounds>5,5,64,52</bounds>
+				<icon>stepRollerIcon</icon>
+				<script>
+				</script>
+			</genericcontrol>
+      <button_checkbox name="karmaCheckbox" source="widget.karma">
+				<anchored parent="base" width="20" height="20">
+					<top offset="15" />
+					<left offset="27" />
+				</anchored>
+        <script>
+          function onValueChanged()
+            window.onUpdate();
+          end
+        </script>
+      </button_checkbox>
+			<stringcontrol name="label">
+				<bounds>9,34,54,12</bounds>
+				<font>modcollectorlabel</font>
+				<static textres="karma_widget" />
+				<center />
+				<script>
+				</script>
+			</stringcontrol>
 		</sheetdata>
   </windowclass>
 
@@ -40,16 +65,7 @@
 		<sheetdata>
 			<genericcontrol name="base">
 				<bounds>5,5,64,52</bounds>
-				<icon>modcollector</icon>
-				<counters>
-					<icon>modcollector_counter</icon>
-					<offset>
-						<x>9</x>
-						<y>47</y>
-					</offset>
-					<spacing>9</spacing>
-					<hoversize>4</hoversize>
-				</counters>
+				<icon>stepRollerIcon</icon>
 				<acceptdrop>
 					<type>dice</type>
 					<type>number</type>

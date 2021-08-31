@@ -25,8 +25,8 @@ function parseComponents()
 		if sStep then
       local stepNum, sVerify = StringManager.extractPattern(sStep, "%d+");
       if sVerify == "Step " then
-        --check for karma use.
         
+        --check for karma use.
         local sDescLower = string.lower(sDesc);
         local nStart, nEnd = sDescLower:find("karma");
         local bKarma = false;
@@ -37,26 +37,11 @@ function parseComponents()
         --get the dice for the roll.
         stepNum = tonumber(stepNum);
         local rRoll = StepLookup.getRoll(stepNum);
-        
-        --update dice for karma.
-        if bKarma then
-          --First we need to see if the char has karma points left.
-          --need to make sure rActor has the NPC actor node.
-          local nodeChar = window.getDatabaseNode();
-          local rActor = ActorManager.resolveActor(nodeChar);
-          rActor = CharacterManager.verifyActor(rActor);
-          local karmaValue = CharacterManager.getKarmaValue(rActor);
-          if karmaValue > 0 then
-          --We need to add dice equal to the karma step (default Step 4/d6)
-            rRoll.aDice.expr = rRoll.aDice.expr.."+d6e"
-          end
-        end
-        
         --set the description.
         rRoll.sDesc = sDesc .. rRoll.sDesc;
         -- Insert the possible skill into the skill list
-        --table.insert(aComponents, {nStart = aClauseStats[i].startpos, nLabelEnd = aClauseStats[i].startpos + nEnds, nEnd = aClauseStats[i].endpos, sLabel = sLabel, aDice = stepDice, nMod = nMod, rStep = stepNum });
         table.insert(aComponents, {nStart = aClauseStats[i].startpos, nLabelEnd = aClauseStats[i].startpos + nEnds, nEnd = aClauseStats[i].endpos, rRoll = rRoll, bKarma = bKarma });
+        
       else --look for "2d6+5" type dice.
         local nStarts, nEnds, sMod = string.find(aClauses[i], "([d%dF%+%-]+)%s*$");
         if nStarts then
@@ -118,32 +103,65 @@ function onHoverUpdate(x, y)
 end
 
 function action(draginfo)
+  -- This makes sure we're using the updated step numbers from modifier widget.
+  parseComponents();
+  local useKarma = false;
 	if nDragIndex then
 		if draginfo then
       --This is for drag rolls.
 			if aComponents[nDragIndex].rRoll then
         --We found a complete roll, so this is a Step Roll.
-				--local rRoll = { sType = "dice", sDesc = aComponents[nDragIndex].sLabel, aDice = aComponents[nDragIndex].aDice, nMod = aComponents[nDragIndex].nMod, rStep = aComponents[nDragIndex].rStep };
         local rRoll = aComponents[nDragIndex].rRoll;
         local rStep = rRoll.rStep;
         local bSecretRoll = true;
-        local bKarma = aComponents[nDragIndex].bKarma;
         --need to make sure rActor has the NPC actor node.
         local nodeChar = window.getDatabaseNode();
         local rActor = ActorManager.resolveActor(nodeChar);
+        --Check to see if we need to add Karma.
+        useKarma = aComponents[nDragIndex].bKarma;
+        if Global.KarmaWidgetValue then
+          -- We need to see if the char has karma points left.
+          local karmaValue = CharacterManager.getKarmaValue(rActor);
+          if karmaValue > 0 then
+            -- We need to add dice equal to the karma step (default Step 4/d6)
+            rRoll.aDice.expr = rRoll.aDice.expr.."+d6e"
+            rRoll.sDesc = rRoll.sDesc.." (with Karma) "
+            -- If we calculate the new karma value here, and set it as part of the rRoll.
+            -- We only deduct one point, regardless how many times it targets?
+            karmaValue = karmaValue - 1;
+            if karmaValue < 1 then
+              karmaValue = 0;
+            end
+            rRoll.nKarmaLeft = karmaValue;
+          end
+        elseif useKarma then
+          -- We need to see if the char has karma points left.
+          local karmaValue = CharacterManager.getKarmaValue(rActor);
+          if karmaValue > 0 then
+            -- We need to add dice equal to the karma step (default Step 4/d6)
+            rRoll.aDice.expr = rRoll.aDice.expr.."+d6e"
+            rRoll.sDesc = rRoll.sDesc.." (with Karma) "
+            -- If we calculate the new karma value here, and set it as part of the rRoll.
+            -- We only deduct one point, regardless how many times it targets?
+            karmaValue = karmaValue - 1;
+            if karmaValue < 1 then
+              karmaValue = 0;
+            end
+            rRoll.nKarmaLeft = karmaValue;
+          end
+        end
         rRoll = ActionManagerED4.checkDescType(rRoll);
-        ActionManagerED4.dragRoll(draginfo, rRoll.sType, rStep, rActor, rRoll, bKarma, bSecretRoll);
+        ActionManagerED4.dragRoll(draginfo, rRoll.sType, rStep, rActor, rRoll, bSecretRoll);
 			elseif #(aComponents[nDragIndex].aDice) > 0 then
         --We found non-step roll.
 				local rRoll = { sType = "dice", sDesc = aComponents[nDragIndex].sLabel, aDice = aComponents[nDragIndex].aDice, nMod = aComponents[nDragIndex].nMod, rStep = aComponents[nDragIndex].rStep };
         local rStep = rRoll.rStep;
         local bSecretRoll = true;
-        local bKarma = aComponents[nDragIndex].bKarma;
         --need to make sure rActor has the NPC actor node.
         local nodeChar = window.getDatabaseNode();
         local rActor = ActorManager.resolveActor(nodeChar);
         rRoll = ActionManagerED4.checkDescType(rRoll);
-        ActionManagerED4.dragRoll(draginfo, rRoll.sType, rStep, rActor, rRoll, bKarma, bSecretRoll);
+        ActionManagerED4.dragRoll(draginfo, rRoll.sType, rStep, rActor, rRoll, bSecretRoll);
       else
 				draginfo.setType("number");
 				draginfo.setDescription(aComponents[nDragIndex].sLabel);
@@ -157,27 +175,60 @@ function action(draginfo)
         local rRoll = aComponents[nDragIndex].rRoll;
         local rStep = rRoll.rStep;
         local bSecretRoll = true;
-        local bKarma = aComponents[nDragIndex].bKarma;
         --need to make sure nodeChar has the NPC actor node.
         local nodeChar = window.getDatabaseNode();
         local rActor = ActorManager.resolveActor(nodeChar);
+        --Check KarmaWidget to see if we need to add Karma.
+        useKarma = aComponents[nDragIndex].bKarma;
+        if Global.KarmaWidgetValue then
+          -- We need to see if the char has karma points left.
+          local karmaValue = CharacterManager.getKarmaValue(rActor);
+          if karmaValue > 0 then
+            -- We need to add dice equal to the karma step (default Step 4/d6)
+            rRoll.aDice.expr = rRoll.aDice.expr.."+d6e"
+            rRoll.sDesc = rRoll.sDesc.." (with Karma) "
+            -- If we calculate the new karma value here, and set it as part of the rRoll.
+            -- We only deduct one point, regardless how many times it targets?
+            karmaValue = karmaValue - 1;
+            if karmaValue < 1 then
+              karmaValue = 0;
+            end
+            rRoll.nKarmaLeft = karmaValue;
+          end
+        elseif useKarma then
+          -- We need to see if the char has karma points left.
+          local karmaValue = CharacterManager.getKarmaValue(rActor);
+          if karmaValue > 0 then
+            -- We need to add dice equal to the karma step (default Step 4/d6)
+            rRoll.aDice.expr = rRoll.aDice.expr.."+d6e"
+            rRoll.sDesc = rRoll.sDesc.." (with Karma) "
+            -- If we calculate the new karma value here, and set it as part of the rRoll.
+            -- We only deduct one point, regardless how many times it targets?
+            karmaValue = karmaValue - 1;
+            if karmaValue < 1 then
+              karmaValue = 0;
+            end
+            rRoll.nKarmaLeft = karmaValue;
+          end
+        end
         rRoll = ActionManagerED4.checkDescType(rRoll);
-        ActionManagerED4.pushRoll(rRoll.sType, rRoll.rStep, nodeChar, rRoll, bKarma, bSecretRoll);
+        ActionManagerED4.pushRoll(rRoll.sType, rRoll.rStep, nodeChar, rRoll, bSecretRoll);
 			elseif #(aComponents[nDragIndex].aDice) > 0 then
         --We found non-step roll.
 				local rRoll = { sType = "dice", sDesc = aComponents[nDragIndex].sLabel, aDice = aComponents[nDragIndex].aDice, nMod = aComponents[nDragIndex].nMod, rStep = aComponents[nDragIndex].rStep };
         local bSecretRoll = true;
-        local bKarma = aComponents[nDragIndex].bKarma;
         --need to make sure nodeChar has the NPC actor node.
         local nodeChar = window.getDatabaseNode();
         local rActor = ActorManager.resolveActor(nodeChar);
         rRoll = ActionManagerED4.checkDescType(rRoll);
-        ActionManagerED4.pushRoll(rRoll.sType, rRoll.rStep, nodeChar, rRoll, bKarma, bSecretRoll);
+        ActionManagerED4.pushRoll(rRoll.sType, rRoll.rStep, nodeChar, rRoll, bSecretRoll);
 			else
 				ModifierStack.addSlot(aComponents[nDragIndex].sLabel, aComponents[nDragIndex].nMod);
 			end
 		end
 	end
+  
+	bParsed = false;
 end
 
 function onDoubleClick(x, y)

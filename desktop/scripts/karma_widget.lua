@@ -1,13 +1,25 @@
 
 function onInit()
   --Debug.chat("Karma widget is initialized.");
-  --ModifierStack.registerControl(self);
+  WidgetManager.registerControl(self);
 end
 
 function onClose()
-  --ModifierStack.registerControl(nil);
+  WidgetManager.registerControl(nil);
 end
 
-function onDrop(x, y, draginfo)
-  
+function onUpdate()
+  WidgetManager.onUpdate();
+end
+
+function reset()
+  WidgetManager.reset();
+end
+
+function getValue()
+  return karmaCheckbox.getValue();
+end
+
+function setValue(num)
+  karmaCheckbox.setValue(num);
 end

@@ -328,16 +328,14 @@
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
             local rStep = getValue();
             local sType = "talent";
-            local bKarma = window.getKarmaUse();
-            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor, nil, bKarma);
+            ActionManagerED4.dragRoll(draginfo, sType, rStep, rActor, nil);
             return true;
           end
           function onDoubleClick()
             local sType = "talent";
             local rStep = getValue();
             local rActor = ActorManager.resolveActor(window.getDatabaseNode());
-            local bKarma = window.getKarmaUse();
-            ActionManagerED4.pushRoll(sType, rStep, rActor, nil, bKarma);
+            ActionManagerED4.pushRoll(sType, rStep, rActor, nil);
           end
         </script>
         <readonly />

@@ -11,6 +11,7 @@
   
 	<!-- Widgets -->
 	<string name="step_roller_widget">Step Roll</string>
+	<string name="karma_widget">Karma</string>
   
 	<!-- General -->
 	<string name="color_edit">Click to edit color</string>
