@@ -177,7 +177,7 @@
             if not Global.cmUpdating then
               Global.cmUpdating = true;
               local rActor = ActorManager.resolveActor(DB.getParent(getDatabaseNode()));
-              if ActorManager.isPC(rActor) then
+              if true then
                 local dmgValue = getValue() or 0;
                 CharacterManager.updateDamage(rActor, dmgValue);
                 local nodePC = ActorManager.getCreatureNode(rActor);

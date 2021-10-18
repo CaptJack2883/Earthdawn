@@ -6,13 +6,14 @@ end
 function onUpdate()
   -- This function will update all the values on the character sheet, based on the Characteristics Table (EDPG pg63)
   -- Update the Step for each Ability Value.
-  Str_Step.setValue(StepLookup.getStep(Str_Value.getValue()));  
-  Dex_Step.setValue(StepLookup.getStep(Dex_Value.getValue()));
-  Tou_Step.setValue(StepLookup.getStep(Tou_Value.getValue()));
-  Per_Step.setValue(StepLookup.getStep(Per_Value.getValue()));
-  Wil_Step.setValue(StepLookup.getStep(Wil_Value.getValue()));
-  Cha_Step.setValue(StepLookup.getStep(Cha_Value.getValue()));
-    
+  -- Add amounts in the 'Bonus' box to the base value  
+  Str_Step.setValue(StepLookup.getStep(Str_Value.getValue()+Str_Bonus.getValue()));  
+  Dex_Step.setValue(StepLookup.getStep(Dex_Value.getValue()+Dex_Bonus.getValue()));
+  Tou_Step.setValue(StepLookup.getStep(Tou_Value.getValue()+Tou_Bonus.getValue()));
+  Per_Step.setValue(StepLookup.getStep(Per_Value.getValue()+Per_Bonus.getValue()));
+  Wil_Step.setValue(StepLookup.getStep(Wil_Value.getValue()+Wil_Bonus.getValue()));
+  Cha_Step.setValue(StepLookup.getStep(Cha_Value.getValue()+Cha_Bonus.getValue()));
+  
   --Update Characteristics (Table (EDPG pg63))
   local charRace = race.getValue();
   local racialArmor = 0;
