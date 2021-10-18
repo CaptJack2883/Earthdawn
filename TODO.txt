@@ -2,44 +2,26 @@
 TODO List
 
 CRITICALLY IMPORTANT
-
-Don't increase karma roll with step modifier box?
-Disallow/ignore Karma on skill rolls?
-Fill empty space on charsheet_main. (Blood Magic items, Half-Magic tests?)
+Leftover attribute points added to Max Karma.
 Need to create a place for Talent Knacks. Subwindow on the talents page of charsheet?
 Check for extra successes in rolls?
-Fix Talents/skills to be targetable. (add targeting features from spell page? then we only need actions tab for custom actions?)
+Fill empty space on charsheet_main? Reduce min height? (Blood Magic items, Half-Magic tests?)
 Add Thread Items Tab(s) to charsheet.
-Can I make the CT call onInit or onUpdate for combatants?
 Add spellcasting info to the top of the spells page? e.g. Spellcasting Talent, Weaving, Step, Circle (things spells need for automation)
 Make Actions tab prettier? (not needed if only custom?)
-In Progress: Fix layout of main charsheet tab. Use correct label templates (<label> and <label_frametop> but not <label_column>)
-Possibly add Circle/Novice/Journeyman to skills/talents view.
 Get Combat Tracker working. In progress, mostly working? (Need to add effect automation, etc)
-Add Racial Stats to Race records, so they can be added to character sheet by dragging. (Create New Tab?)
+In Progress: Get CT Menu working (rest, etc.) Menu is working, any new nodes to add?
+Add a script to the CT effects in ref_spells in order to separate the clauses before turning into an actual CT Effect.
 In Progress: Allow Drag/Drop Character Creation. Race/Discipline/Talents/Skills are now working.
+Add Racial Stats to Race records, so they can be added to character sheet by dragging. (Create New Tab?)
 Add Custom Ability Modifier Fields to NPC and Charsheet, to allow custom bonuses/flaws. (Other computations, such as Race, Attribute Points, Half-Magic, etc.)
 Add custom mod to entries' spellcasting tests.
-Fix layout of main charsheet tab. Use correct label templates (not label_column?)
-In Progress: Get CT Menu working (rest, etc.) Menu is working, any new nodes to add?
-Add support for new lighting features. Default visions work without modification. Possibly need to add new visions?
-Number instead of string for Strain?
-Fix NPCs so that manually entered numbers don't get overwritten by onUpdate(); (Add "Custom?" checkbox?)
-Fix modifier box not adding to "dice" rolls?
-Add note to description indicating bonus to Step #?
-Add option for removing targets on miss?
-Fix damage rolls from displaying roll total for each target.
-Update numbers in CT after rolls?
-Automate strain?
-Bypass armor option for spells?
-Leftover attribute points added to Max Karma.
-Add a script to the CT effects in ref_spells in order to separate the clauses before turning into an actual CT Effect.
-steprollfocus frame not found.
-Fix right-click-added dice not exploding?
 
 THEME/UI:
 FG Dark theme removes iedit buttons on client?
 Fix compatibility with CoreRPG themes. (probably just need to move crystal png to its own theme?)
+In Progress: Fix layout of main charsheet tab. Use correct label templates (<label> and <label_frametop> but not <label_column>)
+steprollfocus frame not found.
 
 OPTIMIZATION:
 Double Check and fix Factorization.
@@ -58,5 +40,20 @@ Figure out LibraryDataED4 (data_library_ED4.lua) I think this is related to disp
 Maybe we need a getStepFromDice function in Step_Action_Lookup? (reverse of getStepDice) (WIP)
 Fix pronouns to use they/them instead of he/him or she/her. (talent descriptions, etc) (find/replace in campaign data)
 Do I need a legend worksheet?
-Fix exploded dice to show green bgcolor instead of green die graphic for better viewing. (same for red 1/s? probably not, we know they're 1 by the color alone?)
+Fix exploded dice to show green bgcolor instead of green die graphic for better viewing. (already fixed?)
 Make NPC window narrower min width. (squish attributes closer)
+Update numbers in CT after rolls?
+Fix CT from not updating damage amounts without character/NPC sheet open.
+Can I make the CT call onInit or onUpdate for combatants?
+Add support for new lighting features. Default visions work without modification. Possibly need to add new visions?
+Automate strain?
+Number instead of string for Strain?
+Bypass armor option for spells?
+Fix right-click-added dice not exploding?
+Fix NPCs so that manually entered numbers don't get overwritten by onUpdate(); (Add "Custom?" checkbox?)
+Fix damage rolls from displaying roll total for each target.
+Fix Talents/skills to be targetable. (add targeting features from spell page? then we only need actions tab for custom actions?)
+Possibly add Circle/Novice/Journeyman to skills/talents view.
+Fix modifier box not adding to "dice" rolls?
+Add option for removing targets on miss?
+Allow NPCs to roll Recovery Tests

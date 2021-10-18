@@ -13,6 +13,23 @@
 				</anchored>
 				<multilinespacing>20</multilinespacing>
 			</string_textlistitem>
+      
+			<label>
+				<anchored to="spellframe" position="insidetopright" offset="35,30" />
+				<static textres="char_label_karma" />
+			</label>
+      
+      <button_checkbox name="karmaUse" source="karma.use">
+				<anchored width="20" height="20">
+					<top offset="5" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-25" />
+				</anchored>
+        <script>
+          function onValueChanged()
+          end
+        </script>
+      </button_checkbox>
+      
 -->
 
 <root>
@@ -133,16 +150,12 @@
 				<static textres="char_label_spellname" />
 			</label>
 			<label>
-				<anchored to="spellframe" position="insidetopright" offset="170,30" />
+				<anchored to="spellframe" position="insidetopright" offset="125,30" />
 				<static textres="char_label_casting" />
 			</label>
 			<label>
-				<anchored to="spellframe" position="insidetopright" offset="90,30" />
+				<anchored to="spellframe" position="insidetopright" offset="40,30" />
 				<static textres="char_label_effectStep" />
-			</label>
-			<label>
-				<anchored to="spellframe" position="insidetopright" offset="35,30" />
-				<static textres="char_label_karma" />
 			</label>
       
       <list_charspell name="spells">
@@ -450,16 +463,6 @@
           end
 				</script>
 			</number_charspellfield_static>
-      <button_checkbox name="karmaUse" source="karma.use">
-				<anchored width="20" height="20">
-					<top offset="5" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-25" />
-				</anchored>
-        <script>
-          function onValueChanged()
-          end
-        </script>
-      </button_checkbox>
       <button_toggledetail name="detailButton">
 				<anchored width="20" height="20">
 					<top offset="5" />

@@ -4,6 +4,12 @@ This means that I will no longer be testing this ruleset in FGC. I can only guar
 
 FINISHED/FIXED:
 
+GitHub Update #16
+October 18, 2021
+Removed deprecated Karma boxes on Talents and Spells sheets.
+Fixed character attribute bonus to add to attribute value before checking step number.
+Fixed NPCs to allow typing damage directly into CT. (stun damage still uses NPC sheet).
+
 GitHub Update #15
 August 31, 2021
 Updated Git authentication.

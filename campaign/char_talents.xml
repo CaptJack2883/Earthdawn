@@ -13,6 +13,21 @@
 				</anchored>
 				<multilinespacing>20</multilinespacing>
 			</string_textlistitem>
+      
+			<label>
+				<anchored to="talentframe" position="insidetopright" offset="35,30" />
+				<static textres="char_label_karma" />
+			</label>
+      <button_checkbox name="karmaUse" source="karma.use">
+				<anchored width="32" height="20">
+					<top offset="2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
+				</anchored>
+        <script>
+          function onValueChanged()
+          end
+        </script>
+      </button_checkbox>
 -->
 
 <root>
@@ -30,20 +45,16 @@
 				<static textres="char_label_talentname" />
 			</label>
 			<label>
-				<anchored to="talentframe" position="insidetopright" offset="215,30" />
+				<anchored to="talentframe" position="insidetopright" offset="165,30" />
 				<static textres="char_label_rank" />
 			</label>
 			<label>
-				<anchored to="talentframe" position="insidetopright" offset="135,30" />
+				<anchored to="talentframe" position="insidetopright" offset="85,30" />
 				<static textres="char_label_attribute" />
 			</label>
 			<label>
-				<anchored to="talentframe" position="insidetopright" offset="85,30" />
+				<anchored to="talentframe" position="insidetopright" offset="40,30" />
 				<static textres="char_label_total" />
-			</label>
-			<label>
-				<anchored to="talentframe" position="insidetopright" offset="35,30" />
-				<static textres="char_label_karma" />
 			</label>
       
       <list_chartalent name="talents">
@@ -307,16 +318,6 @@
 				</anchored>
 			</button_idelete>
       
-      <button_checkbox name="karmaUse" source="karma.use">
-				<anchored width="32" height="20">
-					<top offset="2" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
-				</anchored>
-        <script>
-          function onValueChanged()
-          end
-        </script>
-      </button_checkbox>
       
       <number_chartalentfield name="total" source="talent.total">
 				<anchored width="32" height="20">
