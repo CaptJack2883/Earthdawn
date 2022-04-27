@@ -12,6 +12,7 @@ aRecordOverrides = {
     sDisplayText = "Races",
     sEmptyNameText = "New Race",
     sListDisplayClass = "masterindexitem_id",
+    sSidebarCategory = "create",
 	},
 	["racials"] = {
 		bExport = true, 
@@ -32,6 +33,7 @@ aRecordOverrides = {
     sDisplayText = "Talents",
     sEmptyNameText = "New Talent",
     sListDisplayClass = "masterindexitem_id",
+    sSidebarCategory = "create",
   },
   ["disciplines"] = {
     bExport = true,
@@ -42,6 +44,7 @@ aRecordOverrides = {
     sDisplayText = "Disciplines",
     sEmptyNameText = "New Discipline",
     sListDisplayClass = "masterindexitem_id",
+    sSidebarCategory = "create",
   },
 	["skills"] = {
 		bExport = true, 
@@ -52,6 +55,7 @@ aRecordOverrides = {
     sDisplayText = "Skills",
     sEmptyNameText = "New Skill",
     sListDisplayClass = "masterindexitem_id",
+    sSidebarCategory = "create",
 	},
 	["spells"] = {
 		bExport = true, 
@@ -62,6 +66,7 @@ aRecordOverrides = {
     sDisplayText = "Spells",
     sEmptyNameText = "New Spell",
     sListDisplayClass = "masterindexitem_id",
+    sSidebarCategory = "create",
 		aCustomFilters = {
 			["Source"] = { sField = "source", fGetValue = getSpellSourceValue },
 			["Circle"] = { sField = "circle", sType = "number" };

@@ -8,7 +8,7 @@ Check for extra successes in rolls?
 Fill empty space on charsheet_main? Reduce min height? (Blood Magic items, Half-Magic tests?)
 Add Thread Items Tab(s) to charsheet.
 Add spellcasting info to the top of the spells page? e.g. Spellcasting Talent, Weaving, Step, Circle (things spells need for automation)
-Make Actions tab prettier? (not needed if only custom?)
+Make Actions tab prettier? (not needed if only used for custom actions?)
 Get Combat Tracker working. In progress, mostly working? (Need to add effect automation, etc)
 In Progress: Get CT Menu working (rest, etc.) Menu is working, any new nodes to add?
 Add a script to the CT effects in ref_spells in order to separate the clauses before turning into an actual CT Effect.

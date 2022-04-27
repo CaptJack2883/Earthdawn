@@ -20,6 +20,7 @@
   <includefile source="graphics/graphics_fonts_ED4.xml" />
   <includefile source="graphics/graphics_frames.xml" />
   <includefile source="graphics/graphics_icons.xml" />
+  <includefile source="graphics/graphics_sidebar.xml" />
   <includefile source="graphics/graphics_tabs.xml" />
   
   <!-- Window Classes -->
