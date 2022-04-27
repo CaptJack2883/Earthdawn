@@ -4,6 +4,11 @@ This means that I will no longer be testing this ruleset in FGC. I can only guar
 
 FINISHED/FIXED:
 
+GitHub Update #17
+April 27, 2022
+Fixed compatibility with CoreRPG themes.
+Updated sidebar categories and icons.
+
 GitHub Update #16
 October 18, 2021
 Removed deprecated Karma boxes on Talents and Spells sheets.

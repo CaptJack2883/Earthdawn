@@ -492,12 +492,12 @@
 		<offset>6,4,9,7</offset>
 	</framedef>
 	
-	<!-- Characters -->
+	<!-- Characters 
 	<framedef name="charsheet">
-		<bitmap file="graphics/frames/crystalback.png" />
+		<bitmap file="graphics/frames/crystalback.png" /> 
 		<offset>25,40,25,25</offset>
 		<insideoffset>0,0,7,7</insideoffset>
-	</framedef>
+	</framedef> -->
 
 	<!-- Images -->
 	<framedef name="imagebox">
@@ -521,12 +521,12 @@
 		<insideoffset>0,0,10,5</insideoffset>
 	</framedef>
 	
-	<!-- Other Campaign Records -->
+	<!-- Other Campaign Records 
 	<framedef name="recordsheet">
 		<bitmap file="graphics/frames/crystalback.png" />
 		<offset>25,40,25,25</offset>
 		<insideoffset>0,0,7,7</insideoffset>
-	</framedef>
+	</framedef> -->
 
 	<!-- Tokens -->
 	<framedef name="tokennumber">
